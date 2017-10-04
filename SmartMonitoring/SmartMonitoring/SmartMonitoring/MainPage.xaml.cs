@@ -12,7 +12,7 @@ namespace SmartMonitoring
         List<string> devices;
         public MainPage()
         {
-           InitializeComponent();
+            InitializeComponent();
             InitializeBluetooth();
         }
 
@@ -66,8 +66,79 @@ namespace SmartMonitoring
             {
                 await DisplayAlert("Title", "No hay dispositivos", "OK");
             }
-            
+            listView.ItemSelected += (sender, e) => openConnectionDevice(e.SelectedItem.ToString());
+
         }
 
+        private void openConnectionDevice(String MAC)
+        {
+
+            var scan = DependencyService.Get<IBluetoothManagement>();
+            bool result = scan.openConnection(MAC);
+            if (result == true)
+            {
+                inConnection(MAC);
+
+            }
+            else
+            {
+                DisplayAlert("Title", "No se estableció la conexión con el dispositivo", "OK");
+                var listView = new ListView(ListViewCachingStrategy.RecycleElement);
+                listView.ItemsSource = devices;
+
+                Content = Content = new StackLayout
+                {
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    Children = { listView }
+                };
+            }
+
+
+        }
+
+        private void inConnection(String MAC)
+        {
+            var scan = DependencyService.Get<IBluetoothManagement>();
+
+            Label label = new Label();
+            string nameDevice = scan.getDevice(MAC);
+            // scan.initializedOBD2();
+            Button consultTR = new Button();
+            consultTR.Text = " Consultar Parámetros";
+            consultTR.Clicked += (sender, e) => consultParameters();
+            Button diagnostic = new Button();
+            diagnostic.Text = "Diagnóstico";
+            diagnostic.Clicked += (sender, e) => diagnosticCar();
+            label.Text = ("Connected to " + nameDevice + " MAC: " + MAC);
+            Content = Content = new StackLayout()
+            {
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                Children = { label, consultTR, diagnostic }
+            };
+        }
+
+
+
+
+        private void consultParameters()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        // DisplayAlert("Consult Parameters", "Su velocidad es"+parameter, "OK");
+
+
+
+        private void diagnosticCar()
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }
+
+    
+
+
+

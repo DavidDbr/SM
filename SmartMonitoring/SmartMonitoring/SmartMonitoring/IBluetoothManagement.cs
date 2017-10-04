@@ -14,6 +14,6 @@ namespace SmartMonitoring
 
         bool openConnection(string MAC);
 
-        string getDevice(string MAC);
+        string getDevice(string MAC);        
     }
 }
