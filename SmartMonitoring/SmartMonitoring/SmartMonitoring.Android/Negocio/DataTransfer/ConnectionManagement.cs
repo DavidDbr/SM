@@ -10,13 +10,14 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Bluetooth;
+using SmartMonitoring.Droid.Datos;
 
 namespace SmartMonitoring.Droid
 {
     public class ConnectionManagement : IConnectionManagement
     {
         BluetoothSocket socket = null;
-        
+        DataBaseReader reader;
         ISmartMonitoringDAO dao;
 
 
@@ -26,7 +27,7 @@ namespace SmartMonitoring.Droid
             this.socket = socket;
             dao = new SmartMonitoringDAO(socket);
             dao.Initialize();
-           
+            reader = dao.getReader();
 
 
         }
@@ -46,424 +47,384 @@ namespace SmartMonitoring.Droid
             dao.Initialize();
         }
 
+        /*public <double> getResultados()
+        {
+            return dao.
+        }*/
+
         public double getLastCalculatedEngineValue()
         {
-            throw new NotImplementedException();
+
+            return reader.getLastCalculatedEngineValue();
+
         }
 
         public int getLastEngineTemperature()
         {
-            throw new NotImplementedException();
+            return reader.getLastEngineTemperature();
+
         }
 
         public int getLastAbsoluteBarometricPressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastAbsoluteBarometricPressure();
+
         }
 
         public int getLastAbsoluteEvapSystemVaporPressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastAbsoluteEvapSystemVaporPressure();
+
         }
 
         public double getLastAbsoluteLoadValue()
         {
-            throw new NotImplementedException();
+            return reader.getLastAbsoluteLoadValue();
         }
 
         public double getLastAbsoluteThrottlePositionB()
         {
-            throw new NotImplementedException();
-        }
+            return reader.getLastAbsoluteThrottlePositionB();
 
+        }
         public double getLastAbsoluteThrottlePositionC()
         {
-            throw new NotImplementedException();
-        }
+            return reader.getLastAbsoluteThrottlePositionC();
 
+        }
         public double getLastAbsoluteThrottlePositionD()
         {
-            throw new NotImplementedException();
-        }
+            return reader.getLastAbsoluteThrottlePositionD();
 
+        }
         public double getLastAbsoluteThrottlePositionE()
         {
-            throw new NotImplementedException();
-        }
+            return reader.getLastAbsoluteThrottlePositionE();
 
+        }
         public double getLastAbsoluteThrottlePositionF()
         {
-            throw new NotImplementedException();
+            return reader.getLastAbsoluteThrottlePositionF();
+
         }
 
         public double getLastActualEnginePercentTorque()
         {
-            throw new NotImplementedException();
+            return reader.getLastActualEnginePercentTorque();
+
         }
 
         public int getLastAmbientAirTemperature()
         {
-            throw new NotImplementedException();
+            return reader.getLastAmbientAirTemperature();
+
         }
 
         public double getLastCalculatedEngineLoadValueData()
         {
-            throw new NotImplementedException();
+            return reader.getLastCalculatedEngineLoadValueData();
+
         }
 
         public double getLastCatalystTemperatureB1S1()
         {
-            throw new NotImplementedException();
+            return reader.getLastCatalystTemperatureB1S1();
+
         }
 
         public double getLastCatalystTemperatureB1S2()
         {
-            throw new NotImplementedException();
-        }
+            return reader.getLastCatalystTemperatureB1S2();
 
+        }
         public double getLastCatalystTemperatureB2S2()
         {
-            throw new NotImplementedException();
-        }
+            return reader.getLastCatalystTemperatureB2S2();
 
+        }
         public double getLastCatalystTemperatureB2S1()
         {
-            throw new NotImplementedException();
+            return reader.getLastCatalystTemperatureB2S1();
+
         }
 
         public double getLastCommandedEGR()
         {
-            throw new NotImplementedException();
+            return reader.getLastCommandedEGR();
+
         }
 
         public double getLastCommandedEvaporativePurge()
         {
-            throw new NotImplementedException();
+            return reader.getLastCommandedEvaporativePurge();
+
         }
 
         public void getLastCommandedSecondaryAirStatus()
         {
-            throw new NotImplementedException();
+            // dataBase.ExecuteScalar<double>("SELECT Value FROM CommandedEvaporativePurge ORDER BY ID DESC LIMIT 1");
+
         }
 
         public double getLastCommandedThrottleActuator()
         {
-            throw new NotImplementedException();
+            return reader.getLastCommandedThrottleActuator();
         }
 
         public void getLastControlModuleVoltage()
         {
-            throw new NotImplementedException();
+
         }
 
         public int getLastDistanceTraveledSinseCodesCleared()
         {
-            throw new NotImplementedException();
+            return reader.getLastDistanceTraveledSinseCodesCleared();
         }
 
         public int getLastDistanceTraveledWithMILo()
         {
-            throw new NotImplementedException();
+            return reader.getLastDistanceTraveledWithMILo();
         }
-
         public int getLastDriverDemandEngine_PercentTorque()
         {
-            throw new NotImplementedException();
+            return reader.getLastDriverDemandEngine_PercentTorque();
         }
-
         public double getLastEGRError()
         {
-            throw new NotImplementedException();
+            return reader.getLastEGRError();
         }
-
         public double getLastEngineFuelRate()
         {
-            throw new NotImplementedException();
+            return reader.getLastEngineFuelRate();
         }
 
         public double getLastEngineOilTemperature()
         {
-            throw new NotImplementedException();
+            return reader.getLastEngineOilTemperature();
         }
-
         public void getLastEnginePercentTorqueData()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public int getLastEngineReferenceTorque()
         {
-            throw new NotImplementedException();
+            return reader.getLastEngineReferenceTorque();
         }
-
         public int getLastEngineStartTime()
         {
-            throw new NotImplementedException();
+            return reader.getLastEngineStartTime();
         }
-
         public int getLastEngineTemperatureData()
         {
-            throw new NotImplementedException();
+            return reader.getLastEngineTemperatureData();
         }
 
         public double getLastEthanolFuelPercentage()
         {
-            throw new NotImplementedException();
+            return reader.getLastEthanolFuelPercentage();
         }
-
         public double getLastEvapSystemVaporPressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastEvapSystemVaporPressure();
         }
-
         public double getLastFuelAirCommandedEquivalenceRatio()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelAirCommandedEquivalenceRatio();
         }
-
         public void FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public double getLastFuelInjectionTimingValue()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelInjectionTimingValue();
         }
-
         public int getLastFuelPressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelPressure();
         }
-
         public double getLastFuelRailAbsolutePressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelRailAbsolutePressure();
         }
-
         public int getLastFuelRailGaugeAbsolutePressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelRailGaugeAbsolutePressure();
         }
-
         public double getLastFuelRailPressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelRailPressure();
         }
-
         public double getLastFuelTankLevel()
         {
-            throw new NotImplementedException();
+            return reader.getLastFuelTankLevel();
         }
 
         public string getFuelType()
         {
-            throw new NotImplementedException();
+            return reader.getFuelType();
         }
-
         public double getLastHybridBateryPackRemainingLife()
         {
-            throw new NotImplementedException();
+            return reader.getLastHybridBateryPackRemainingLife();
         }
-
         public double getLastIntakeManifoldAbsolutePressure()
         {
-            throw new NotImplementedException();
+            return reader.getLastIntakeManifoldAbsolutePressure();
         }
-
         public void MaximunValueAirFlowRateFromMassAirFlowSensor()
         {
-            throw new NotImplementedException();
+
         }
 
         public void OxygenSensor1()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor1B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor1C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor2()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor2B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor2C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor3()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor3B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor3C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor4()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor4B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor4C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor5()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor5B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor5C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor6()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor6B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor6C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor7()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor7B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor7C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor8()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor8B()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public void OxygenSensor8C()
         {
-            throw new NotImplementedException();
-        }
 
+        }
         public double getLastRelativeAcceleratorPedalPosition()
         {
-            throw new NotImplementedException();
+            return reader.getLastRelativeAcceleratorPedalPosition();
         }
-
         public double getLastRelativeThrottlePosition()
         {
-            throw new NotImplementedException();
+            return reader.getLastRelativeThrottlePosition();
         }
-
         public int getLastRPM()
         {
-            throw new NotImplementedException();
+            return reader.getLastRPM();
         }
-
         public int getRunTimeSinceEngineStart()
         {
-            throw new NotImplementedException();
+            return reader.getRunTimeSinceEngineStart();
         }
-
         public double getLastShortTermFuelTrimB1()
         {
-            throw new NotImplementedException();
+            return reader.getLastShortTermFuelTrimB1();
         }
-
         public int getLastShortTermFuelTrimB2()
         {
-            throw new NotImplementedException();
+            return reader.getLastShortTermFuelTrimB2();
         }
 
-        public void ShortTermSecondaryOxygenSensorTrim1_3()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ShortTermSecondaryOxygenSensorTrim2_4()
-        {
-            throw new NotImplementedException();
-        }
+        public void ShortTermSecondaryOxygenSensorTrim1_3() { }
+        public void ShortTermSecondaryOxygenSensorTrim2_4() { }
 
         public int getLastSpeed()
         {
-            throw new NotImplementedException();
+            return reader.getLastSpeed();
         }
-
         public double getLastThrottlePosition()
         {
-            throw new NotImplementedException();
+            return reader.getLastThrottlePosition();
         }
-
         public int getRunTimeRunWithMILOn()
         {
-            throw new NotImplementedException();
+            return reader.getRunTimeRunWithMILOn();
         }
-
         public int getRunTimeSinceTroubleCodesCleares()
         {
-            throw new NotImplementedException();
+            return reader.getRunTimeSinceTroubleCodesCleares();
         }
-
         public int getLastTimingAdvance()
         {
-            throw new NotImplementedException();
+            return reader.getLastTimingAdvance();
         }
 
         public int getLastWarmsUpsCodesCleared()
         {
-            throw new NotImplementedException();
+            return reader.getLastWarmsUpsCodesCleared();
         }
     }
 }

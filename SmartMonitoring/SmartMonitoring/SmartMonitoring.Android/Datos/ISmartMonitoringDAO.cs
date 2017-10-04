@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using SmartMonitoring.Droid.Datos;
 
 namespace SmartMonitoring.Droid
 {
@@ -21,5 +22,7 @@ namespace SmartMonitoring.Droid
         void ConsultParameters();
 
         string DiagnosticCar();
+
+        DataBaseReader getReader();
     }
 }

@@ -16,19 +16,20 @@ using SmartMonitoring.OBDII;
 using System.Runtime.CompilerServices;
 using System.IO;
 using SmartMonitoring.BBDD;
+using SmartMonitoring.Droid.Datos;
 
 namespace SmartMonitoring.Droid
 {
     public class SmartMonitoringDAO : ISmartMonitoringDAO
     {
         BluetoothSocket socket = null;
-    
+        DataBaseReader reader;
         SQLiteConnection dataBase = null;
         public SmartMonitoringDAO(BluetoothSocket socket)
         {
             SQLAndroid sql = new SQLAndroid();
             dataBase = sql.GetConnection();
-         
+            reader = new DataBaseReader(dataBase);
             this.socket = socket;
         }
 
@@ -2603,37 +2604,9 @@ namespace SmartMonitoring.Droid
 
              return fetchedCodes;*/
         }
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public DataBaseReader getReader()
+        {
+            return reader;
+        }
     }
 }
