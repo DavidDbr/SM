@@ -38,10 +38,108 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BBDD\AbsoluteBarometricPressure.cs" />
+    <Compile Include="BBDD\AbsoluteEvapSystemVaporPressure.cs" />
+    <Compile Include="BBDD\AbsoluteLoadValue.cs" />
+    <Compile Include="BBDD\AbsoluteThrottlePositionB.cs" />
+    <Compile Include="BBDD\AbsoluteThrottlePositionC.cs" />
+    <Compile Include="BBDD\AbsoluteThrottlePositionD.cs" />
+    <Compile Include="BBDD\AbsoluteThrottlePositionE.cs" />
+    <Compile Include="BBDD\AbsoluteThrottlePositionF.cs" />
+    <Compile Include="BBDD\ActualEngine_PercentTorque.cs" />
+    <Compile Include="BBDD\AmbientAirTemperature.cs" />
+    <Compile Include="BBDD\CalculatedEngineLoadValuesData.cs" />
+    <Compile Include="BBDD\CatalystTemperatureB1S1.cs" />
+    <Compile Include="BBDD\CatalystTemperatureB1S2.cs" />
+    <Compile Include="BBDD\CatalystTemperatureB2S1.cs" />
+    <Compile Include="BBDD\CatalystTemperatureB2S2.cs" />
+    <Compile Include="BBDD\CommandedEGR.cs" />
+    <Compile Include="BBDD\CommandedEvaporativePurge.cs" />
+    <Compile Include="BBDD\CommandedSecondaryAirStatus.cs" />
+    <Compile Include="BBDD\CommandedThrottleActuator.cs" />
+    <Compile Include="BBDD\ControlModuleVoltage.cs" />
+    <Compile Include="BBDD\DataBaseContext.cs" />
+    <Compile Include="BBDD\DataBaseRepositorycs.cs" />
+    <Compile Include="BBDD\DistanceTraveledSinceCodesCleared.cs" />
+    <Compile Include="BBDD\DistanceTraveledWithMILo.cs" />
+    <Compile Include="BBDD\DriverDemandEngine_PercentTorque.cs" />
+    <Compile Include="BBDD\DTCData.cs" />
+    <Compile Include="BBDD\EGRError.cs" />
+    <Compile Include="BBDD\EmissionRequirementsToWhichVehicleIsDesigned.cs" />
+    <Compile Include="BBDD\EngineFuelRate.cs" />
+    <Compile Include="BBDD\EngineOilTemperature.cs" />
+    <Compile Include="BBDD\EnginePercentTorqueData.cs" />
+    <Compile Include="BBDD\EngineReferenceTorque.cs" />
+    <Compile Include="BBDD\EngineStartTime.cs" />
+    <Compile Include="BBDD\EngineTemperatureData.cs" />
+    <Compile Include="BBDD\EthanolFuelPercentage.cs" />
+    <Compile Include="BBDD\EvapSystemVaporPressure.cs" />
+    <Compile Include="BBDD\FuelAirCommandedEquivalenceRatio.cs" />
+    <Compile Include="BBDD\FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure.cs" />
+    <Compile Include="BBDD\FuelInjectionTiming.cs" />
+    <Compile Include="BBDD\FuelPressure.cs" />
+    <Compile Include="BBDD\FuelRailAbsolutePressure.cs" />
+    <Compile Include="BBDD\FuelRailGaugePressure.cs" />
+    <Compile Include="BBDD\FuelRailPressure.cs" />
+    <Compile Include="BBDD\FuelTankLevel.cs" />
+    <Compile Include="BBDD\FuelType.cs" />
+    <Compile Include="BBDD\HybridBateryPackRemainingLife.cs" />
+    <Compile Include="BBDD\IntakeManifoldAbsolutePressure.cs" />
+    <Compile Include="BBDD\IntakeTemperature.cs" />
+    <Compile Include="BBDD\ISQLite.cs" />
+    <Compile Include="BBDD\LongTermFuelTrimB1.cs" />
+    <Compile Include="BBDD\LongTermFuelTrimB2.cs" />
+    <Compile Include="BBDD\LongTermSecondaryOxygenSensorTrim1_3.cs" />
+    <Compile Include="BBDD\LongTermSecondaryOxygenSensorTrim2_4.cs" />
+    <Compile Include="BBDD\MAFAirFlowRate.cs" />
+    <Compile Include="BBDD\MaximunValueAirFlowRateFromMassAirFlowSensor.cs" />
+    <Compile Include="BBDD\OxygenSensor1.cs" />
+    <Compile Include="BBDD\OxygenSensor1Bcs.cs" />
+    <Compile Include="BBDD\OxygenSensor1C.cs" />
+    <Compile Include="BBDD\OxygenSensor2.cs" />
+    <Compile Include="BBDD\OxygenSensor2B.cs" />
+    <Compile Include="BBDD\OxygenSensor2C.cs" />
+    <Compile Include="BBDD\OxygenSensor3.cs" />
+    <Compile Include="BBDD\OxygenSensor3B.cs" />
+    <Compile Include="BBDD\OxygenSensor3C.cs" />
+    <Compile Include="BBDD\OxygenSensor4.cs" />
+    <Compile Include="BBDD\OxygenSensor4B.cs" />
+    <Compile Include="BBDD\OxygenSensor4C.cs" />
+    <Compile Include="BBDD\OxygenSensor5.cs" />
+    <Compile Include="BBDD\OxygenSensor5B.cs" />
+    <Compile Include="BBDD\OxygenSensor5C.cs" />
+    <Compile Include="BBDD\OxygenSensor6.cs" />
+    <Compile Include="BBDD\OxygenSensor6B.cs" />
+    <Compile Include="BBDD\OxygenSensor6C.cs" />
+    <Compile Include="BBDD\OxygenSensor7.cs" />
+    <Compile Include="BBDD\OxygenSensor7B.cs" />
+    <Compile Include="BBDD\OxygenSensor7C.cs" />
+    <Compile Include="BBDD\OxygenSensor8.cs" />
+    <Compile Include="BBDD\OxygenSensor8B.cs" />
+    <Compile Include="BBDD\OxygenSensor8C.cs" />
+    <Compile Include="BBDD\RelativeAcceleratorPedalPosition.cs" />
+    <Compile Include="BBDD\RelativeThrottlePosition.cs" />
+    <Compile Include="BBDD\RPMData.cs" />
+    <Compile Include="BBDD\RunTimeSinceEngineStart.cs" />
+    <Compile Include="BBDD\ShortTermFuelTrimB1.cs" />
+    <Compile Include="BBDD\ShortTermFuelTrimB2.cs" />
+    <Compile Include="BBDD\ShortTermSecondaryOxygenSensorTrim1_3.cs" />
+    <Compile Include="BBDD\ShortTermSecondaryOxygenSensorTrim2_4.cs" />
+    <Compile Include="BBDD\SpeedData.cs" />
+    <Compile Include="BBDD\Table.cs" />
+    <Compile Include="BBDD\ThrottlePosition.cs" />
+    <Compile Include="BBDD\TimeRunWithMILOn.cs" />
+    <Compile Include="BBDD\TimeSinceTroubleCodesCleared.cs" />
+    <Compile Include="BBDD\TimingAdvance.cs" />
+    <Compile Include="BBDD\WarmsUpsCodesCleared.cs" />
     <Compile Include="IBluetoothManagement.cs" />
+    <Compile Include="IConnectionManagement.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OBDII\DataTransferSchema.cs" />
+    <Compile Include="OBDII\DiagnosticTroubleCode.cs" />
+    <Compile Include="OBDII\Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +153,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SQLite-net, Version=1.4.118.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\sqlite-net-pcl.1.4.118\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.5\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.5\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLitePCLRaw.core.1.1.5\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
       <Private>True</Private>

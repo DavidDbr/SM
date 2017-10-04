@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartMonitoring.BBDD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,7 +100,11 @@ namespace SmartMonitoring
         private void inConnection(String MAC)
         {
             var scan = DependencyService.Get<IBluetoothManagement>();
-
+            var database = DependencyService.Get<ISQLite>();
+            var connect = DependencyService.Get<IConnectionManagement>();
+            connect.InitializedOBD2();
+            database.GetConnection();
+            database.initBBDD();
             Label label = new Label();
             string nameDevice = scan.getDevice(MAC);
             // scan.initializedOBD2();
@@ -122,7 +127,8 @@ namespace SmartMonitoring
 
         private void consultParameters()
         {
-            throw new NotImplementedException();
+            var scan = DependencyService.Get<IConnectionManagement>();
+            scan.ConsultParameters();
         }
 
 
@@ -133,7 +139,8 @@ namespace SmartMonitoring
         private void diagnosticCar()
         {
 
-            throw new NotImplementedException();
+            var scan = DependencyService.Get<IConnectionManagement>();
+            string troubles = scan.DiagnosticCar();
         }
     }
 }
