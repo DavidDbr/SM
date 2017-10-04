@@ -6,6 +6,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using SmartMonitoring.Droid.Utilidades;
+using Android.Content;
+using Android.Bluetooth;
 
 namespace SmartMonitoring.Droid
 {
@@ -18,7 +21,13 @@ namespace SmartMonitoring.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+            BroadcastReceiverBluetooth broadcastReceiver = new BroadcastReceiverBluetooth();
 
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.AddAction(BluetoothDevice.ActionFound);
+            intentFilter.AddAction(BluetoothAdapter.ActionDiscoveryFinished);
+            intentFilter.AddAction(BluetoothAdapter.ActionDiscoveryStarted);
+            RegisterReceiver(broadcastReceiver, intentFilter);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }

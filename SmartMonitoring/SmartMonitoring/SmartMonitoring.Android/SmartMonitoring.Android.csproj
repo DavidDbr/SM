@@ -109,9 +109,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BluetoothAndroidManagement.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilidades\BroadcastReceiverBluetooth.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
