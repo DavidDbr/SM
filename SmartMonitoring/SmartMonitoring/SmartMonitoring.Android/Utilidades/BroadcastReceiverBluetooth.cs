@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Bluetooth;
+using SmartMonitoring.Droid.Negocio.ConnectionProcess;
 
 namespace SmartMonitoring.Droid.Utilidades
 {
@@ -34,20 +35,20 @@ namespace SmartMonitoring.Droid.Utilidades
                 // if (device.Name.Equals("OBDII"))
                 //  {
 
-
+                
                 BluetoothAndroidManagement.getScanDevices(device);
                 //}
             }
 
             if (BluetoothAdapter.ActionDiscoveryFinished.Equals(action))
             {
-
+                BluetoothAndroidManagement.Semaforo = true;
                 Console.WriteLine("DescubrimientoFinalizado");
                 //BluetoothAndroid.setDiscovery(true);
             }
             if (BluetoothAdapter.ActionDiscoveryStarted.Equals(action))
             {
-
+                BluetoothAndroidManagement.Semaforo = false;
                 Console.WriteLine("DescubrimientoIniciado");
                 //  BluetoothAndroid.setDiscovery(false);
             }

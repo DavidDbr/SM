@@ -1,33 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.Bluetooth;
 using Xamarin.Forms;
 using System.Threading;
-using SmartMonitoring.Droid;
 using System.IO;
+using SmartMonitoring.Droid.Negocio.ConnectionProcess;
+using System;
 
 [assembly: Dependency(typeof(BluetoothAndroidManagement))]
-namespace SmartMonitoring.Droid
+namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
 {
     public class BluetoothAndroidManagement : IBluetoothManagement
     {
         static BluetoothAdapter bluetoothAdapter;
         static List<BluetoothDevice> discoveredDevices = new List<BluetoothDevice>();
         BluetoothDevice device = null;
-        BluetoothSocket socket = null;
+        static BluetoothSocket socket = null;
+        private static bool semaforo = true;
+
+        public static bool Semaforo
+        {
+            get
+            {
+                return semaforo;
+            }
+
+            set
+            {
+                semaforo = value;
+            }
+        }
 
         static public BluetoothAdapter getBluetoothAdapter()
         {
             return bluetoothAdapter;
+        }
+
+        public static BluetoothSocket getSocket()
+        {
+            return socket;
         }
 
         public string getDevice(string MAC)
@@ -104,10 +119,15 @@ namespace SmartMonitoring.Droid
 
             bluetoothAdapter.StartDiscovery();
             System.Console.WriteLine("Comienza el descubrimiento");
-            Thread.Sleep(2000);
+            Thread.Sleep(200);
             List<string> list = new List<string>();
 
-            await Task.Delay(8000);
+            await Task.Delay(200);
+            while (Semaforo == false)
+            {
+                await Task.Delay(200);
+                Console.WriteLine("Aun está descubriendo");
+            }
             foreach (BluetoothDevice currentDevice in discoveredDevices)
             {
 
