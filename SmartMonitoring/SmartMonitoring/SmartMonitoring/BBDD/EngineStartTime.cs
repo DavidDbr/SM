@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartMonitoring.BBDD
 {
-    class EngineStartTime
+    public class EngineStartTime
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }

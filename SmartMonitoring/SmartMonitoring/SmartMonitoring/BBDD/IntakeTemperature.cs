@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartMonitoring.BBDD
 {
-    class IntakeTemperature
+    public class IntakeTemperature
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }

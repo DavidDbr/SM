@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartMonitoring.BBDD
 {
-    class WarmsUpsCodesCleared
+    public class WarmsUpsCodesCleared
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartMonitoring.BBDD
 {
-    class DistanceTraveledSinceCodesCleared
+    public class DistanceTraveledSinceCodesCleared
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
