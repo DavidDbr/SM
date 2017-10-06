@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartMonitoring.OBDII
+﻿namespace SmartMonitoring.OBDII
 {
     public class Parameters
     {
@@ -122,8 +116,7 @@ namespace SmartMonitoring.OBDII
 
         };
 
-        //Funciones
-
+  
 
     }
 }
