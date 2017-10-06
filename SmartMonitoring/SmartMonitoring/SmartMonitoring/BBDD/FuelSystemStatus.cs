@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace SmartMonitoring.BBDD
 {
-    public class OxygenSensor1C
+    public class FuelSystemStatus
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double Fuel_AirEquivalenceRatio { get; set; }
-
-        public double Current { get; set; }
+        public int System1 { get; set; }
+        public int System2 { get; set; }
         public DateTime CreatedOn { get; set; }
-
-        public OxygenSensor1C() { }
+        public FuelSystemStatus() { }
     }
 }
