@@ -12,10 +12,13 @@ using Android.Widget;
 using SQLite;
 using System.IO;
 using SmartMonitoring.BBDD;
+using SmartMonitoring.Droid;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(SQLAndroid))]
 namespace SmartMonitoring.Droid
 {
-    public class SQLAndroid
+    public class SQLAndroid : ISQLite
     {
         SQLiteConnection connection;
         public SQLiteConnection GetConnection()
@@ -59,6 +62,7 @@ namespace SmartMonitoring.Droid
             connection.CreateTable<CatalystTemperatureB2S2>();
             connection.CreateTable<CommandedEGR>();
             connection.CreateTable<CommandedEvaporativePurge>();
+            connection.CreateTable<FuelSystemStatus>();
             //connection.CreateTable<secondaryairstatus>();
             connection.CreateTable<CommandedThrottleActuator>();
             connection.CreateTable<ControlModuleVoltage>();
