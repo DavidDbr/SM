@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using System.Threading;
 using Android.Bluetooth;
 using SQLite;
@@ -16,15 +9,18 @@ using SmartMonitoring.OBDII;
 using System.Runtime.CompilerServices;
 using System.IO;
 using SmartMonitoring.BBDD;
-using SmartMonitoring.Droid.Datos;
+using SmartMonitoring.OBDII.Excepciones;
 
-namespace SmartMonitoring.Droid
+namespace SmartMonitoring.Droid.Datos
 {
     public class SmartMonitoringDAO : ISmartMonitoringDAO
     {
         BluetoothSocket socket = null;
         DataBaseReader reader;
         SQLiteConnection dataBase = null;
+        byte[] pids01_20;
+        byte[] pids21_40;
+        byte[] pids41_60;
         public SmartMonitoringDAO(BluetoothSocket socket)
         {
             SQLAndroid sql = new SQLAndroid();
@@ -33,8 +29,10 @@ namespace SmartMonitoring.Droid
             this.socket = socket;
         }
 
+        
         public void Initialize()
         {
+           
             byte[] cmd = Encoding.ASCII.GetBytes("ATD" + "\r");
 
             Console.WriteLine("Enviando comando ATD");
@@ -101,15 +99,38 @@ namespace SmartMonitoring.Droid
             {
                 return;
             }
+
+
             socket.OutputStream.Flush();
             Thread.Sleep(100);
+
+            cmd = Encoding.ASCII.GetBytes("0100" + "\r");
+            socket.OutputStream.Write(cmd, 0, cmd.Length);
+            Thread.Sleep(100);
+            string firstpids = Read();
+            /*firstpids = firstpids.Substring(8);
+            byte[] pids01_20 = Encoding.ASCII.GetBytes(firstpids);*/
+            
+            cmd = Encoding.ASCII.GetBytes("0120" + "\r");
+            socket.OutputStream.Write(cmd, 0, cmd.Length);
+            Thread.Sleep(100);
+            string secondpids = Read();
+            /*firstpids = firstpids.Substring(8);
+            byte[] pids21_30 = Encoding.ASCII.GetBytes(firstpids);*/
+
+
+            cmd = Encoding.ASCII.GetBytes("0100" + "\r");
+            socket.OutputStream.Write(cmd, 0, cmd.Length);
+            Thread.Sleep(100);
+            string thirdpids = Read();
+            /*firstpids = firstpids.Substring(8);
+            byte[] pids41_60 = Encoding.ASCII.GetBytes(firstpids);*/
+
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string Read()
         {
             //También probado con BufferedReader.ready() para comprobar si el stream está listo para leer; mismo resultado.
-
-
 
             string data = "";
 
@@ -149,23 +170,13 @@ namespace SmartMonitoring.Droid
                             break;
 
                         }
-
-
-
                     }
-                    if (data.Equals("UNABLE TO CONNECT"))
-                    {
-                        throw new System.Exception();
-                    }
+                   
 
                     data = builder.ToString();
                     Console.WriteLine("Información: " + data);
 
                     socket.InputStream.Flush();
-
-
-
-
                 }
 
                 else
@@ -180,10 +191,7 @@ namespace SmartMonitoring.Droid
 
             }
 
-
-
             return data;
-
 
         }
 
@@ -204,7 +212,10 @@ namespace SmartMonitoring.Droid
                 ConsultParameters(Parameters.PID.Speed);
                 ConsultParameters(Parameters.PID.RPM);
                 ConsultParameters(Parameters.PID.EngineTemperature);
-                ConsultParameters(Parameters.PID.FuelPressure);
+                if (pids01_20[9] == 1)
+                {
+                    ConsultParameters(Parameters.PID.FuelPressure);
+                }
                 ConsultParameters(Parameters.PID.ThrottlePosition);
                 ConsultParameters(Parameters.PID.CalculatedEngineLoadValue);
 
@@ -221,7 +232,7 @@ namespace SmartMonitoring.Droid
         {
 
             //En alternativa (void), aqui se guardarían los resultados en la base de datos
-            string result = "";
+           
             string send = (Convert.ToUInt32(Parameters.ConsultMode.CurrentData).ToString("X2") + Convert.ToUInt32(pid).ToString("X2") + "/r");
             byte[] cmd = Encoding.ASCII.GetBytes(send);
             socket.OutputStream.Write(cmd, 0, cmd.Length);
@@ -236,7 +247,19 @@ namespace SmartMonitoring.Droid
                     break;
                 }
                 dataFilter = dataFilter + data[i];
+            }
 
+            if(dataFilter.Equals("UNABLE TO CONNECT"))
+            {
+                throw new UnableToConnectException();
+            }
+            if (dataFilter.Equals("NO DATA"))
+            {
+                throw new NoDataException();
+            }
+            if (dataFilter.Equals("STOPPED"))
+            {
+                throw new StoppedException();
             }
 
 
@@ -249,7 +272,7 @@ namespace SmartMonitoring.Droid
                     break;
 
                 case Parameters.PID.CalculatedEngineLoadValue:
-
+                    readCalculatedEngineLoad(dr);
                     break;
 
                 case Parameters.PID.EngineTemperature:
@@ -432,7 +455,7 @@ namespace SmartMonitoring.Droid
                     break;
 
                 case Parameters.PID.DistanceTraveledSinceCodesCleared:
-
+                    
                     break;
 
                 case Parameters.PID.AbsolutBarometricPressure:
@@ -536,7 +559,7 @@ namespace SmartMonitoring.Droid
                     break;
 
                 case Parameters.PID.TimeRunWithMILOn:
-
+                    
                     break;
 
                 case Parameters.PID.TimeSinceTroubleCodesCleared:
@@ -735,6 +758,38 @@ namespace SmartMonitoring.Droid
 
         }
 
+        public void readFuelSystemStatus(DataTransferSchema dr)
+        {
+            string data = dr.Response.Substring(dr.Response.Length - 4);
+            string a = "";
+            string b = "";
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (i <= 1)
+                {
+                    a = a + data.ElementAt(i);
+                }
+                else
+                {
+                    b = b + data.ElementAt(i);
+                }
+            }
+
+            int value1 = Int32.Parse(a, System.Globalization.NumberStyles.HexNumber);
+            int value2 = Int32.Parse(b, System.Globalization.NumberStyles.HexNumber);
+
+            var rowAdded = dataBase.Insert(new FuelSystemStatus()
+            {
+                CreatedOn = DateTime.Now,
+                System1 = value1,
+                System2=value2
+
+            });
+       
+
+        }
+
+
 
         public void readTermFuelTrim(DataTransferSchema dr)
         {
@@ -870,14 +925,7 @@ namespace SmartMonitoring.Droid
 
         public void readRMP(DataTransferSchema dr)
         {
-            /*  if (dr.Value.Length < 2)
-              {
-                  throw new System.Exception();
-              }
-
-              uint rpm1 = Convert.ToUInt32(dr.Value.First());
-              uint rpm2 = Convert.ToUInt32(dr.Value.ElementAt(1));
-              return ((rpm1 * 256) + rpm2) / 4;**/
+       
             string data = dr.Response.Substring(dr.Response.Length - 4);
             string a = "";
             string b = "";
@@ -1546,7 +1594,7 @@ namespace SmartMonitoring.Droid
                     rowAdded = dataBase.Insert(new OxygenSensor1C()
                     {
                         CreatedOn = DateTime.Now,
-                        Fuel_airEquivalenceRatio = value1,
+                        Fuel_AirEquivalenceRatio = value1,
                         Current = value3
 
                     });

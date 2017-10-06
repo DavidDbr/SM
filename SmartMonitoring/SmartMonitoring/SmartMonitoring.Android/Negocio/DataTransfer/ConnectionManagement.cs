@@ -1,40 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.Bluetooth;
+﻿using Android.Bluetooth;
 using SmartMonitoring.Droid.Datos;
+using Xamarin.Forms;
+using SmartMonitoring.Droid.Negocio.DataTransfer;
+using SmartMonitoring.Droid.Negocio.ConnectionProcess;
+using SmartMonitoring.OBDII.Excepciones;
+using System.Collections.Generic;
+using System;
 
-namespace SmartMonitoring.Droid
+[assembly: Dependency(typeof(ConnectionManagement))]
+namespace SmartMonitoring.Droid.Negocio.DataTransfer
 {
+
     public class ConnectionManagement : IConnectionManagement
     {
         BluetoothSocket socket = null;
         DataBaseReader reader;
         ISmartMonitoringDAO dao;
-
-
-        public ConnectionManagement(BluetoothSocket socket)
+       
+       
+        public ConnectionManagement()
         {
-
-            this.socket = socket;
+            socket = BluetoothAndroidManagement.getSocket();
             dao = new SmartMonitoringDAO(socket);
-            dao.Initialize();
             reader = dao.getReader();
-
-
         }
 
         public void ConsultParameters()
         {
-            dao.ConsultParameters();
+            try
+            {
+                dao.ConsultParameters();
+            }
+            catch(UnableToConnectException u)
+            {
+                throw u;
+            }
+            catch (NoDataException u)
+            {
+                throw u;
+            }
+            catch (StoppedException u)
+            {
+                throw u;
+            }
         }
 
         public string DiagnosticCar()
@@ -44,6 +52,7 @@ namespace SmartMonitoring.Droid
 
         public void InitializedOBD2()
         {
+            
             dao.Initialize();
         }
 
@@ -51,6 +60,55 @@ namespace SmartMonitoring.Droid
         {
             return dao.
         }*/
+
+        public List<string> getFuelSystemStatus()
+        {
+            List<int> value = reader.getFuelSystemStatus();
+            List<string> status = new List<string>(2);
+            switch (value[0])
+            {
+                case 1:
+                    status[0] = "Bucle abierto debido a temperatura baja del motor";
+                    break;
+                case 2:
+                    status[0] = "Bucle cerrado; uso de sensor de oxígeno para determinar la mezcla de combustible";
+                    break;
+                case 4:
+                    status[0] = "Bucle abierto debido a carga del motor o corte de combustible por desaceleración";
+                    break;
+                case 8:
+                    status[0] = "Bucle abierto debido a falla del sistema";
+                    break;
+                case 16:
+                    status[0] = "Bucle cerrado usando por lo menos un sensor de oxígeno; pero hay una falla en el sistema de retroalimentación";
+                    break;
+                default:
+                    status[0] = "Valor inválido";
+                    break;
+
+            }
+            switch (value[1])
+            {
+                case 1:
+                    status[0] = "Bucle abierto debido a temperatura baja del motor";
+                    break;
+                case 2:
+                    status[0] = "Bucle cerrado; uso de sensor de oxígeno para determinar la mezcla de combustible";
+                    break;
+                case 4:
+                    status[0] = "Bucle abierto debido a carga del motor o corte de combustible por desaceleración";
+                    break;
+                case 8:
+                    status[0] = "Bucle abierto debido a falla del sistema";
+                    break;
+                case 16:
+                    status[0] = "Bucle cerrado usando por lo menos un sensor de oxígeno; pero hay una falla en el sistema de retroalimentación";
+                    break;
+            }
+            return status;
+
+
+        }
 
         public double getLastCalculatedEngineValue()
         {
@@ -171,9 +229,9 @@ namespace SmartMonitoring.Droid
             return reader.getLastCommandedThrottleActuator();
         }
 
-        public void getLastControlModuleVoltage()
+        public double getLastControlModuleVoltage()
         {
-
+            return reader.getLastControlModuleVoltage();
         }
 
         public int getLastDistanceTraveledSinseCodesCleared()
@@ -202,9 +260,9 @@ namespace SmartMonitoring.Droid
         {
             return reader.getLastEngineOilTemperature();
         }
-        public void getLastEnginePercentTorqueData()
+        public List<int> getLastEnginePercentTorqueData()
         {
-
+            return reader.getLastEnginePercentTorqueData();
         }
         public int getLastEngineReferenceTorque()
         {
@@ -231,9 +289,9 @@ namespace SmartMonitoring.Droid
         {
             return reader.getLastFuelAirCommandedEquivalenceRatio();
         }
-        public void FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure()
+        public List<int> FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure()
         {
-
+            return reader.FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure();
         }
         public double getLastFuelInjectionTimingValue()
         {
@@ -272,106 +330,106 @@ namespace SmartMonitoring.Droid
         {
             return reader.getLastIntakeManifoldAbsolutePressure();
         }
-        public void MaximunValueAirFlowRateFromMassAirFlowSensor()
+        public List<int> MaximunValueAirFlowRateFromMassAirFlowSensor()
         {
-
+            return reader.MaximunValueAirFlowRateFromMassAirFlowSensor();
         }
 
-        public void OxygenSensor1()
+        public List<double> OxygenSensor1()
         {
-
+            return reader.OxygenSensor1();
         }
-        public void OxygenSensor1B()
+        public List<double> OxygenSensor1B()
         {
-
+            return reader.OxygenSensor1B();
         }
-        public void OxygenSensor1C()
+        public List<double> OxygenSensor1C()
         {
-
+            return reader.OxygenSensor1C();
         }
-        public void OxygenSensor2()
+        public List<double> OxygenSensor2()
         {
-
+            return reader.OxygenSensor2();
         }
-        public void OxygenSensor2B()
+        public List<double> OxygenSensor2B()
         {
-
+            return reader.OxygenSensor2B();
         }
-        public void OxygenSensor2C()
+        public List<double> OxygenSensor2C()
         {
-
+            return reader.OxygenSensor2C();
         }
-        public void OxygenSensor3()
+        public List<double> OxygenSensor3()
         {
-
+            return reader.OxygenSensor3();
         }
-        public void OxygenSensor3B()
+        public List<double> OxygenSensor3B()
         {
-
+            return reader.OxygenSensor3B();
         }
-        public void OxygenSensor3C()
+        public List<double> OxygenSensor3C()
         {
-
+            return reader.OxygenSensor3C();
         }
-        public void OxygenSensor4()
+        public List<double> OxygenSensor4()
         {
-
+            return reader.OxygenSensor4();
         }
-        public void OxygenSensor4B()
+        public List<double> OxygenSensor4B()
         {
-
+            return reader.OxygenSensor4B();
         }
-        public void OxygenSensor4C()
+        public List<double> OxygenSensor4C()
         {
-
+            return reader.OxygenSensor4C();
         }
-        public void OxygenSensor5()
+        public List<double> OxygenSensor5()
         {
-
+            return reader.OxygenSensor5();
         }
-        public void OxygenSensor5B()
+        public List<double> OxygenSensor5B()
         {
-
+            return reader.OxygenSensor5B();
         }
-        public void OxygenSensor5C()
+        public List<double> OxygenSensor5C()
         {
-
+            return reader.OxygenSensor5C();
         }
-        public void OxygenSensor6()
+        public List<double> OxygenSensor6()
         {
-
+            return reader.OxygenSensor6();
         }
-        public void OxygenSensor6B()
+        public List<double> OxygenSensor6B()
         {
-
+            return reader.OxygenSensor6B();
         }
-        public void OxygenSensor6C()
+        public List<double> OxygenSensor6C()
         {
-
+            return reader.OxygenSensor6C();
         }
-        public void OxygenSensor7()
+        public List<double> OxygenSensor7()
         {
-
+            return reader.OxygenSensor7();
         }
-        public void OxygenSensor7B()
+        public List<double> OxygenSensor7B()
         {
-
+            return reader.OxygenSensor7B();
         }
-        public void OxygenSensor7C()
+        public List<double> OxygenSensor7C()
         {
-
+            return reader.OxygenSensor7C();
         }
-        public void OxygenSensor8()
+        public List<double> OxygenSensor8()
         {
-
+            return reader.OxygenSensor8();
         }
-        public void OxygenSensor8B()
+        public List<double> OxygenSensor8B()
         {
-
+            return reader.OxygenSensor6B();
         }
-        public void OxygenSensor8C()
+        public List<double> OxygenSensor8C()
         {
-
+            return reader.OxygenSensor8C();
         }
         public double getLastRelativeAcceleratorPedalPosition()
         {
@@ -398,9 +456,6 @@ namespace SmartMonitoring.Droid
             return reader.getLastShortTermFuelTrimB2();
         }
 
-        public void ShortTermSecondaryOxygenSensorTrim1_3() { }
-        public void ShortTermSecondaryOxygenSensorTrim2_4() { }
-
         public int getLastSpeed()
         {
             return reader.getLastSpeed();
@@ -425,6 +480,26 @@ namespace SmartMonitoring.Droid
         public int getLastWarmsUpsCodesCleared()
         {
             return reader.getLastWarmsUpsCodesCleared();
+        }
+
+        public List<double> LongTermSecondaryOxygenSensorTrim1_3()
+        {
+            return reader.LongTermSecondaryOxygenSensorTrim1_3();
+        }
+
+        public List<double> LongTermSecondaryOxygenSensorTrim2_4()
+        {
+            return reader.LongTermSecondaryOxygenSensorTrim2_4();
+        }
+
+        public List<double> ShortTermSecondaryOxygenSensorTrim1_3()
+        {
+           return reader.ShortTermSecondaryOxygenSensorTrim1_3();
+        }
+
+        public List<double> ShortTermSecondaryOxygenSensorTrim2_4()
+        {
+            return reader.ShortTermSecondaryOxygenSensorTrim2_4();
         }
     }
 }
