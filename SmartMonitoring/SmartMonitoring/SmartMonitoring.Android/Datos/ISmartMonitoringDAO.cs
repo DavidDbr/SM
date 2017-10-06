@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Android.Bluetooth;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using SmartMonitoring.Droid.Datos;
-
-namespace SmartMonitoring.Droid
+namespace SmartMonitoring.Droid.Datos
 {
     public interface ISmartMonitoringDAO
     {
