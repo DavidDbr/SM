@@ -14,13 +14,6 @@ namespace SmartMonitoring
 
         void InitializedOBD2();
 
-
-
-        /* <double> getResultados()
-        {
-            return dao.
-        }*/
-
         double getLastCalculatedEngineValue();
 
         int getLastEngineTemperature();
@@ -33,6 +26,7 @@ namespace SmartMonitoring
 
         double getLastAbsoluteThrottlePositionB();
 
+        List<string> getFuelSystemStatus();
 
         double getLastAbsoluteThrottlePositionC();
 
@@ -69,7 +63,7 @@ namespace SmartMonitoring
 
         double getLastCommandedThrottleActuator();
 
-        void getLastControlModuleVoltage();
+        double getLastControlModuleVoltage();
 
         int getLastDistanceTraveledSinseCodesCleared();
 
@@ -82,7 +76,7 @@ namespace SmartMonitoring
 
         double getLastEngineOilTemperature();
 
-        void getLastEnginePercentTorqueData();
+        List<int> getLastEnginePercentTorqueData();
 
         int getLastEngineReferenceTorque();
 
@@ -96,7 +90,7 @@ namespace SmartMonitoring
 
         double getLastFuelAirCommandedEquivalenceRatio();
 
-        void FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure();
+        List<int> FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure();
 
         double getLastFuelInjectionTimingValue();
 
@@ -116,55 +110,55 @@ namespace SmartMonitoring
 
         double getLastIntakeManifoldAbsolutePressure();
 
-        void MaximunValueAirFlowRateFromMassAirFlowSensor();
+        List<int> MaximunValueAirFlowRateFromMassAirFlowSensor();
 
-        void OxygenSensor1();
+        List<double> OxygenSensor1();
 
-        void OxygenSensor1B();
+        List<double> OxygenSensor1B();
 
-        void OxygenSensor1C();
+        List<double> OxygenSensor1C();
 
-        void OxygenSensor2();
+        List<double> OxygenSensor2();
 
-        void OxygenSensor2B();
+        List<double> OxygenSensor2B();
 
-        void OxygenSensor2C();
+        List<double> OxygenSensor2C();
 
-        void OxygenSensor3();
+        List<double> OxygenSensor3();
 
-        void OxygenSensor3B();
+        List<double> OxygenSensor3B();
 
-        void OxygenSensor3C();
+        List<double> OxygenSensor3C();
 
-        void OxygenSensor4();
+        List<double> OxygenSensor4();
 
-        void OxygenSensor4B();
+        List<double> OxygenSensor4B();
 
-        void OxygenSensor4C();
+        List<double> OxygenSensor4C();
 
-        void OxygenSensor5();
+        List<double> OxygenSensor5();
 
-        void OxygenSensor5B();
+        List<double> OxygenSensor5B();
 
-        void OxygenSensor5C();
+        List<double> OxygenSensor5C();
 
-        void OxygenSensor6();
+        List<double> OxygenSensor6();
 
-        void OxygenSensor6B();
+        List<double> OxygenSensor6B();
 
-        void OxygenSensor6C();
+        List<double> OxygenSensor6C();
 
-        void OxygenSensor7();
+        List<double> OxygenSensor7();
 
-        void OxygenSensor7B();
+        List<double> OxygenSensor7B();
 
-        void OxygenSensor7C();
+        List<double> OxygenSensor7C();
 
-        void OxygenSensor8();
+        List<double> OxygenSensor8();
 
-        void OxygenSensor8B();
+        List<double> OxygenSensor8B();
 
-        void OxygenSensor8C();
+        List<double> OxygenSensor8C();
 
         double getLastRelativeAcceleratorPedalPosition();
 
@@ -178,9 +172,10 @@ namespace SmartMonitoring
 
         int getLastShortTermFuelTrimB2();
 
-
-        void ShortTermSecondaryOxygenSensorTrim1_3();
-        void ShortTermSecondaryOxygenSensorTrim2_4();
+        List<double> LongTermSecondaryOxygenSensorTrim1_3();
+        List<double> LongTermSecondaryOxygenSensorTrim2_4();
+        List<double> ShortTermSecondaryOxygenSensorTrim1_3();
+        List<double> ShortTermSecondaryOxygenSensorTrim2_4();
 
         int getLastSpeed();
 
