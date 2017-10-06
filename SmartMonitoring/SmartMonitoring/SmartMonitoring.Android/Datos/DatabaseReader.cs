@@ -27,6 +27,15 @@ namespace SmartMonitoring.Droid.Datos
             return dataBase.ExecuteScalar<double>("SELECT CalculatedEngineLoadValue FROM CalculatedEngineLoadValueData ORDER BY ID DESC LIMIT 1");
 
         }
+        public List<int> getFuelSystemStatus()
+        {
+
+            List<int> value = new List<int>(2);
+            value[0] = dataBase.ExecuteScalar<int>("SELECT System1 FROM FuelSystemStatus ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<int>("SELECT System2 FROM FuelSystemStatus ORDER BY ID DESC LIMIT 1");
+            return value;
+
+        }
 
         public int getLastEngineTemperature()
         {
@@ -140,9 +149,9 @@ namespace SmartMonitoring.Droid.Datos
             return dataBase.ExecuteScalar<double>("SELECT CommandedThrottleActuatorValue FROM CommandedThrottleAcuator ORDER BY ID DESC LIMIT 1");
         }
 
-        public void getLastControlModuleVoltage()
+        public double getLastControlModuleVoltage()
         {
-
+            return dataBase.ExecuteScalar<double>("SELECT Voltage FROM ControlModuleVoltage ORDER BY ID DESC LIMIT 1");
         }
 
         public int getLastDistanceTraveledSinseCodesCleared()
@@ -171,9 +180,15 @@ namespace SmartMonitoring.Droid.Datos
         {
             return dataBase.ExecuteScalar<double>("SELECT Temperature FROM EngineOilTemperature ORDER BY ID DESC LIMIT 1");
         }
-        public void getLastEnginePercentTorqueData()
+        public List<int> getLastEnginePercentTorqueData()
         {
-
+            List<int> value = new List<int>(5);
+            value[0] = dataBase.ExecuteScalar<int>("SELECT PercentageIdle FROM EnginePercentTorqueData ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<int>("SELECT PercentageEnginePoint1 FROM EnginePercentTorqueData ORDER BY ID DESC LIMIT 1");
+            value[2] = dataBase.ExecuteScalar<int>("SELECT PercentageEnginePoint2 FROM EnginePercentTorqueData ORDER BY ID DESC LIMIT 1");
+            value[3] = dataBase.ExecuteScalar<int>("SELECT PercentageEnginePoint3 FROM EnginePercentTorqueData ORDER BY ID DESC LIMIT 1");
+            value[4] = dataBase.ExecuteScalar<int>("SELECT PercentageEnginePoint4 FROM EnginePercentTorqueData ORDER BY ID DESC LIMIT 1");
+            return value;
         }
         public int getLastEngineReferenceTorque()
         {
@@ -200,9 +215,15 @@ namespace SmartMonitoring.Droid.Datos
         {
             return dataBase.ExecuteScalar<double>("SELECT Ratio FROM FuelAirCommandedEquivalenceRatio ORDER BY ID DESC LIMIT 1");
         }
-        public void FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure()
+        public List<int> FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure()
         {
-
+            List<int> value = new List<int>(4);
+            value[0] = dataBase.ExecuteScalar<int>("SELECT MaximunValue_Fuel_Air_EquivalenceRatio FROM FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<int>("SELECT OxygenSensorVoltage FROM FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure ORDER BY ID DESC LIMIT 1");
+            value[2] = dataBase.ExecuteScalar<int>("SELECT OxygenSensorCurrent FROM FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure ORDER BY ID DESC LIMIT 1");
+            value[3] = dataBase.ExecuteScalar<int>("SELECT IntakeManifoldAbsolutePressure FROM FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure ORDER BY ID DESC LIMIT 1");
+           
+            return value;
         }
         public double getLastFuelInjectionTimingValue()
         {
@@ -241,106 +262,187 @@ namespace SmartMonitoring.Droid.Datos
         {
             return dataBase.ExecuteScalar<double>("SELECT IntakeManifoldAbsolutePressureValue FROM HybridBateryPackRemainingLife ORDER BY ID DESC LIMIT 1");
         }
-        public void MaximunValueAirFlowRateFromMassAirFlowSensor()
+        public List<int> MaximunValueAirFlowRateFromMassAirFlowSensor()
         {
+            List<int> value = new List<int>(4);
+            value[0] = dataBase.ExecuteScalar<int>("SELECT MaximunValueA FROM MaximunValueAirFlowRateFromMassAirFlowSensor ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<int>("SELECT MaximunValueB FROM MaximunValueAirFlowRateFromMassAirFlowSensor ORDER BY ID DESC LIMIT 1");
+            value[2] = dataBase.ExecuteScalar<int>("SELECT MaximunValueC FROM MaximunValueAirFlowRateFromMassAirFlowSensor ORDER BY ID DESC LIMIT 1");
+            value[3] = dataBase.ExecuteScalar<int>("SELECT MaximunValueD FROM MaximunValueAirFlowRateFromMassAirFlowSensor ORDER BY ID DESC LIMIT 1");
 
+            return value;
         }
 
-        public void OxygenSensor1()
+        public List<double> OxygenSensor1()
         {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor1 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor1 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor1B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor1B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor1B ORDER BY ID DESC LIMIT 1");            
+            return value;
+        }
+        public List<double> OxygenSensor1C()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor1C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor1C ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor2()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor2 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor2 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor2B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor2B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor2B ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor2C()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor2C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor2C ORDER BY ID DESC LIMIT 1");
+            return value;
 
         }
-        public void OxygenSensor1B()
+        public List<double> OxygenSensor3()
         {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor3 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor3 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor3B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor3B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor3B ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor3C()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor3C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor3C ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor4()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor4 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor4 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor4B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor4B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor4B ORDER BY ID DESC LIMIT 1");
+            return value;
 
         }
-        public void OxygenSensor1C()
+        public List<double> OxygenSensor4C()
         {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor4C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor4C ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor5()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor5 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor5 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor5B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor5B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor5B ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor5C()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor5C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor5C ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor6()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor6 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor6 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor6C()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor6C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor6C ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor6B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor6B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor6B ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor7()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor7 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor7 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor7B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor7B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor7B ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor7C()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor7C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor7C ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor8()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor8 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrim FROM OxygenSensor8 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> OxygenSensor8B()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor8B ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Voltage FROM OxygenSensor8B ORDER BY ID DESC LIMIT 1");
+            return value;
 
         }
-        public void OxygenSensor2()
+        public List<double> OxygenSensor8C()
         {
-
-        }
-        public void OxygenSensor2B()
-        {
-
-        }
-        public void OxygenSensor2C()
-        {
-
-        }
-        public void OxygenSensor3()
-        {
-
-        }
-        public void OxygenSensor3B()
-        {
-
-        }
-        public void OxygenSensor3C()
-        {
-
-        }
-        public void OxygenSensor4()
-        {
-
-        }
-        public void OxygenSensor4B()
-        {
-
-        }
-        public void OxygenSensor4C()
-        {
-
-        }
-        public void OxygenSensor5()
-        {
-
-        }
-        public void OxygenSensor5B()
-        {
-
-        }
-        public void OxygenSensor5C()
-        {
-
-        }
-        public void OxygenSensor6()
-        {
-
-        }
-        public void OxygenSensor6B()
-        {
-
-        }
-        public void OxygenSensor6C()
-        {
-
-        }
-        public void OxygenSensor7()
-        {
-
-        }
-        public void OxygenSensor7B()
-        {
-
-        }
-        public void OxygenSensor7C()
-        {
-
-        }
-        public void OxygenSensor8()
-        {
-
-        }
-        public void OxygenSensor8B()
-        {
-
-        }
-        public void OxygenSensor8C()
-        {
-
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT Fuel_AirEquivalenceRatio FROM OxygenSensor8C ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT Current FROM OxygenSensor8C ORDER BY ID DESC LIMIT 1");
+            return value;
         }
         public double getLastRelativeAcceleratorPedalPosition()
         {
@@ -367,8 +469,34 @@ namespace SmartMonitoring.Droid.Datos
             return dataBase.ExecuteScalar<int>("SELECT ShortTermFuelTrimBank1 FROM ShortTermFuelTrimB2 ORDER BY ID DESC LIMIT 1");
         }
 
-        public void ShortTermSecondaryOxygenSensorTrim1_3() { }
-        public void ShortTermSecondaryOxygenSensorTrim2_4() { }
+        public List<double> ShortTermSecondaryOxygenSensorTrim1_3() {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT valueBankA FROM ShortTermSecondaryOxygenSensorTrim1_3 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT valueBankB FROM ShortTermSecondaryOxygenSensorTrim1_3 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> ShortTermSecondaryOxygenSensorTrim2_4() {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT valueBankA FROM ShortTermSecondaryOxygenSensorTrim2_3 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT valueBankB FROM ShortTermSecondaryOxygenSensorTrim2_4 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+
+        public List<double> LongTermSecondaryOxygenSensorTrim1_3()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT valueBankA FROM LongTermSecondaryOxygenSensorTrim1_3 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT valueBankB FROM LongTermSecondaryOxygenSensorTrim1_3 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+        public List<double> LongTermSecondaryOxygenSensorTrim2_4()
+        {
+            List<double> value = new List<double>(2);
+            value[0] = dataBase.ExecuteScalar<double>("SELECT valueBankA FROM LongTermSecondaryOxygenSensorTrim2_3 ORDER BY ID DESC LIMIT 1");
+            value[1] = dataBase.ExecuteScalar<double>("SELECT valueBankB FROM LongTermSecondaryOxygenSensorTrim2_4 ORDER BY ID DESC LIMIT 1");
+            return value;
+        }
+
 
         public int getLastSpeed()
         {
