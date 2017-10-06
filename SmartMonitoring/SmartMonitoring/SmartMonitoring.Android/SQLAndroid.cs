@@ -21,6 +21,7 @@ namespace SmartMonitoring.Droid
     public class SQLAndroid : ISQLite
     {
         SQLiteConnection connection;
+        static int cont = 0;
         public SQLiteConnection GetConnection()
         {
             var fileName = "SmartMonitoring.db3";
@@ -28,9 +29,10 @@ namespace SmartMonitoring.Droid
             var path = Path.Combine(documentsPath, fileName);
 
             connection = new SQLiteConnection(path);
-            if (connection != null)
+            if (connection != null & cont==0)
             {
                 initBBDD();
+                cont++;
             }
             return connection;
         }
