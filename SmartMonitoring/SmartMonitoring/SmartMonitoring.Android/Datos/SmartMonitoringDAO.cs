@@ -170,6 +170,7 @@ namespace SmartMonitoring.Droid.Datos
                             break;
 
                         }
+                        builder.Append(c);
                     }
                    
 
