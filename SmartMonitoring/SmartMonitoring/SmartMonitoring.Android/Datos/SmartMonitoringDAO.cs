@@ -108,13 +108,24 @@ namespace SmartMonitoring.Droid.Datos
             socket.OutputStream.Write(cmd, 0, cmd.Length);
             Thread.Sleep(100);
             string firstpids = Read();
+            if (firstpids.Contains("UNABLE TO CONNECT"))
+            {
+                throw new UnableToConnectException();
+            }
+
             /*firstpids = firstpids.Substring(8);
             byte[] pids01_20 = Encoding.ASCII.GetBytes(firstpids);*/
-            
+
             cmd = Encoding.ASCII.GetBytes("0120" + "\r");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
             Thread.Sleep(100);
             string secondpids = Read();
+            if (secondpids.Contains("UNABLE TO CONNECT"))
+            {
+                throw new UnableToConnectException();
+            }
+
+
             /*firstpids = firstpids.Substring(8);
             byte[] pids21_30 = Encoding.ASCII.GetBytes(firstpids);*/
 
@@ -123,6 +134,10 @@ namespace SmartMonitoring.Droid.Datos
             socket.OutputStream.Write(cmd, 0, cmd.Length);
             Thread.Sleep(100);
             string thirdpids = Read();
+            if (thirdpids.Contains("UNABLE TO CONNECT"))
+            {
+                throw new UnableToConnectException();
+            }
             /*firstpids = firstpids.Substring(8);
             byte[] pids41_60 = Encoding.ASCII.GetBytes(firstpids);*/
 
@@ -234,7 +249,7 @@ namespace SmartMonitoring.Droid.Datos
 
             //En alternativa (void), aqui se guardarían los resultados en la base de datos
            
-            string send = (Convert.ToUInt32(Parameters.ConsultMode.CurrentData).ToString("X2") + Convert.ToUInt32(pid).ToString("X2") + "/r");
+            string send = (Convert.ToUInt32(Parameters.ConsultMode.CurrentData).ToString("X2") + Convert.ToUInt32(pid).ToString("X2") + "\r");
             byte[] cmd = Encoding.ASCII.GetBytes(send);
             socket.OutputStream.Write(cmd, 0, cmd.Length);
 
