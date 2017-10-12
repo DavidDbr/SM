@@ -51,7 +51,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
         }
         internal static void getScanDevices(BluetoothDevice bd)
         {
-            if (bd.Name.Equals("OBDII"))
+            if (bd.Name.Equals("OBDII")) 
             {
                 discoveredDevices.Add(bd);
                 discoveredDevices = discoveredDevices.Distinct().ToList();
