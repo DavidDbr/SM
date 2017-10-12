@@ -11,7 +11,7 @@ namespace SmartMonitoring.Droid.Utilidades
     [IntentFilter(new[] { BluetoothDevice.ActionFound })]
     [IntentFilter(new[] { BluetoothAdapter.ActionDiscoveryFinished })]
     [IntentFilter(new[] { BluetoothAdapter.ActionDiscoveryStarted })]
-    class BroadcastReceiverBluetooth : BroadcastReceiver
+    public class BroadcastReceiverBluetooth : BroadcastReceiver
     {
         BluetoothDevice device;
         BluetoothAdapter ba = BluetoothAdapter.DefaultAdapter;

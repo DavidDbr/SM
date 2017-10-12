@@ -16,7 +16,7 @@ namespace SmartMonitoring
 
         double getLastCalculatedEngineValue();
 
-        int getLastEngineTemperature();
+        string getLastEngineTemperature();
 
         int getLastAbsoluteBarometricPressure();
 
@@ -80,7 +80,7 @@ namespace SmartMonitoring
 
         int getLastEngineReferenceTorque();
 
-        int getLastEngineStartTime();
+        string getLastEngineStartTime();
 
         int getLastEngineTemperatureData();
 

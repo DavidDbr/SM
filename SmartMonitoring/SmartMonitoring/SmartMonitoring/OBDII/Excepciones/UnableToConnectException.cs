@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SmartMonitoring.OBDII.Excepciones
 {
-   public class UnableToConnectException : Exception
+    public class UnableToConnectException : Exception
     {
         public UnableToConnectException()
         {

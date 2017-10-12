@@ -1,4 +1,6 @@
 ﻿using SmartMonitoring.BBDD;
+using SmartMonitoring.MVVM;
+using SmartMonitoring.OBDII.Excepciones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,54 +46,69 @@ namespace SmartMonitoring
         //CLICKED
         private async void scanDevices(object sender1, EventArgs e1)
         {
-
+            indicator.IsRunning = true;
             var scan = DependencyService.Get<IBluetoothManagement>();
-            //como hacer que espere
+            runBluetooth.IsEnabled = false;
             devices = await scan.scanDevices();
             devices.Distinct().ToString();
             var listView = new ListView(ListViewCachingStrategy.RecycleElement);
             listView.ItemsSource = devices.Distinct().ToList();
-
+            ActivityIndicator indicator2 = new ActivityIndicator();
             //   listView.ItemSelected += (object sender, ItemClickEventArgs e) => { String selectedFromList = lv.GetItemAtPosition(e.Position); };
             // Content = listView;
             if (devices.Count != 0)
             {
+                indicator.IsRunning = false;
+                
                 // DisplayAlert("Title", devices.ElementAt(0), "OK");
-                Content = Content = new StackLayout
+                Content = Content = new StackLayout 
                 {
+                    
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    Children = { listView }
+                    Children = { listView, indicator2 }
                 };
+                
             }
             else
             {
-                await DisplayAlert("Title", "No hay dispositivos", "OK");
+                indicator.IsRunning = false;
+                await DisplayAlert("Error", "No hay dispositivos OBDII cercanos", "OK");
+                
             }
-            listView.ItemSelected += (sender, e) => openConnectionDevice(e.SelectedItem.ToString());
+            
+            runBluetooth.IsEnabled = true;
 
-        }
+            listView.ItemSelected += (sender, e) => { openConnectionDevice(e.SelectedItem.ToString()); indicator2.IsRunning = true; };
+
+
+            }
 
         private void openConnectionDevice(String MAC)
         {
-
+            indicator.IsRunning = true;
             var scan = DependencyService.Get<IBluetoothManagement>();
             bool result = scan.openConnection(MAC);
             if (result == true)
             {
+                indicator.IsRunning = false;
                 inConnection(MAC);
 
             }
             else
             {
+                indicator.IsRunning = false;
                 DisplayAlert("Title", "No se estableció la conexión con el dispositivo", "OK");
                 var listView = new ListView(ListViewCachingStrategy.RecycleElement);
-                listView.ItemsSource = devices;
+                listView.ItemsSource = devices.Distinct();
 
                 Content = Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    Children = { listView }
-                };
+                    Children = { listView },
+                    
+            };
+                listView.ItemSelected += (sender, e) => openConnectionDevice(e.SelectedItem.ToString());
+                
             }
 
 
@@ -99,10 +116,18 @@ namespace SmartMonitoring
 
         private void inConnection(String MAC)
         {
+            indicator.IsRunning = false;
             var scan = DependencyService.Get<IBluetoothManagement>();
             var database = DependencyService.Get<ISQLite>();
             var connect = DependencyService.Get<IConnectionManagement>();
-            connect.InitializedOBD2();
+            try
+            {
+                connect.InitializedOBD2();
+            }
+            catch (UnableToConnectException u)
+            {
+                DisplayActionSheet("Error", "No se puede conectar a la ECU", "OK");
+            }
             database.GetConnection();
             database.initBBDD();
             Label label = new Label();
@@ -110,26 +135,37 @@ namespace SmartMonitoring
             // scan.initializedOBD2();
             Button consultTR = new Button();
             consultTR.Text = " Consultar Parámetros";
-            consultTR.Clicked += (sender, e) => consultParameters();
+            ConsultParameters page = null;
+            // consultTR.Clicked += (sender, e) => consultParameters();
+            consultTR.Clicked += (sender, e) =>
+            {
+                
+                page = new ConsultParameters();
+                App.Current.MainPage = new NavigationPage(page);
+                
+                        
+                              
+            };
             Button diagnostic = new Button();
             diagnostic.Text = "Diagnóstico";
             diagnostic.Clicked += (sender, e) => diagnosticCar();
             label.Text = ("Connected to " + nameDevice + " MAC: " + MAC);
             Content = Content = new StackLayout()
             {
+
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Children = { label, consultTR, diagnostic }
-            };
+            };          
         }
 
 
 
 
-        private void consultParameters()
+        /*private void consultParameters()
         {
-            var scan = DependencyService.Get<IConnectionManagement>();
-            scan.ConsultParameters();
-        }
+            var connect = DependencyService.Get<IConnectionManagement>();
+            connect.ConsultParameters();
+        }*/
 
 
         // DisplayAlert("Consult Parameters", "Su velocidad es"+parameter, "OK");

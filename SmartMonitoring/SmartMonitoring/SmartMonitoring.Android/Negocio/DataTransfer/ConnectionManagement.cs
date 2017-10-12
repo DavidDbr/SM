@@ -52,8 +52,14 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
 
         public void InitializedOBD2()
         {
-            
-            dao.Initialize();
+            try
+            {
+                dao.Initialize();
+            }
+            catch (UnableToConnectException u)
+            {
+                throw u;
+            }
         }
 
         /*public <double> getResultados()
@@ -117,9 +123,9 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
 
         }
 
-        public int getLastEngineTemperature()
+        public string getLastEngineTemperature()
         {
-            return reader.getLastEngineTemperature();
+            return reader.getLastEngineTemperature().ToString();
 
         }
 
@@ -268,9 +274,9 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         {
             return reader.getLastEngineReferenceTorque();
         }
-        public int getLastEngineStartTime()
+        public string getLastEngineStartTime()
         {
-            return reader.getLastEngineStartTime();
+            return reader.getLastEngineStartTime().ToString();
         }
         public int getLastEngineTemperatureData()
         {

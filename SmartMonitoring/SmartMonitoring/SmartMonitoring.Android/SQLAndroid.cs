@@ -64,7 +64,7 @@ namespace SmartMonitoring.Droid
             connection.CreateTable<CatalystTemperatureB2S2>();
             connection.CreateTable<CommandedEGR>();
             connection.CreateTable<CommandedEvaporativePurge>();
-            connection.CreateTable<FuelSystemStatus>();
+          //  connection.CreateTable<FuelSystemStatus>();
             //connection.CreateTable<secondaryairstatus>();
             connection.CreateTable<CommandedThrottleActuator>();
             connection.CreateTable<ControlModuleVoltage>();

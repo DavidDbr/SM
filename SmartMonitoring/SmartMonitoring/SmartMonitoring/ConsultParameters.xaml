@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SmartMonitoring.MVVM; assembly=SmartMonitoring"
+               x:Class="SmartMonitoring.ConsultParameters">
+
+    <ContentPage.BindingContext>
+        <local:ViewModel/>
+   </ContentPage.BindingContext>
+    <!--  <StackLayout>
+        <Label Text="Estado actual" />
+        <Label Text="Velocidad" />
+        <Label Text="{Binding }" />-->
+        <!-- <Button x:Name="show" Text="Show Results" Clicked="showResultsAsync"/> -->
+       <!-- <ListView x:Name="Parametros">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <StackLayout Orientation="Horizontal" Padding="10,5,0,5" >
+                                <Label Text="Velocidad"/>
+                                <TextCell Text="{Binding ViewModel.Speed}" />
+                            </StackLayout>
+                        </Grid>
+
+                        <Grid>
+                            <StackLayout Orientation="Horizontal" Padding="10,5,0,5" >
+                                <Label Text="RPM"/>
+                                <TextCell Text="{Binding ViewModel.RPM}" />
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>-->
+
+</ContentPage>
