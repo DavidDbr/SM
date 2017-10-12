@@ -51,8 +51,11 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
         }
         internal static void getScanDevices(BluetoothDevice bd)
         {
-            discoveredDevices.Add(bd);
-            discoveredDevices = discoveredDevices.Distinct().ToList();
+            if (bd.Name.Equals("OBDII"))
+            {
+                discoveredDevices.Add(bd);
+                discoveredDevices = discoveredDevices.Distinct().ToList();
+            }
         }
 
 
@@ -119,13 +122,13 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
 
             bluetoothAdapter.StartDiscovery();
             System.Console.WriteLine("Comienza el descubrimiento");
-            Thread.Sleep(200);
+            await Task.Delay(1000);
             List<string> list = new List<string>();
 
-            await Task.Delay(200);
+            
             while (Semaforo == false)
             {
-                await Task.Delay(200);
+                await Task.Delay(1000);
                 Console.WriteLine("Aun está descubriendo");
             }
             foreach (BluetoothDevice currentDevice in discoveredDevices)
