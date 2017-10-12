@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace SmartMonitoring.MVVM
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged 
     {
         private string speed;
         private string rpm;

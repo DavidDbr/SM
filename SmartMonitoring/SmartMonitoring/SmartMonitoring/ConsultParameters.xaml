@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SmartMonitoring.MVVM; assembly=SmartMonitoring"
                x:Class="SmartMonitoring.ConsultParameters">
-
+ 
     <ContentPage.BindingContext>
         <local:ViewModel/>
    </ContentPage.BindingContext>

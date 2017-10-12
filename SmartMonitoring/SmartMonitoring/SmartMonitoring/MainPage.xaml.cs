@@ -11,7 +11,7 @@ using Xamarin.Forms;
 namespace SmartMonitoring
 {
     public partial class MainPage : ContentPage
-    {
+    { 
         List<string> devices;
         public MainPage()
         {

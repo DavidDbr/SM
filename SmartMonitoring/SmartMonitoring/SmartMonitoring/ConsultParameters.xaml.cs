@@ -10,7 +10,7 @@ namespace SmartMonitoring
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
         public partial class ConsultParameters : ContentPage
-        {
+        { 
         ViewModel vm = null;
             /*IConnectionManagement scan;
             ISQLite database;*/

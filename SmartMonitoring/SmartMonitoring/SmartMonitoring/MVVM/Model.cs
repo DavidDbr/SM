@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SmartMonitoring.MVVM
 {
-    class Model 
+    class Model  
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public string speed;
