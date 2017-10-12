@@ -13,7 +13,7 @@ using SmartMonitoring.OBDII.Excepciones;
 using SmartMonitoring.Droid.Negocio.ConnectionProcess;
 
 namespace SmartMonitoring.Droid.Datos
-{
+{ 
     public class SmartMonitoringDAO : ISmartMonitoringDAO
     {
         BluetoothSocket socket = null;

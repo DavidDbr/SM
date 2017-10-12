@@ -1,11 +1,8 @@
 ﻿using SmartMonitoring.BBDD;
-using SmartMonitoring.MVVM;
 using SmartMonitoring.OBDII.Excepciones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SmartMonitoring
@@ -13,7 +10,8 @@ namespace SmartMonitoring
     public partial class MainPage : ContentPage
     { 
         List<string> devices;
-        public MainPage()
+
+        public MainPage() 
         {
             InitializeComponent();
             InitializeBluetooth();
