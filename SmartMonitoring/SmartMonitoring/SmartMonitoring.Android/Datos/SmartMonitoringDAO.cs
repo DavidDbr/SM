@@ -783,7 +783,7 @@ namespace SmartMonitoring.Droid.Datos
                 {
                     ConsultParameters(Parameters.PID.RelativeAcceleratorPedalPosition);
                 }
-                if (pids01_20[12] == 49)
+                if (pids41_60[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.RelativeThrottlePosition);
                 }
@@ -881,7 +881,7 @@ namespace SmartMonitoring.Droid.Datos
 
                 case Parameters.PID.EngineTemperature:
 
-                    readEngineTemperature(dr);
+                    readEngineCoolantTemperature(dr);
                     break;
 
                 case Parameters.PID.FuelTrim_Bank1_Short:
