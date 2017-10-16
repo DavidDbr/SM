@@ -1,6 +1,8 @@
 ﻿using SmartMonitoring.BBDD;
+using SmartMonitoring.OBDII;
 using SmartMonitoring.OBDII.Excepciones;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -17,20 +19,15 @@ namespace SmartMonitoring
             InitializeBluetooth();
         }
 
-        //INICIALIZAR
+        
         private void InitializeBluetooth()
         {
             bool res = false;
-
-
             var typeB = DependencyService.Get<IBluetoothManagement>();
-
             res = typeB.IsOn();
-
             if (res == false)
             {
                 DisplayAlert("Title", "El dispositivo no dispone de BT", "OK");
-
             }
             else
             {
@@ -174,7 +171,22 @@ namespace SmartMonitoring
         {
 
             var scan = DependencyService.Get<IConnectionManagement>();
-            string troubles = scan.DiagnosticCar();
+            List<DiagnosticTroubleCode> list = scan.DiagnosticCar();
+            if (list.Count == 0)
+            {
+                DisplayAlert("Diagnóstico", "No hay códigos de falla almacenados en la ECU", "OK");
+            }
+            else
+            {
+                var listView = new ListView(ListViewCachingStrategy.RecycleElement);
+                listView.ItemsSource = list;
+                Content = Content = new StackLayout()
+                {
+
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    Children = { listView }
+                };
+            }
         }
     }
 }
