@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartMonitoring.OBDII;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,15 @@ namespace SmartMonitoring
     {
         void ConsultParameters();
 
-        string DiagnosticCar();
+        List<DiagnosticTroubleCode> DiagnosticCar();
 
         void InitializedOBD2();
 
+        List<byte[]> getPids();
+
         double getLastCalculatedEngineValue();
 
-        string getLastEngineTemperature();
+        int getLastEngineTemperature();
 
         int getLastAbsoluteBarometricPressure();
 
@@ -37,7 +40,7 @@ namespace SmartMonitoring
 
         double getLastAbsoluteThrottlePositionF();
 
-        double getLastActualEnginePercentTorque();
+        int getLastActualEnginePercentTorque();
 
         int getLastAmbientAirTemperature();
 
@@ -108,9 +111,15 @@ namespace SmartMonitoring
 
         double getLastHybridBateryPackRemainingLife();
 
-        double getLastIntakeManifoldAbsolutePressure();
+        int getLastIntakeManifoldAbsolutePressure();
+
+        double getLastLongTermFuelTrimB1();
+
+        double getLastLongTermFuelTrimB2();
 
         List<int> MaximunValueAirFlowRateFromMassAirFlowSensor();
+
+        double MAFAirFlowRate();
 
         List<double> OxygenSensor1();
 
@@ -170,7 +179,7 @@ namespace SmartMonitoring
 
         double getLastShortTermFuelTrimB1();
 
-        int getLastShortTermFuelTrimB2();
+        double getLastShortTermFuelTrimB2();
 
         List<double> LongTermSecondaryOxygenSensorTrim1_3();
         List<double> LongTermSecondaryOxygenSensorTrim2_4();

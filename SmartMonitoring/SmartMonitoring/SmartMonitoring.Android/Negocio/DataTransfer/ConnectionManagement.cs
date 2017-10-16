@@ -6,6 +6,7 @@ using SmartMonitoring.Droid.Negocio.ConnectionProcess;
 using SmartMonitoring.OBDII.Excepciones;
 using System.Collections.Generic;
 using System;
+using SmartMonitoring.OBDII;
 
 [assembly: Dependency(typeof(ConnectionManagement))]
 namespace SmartMonitoring.Droid.Negocio.DataTransfer
@@ -23,6 +24,11 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             socket = BluetoothAndroidManagement.getSocket();
             dao = new SmartMonitoringDAO(socket);
             reader = dao.getReader();
+        }
+
+         public List<byte[]> getPids()
+        {
+            return dao.getPids();
         }
 
         public void ConsultParameters()
@@ -45,7 +51,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             }
         }
 
-        public string DiagnosticCar()
+        public List<DiagnosticTroubleCode> DiagnosticCar()
         {
             return dao.DiagnosticCar();
         }
@@ -61,11 +67,6 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
                 throw u;
             }
         }
-
-        /*public <double> getResultados()
-        {
-            return dao.
-        }*/
 
         public List<string> getFuelSystemStatus()
         {
@@ -123,10 +124,15 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
 
         }
 
-        public string getLastEngineTemperature()
+        public int getLastEngineTemperature()
         {
-            return reader.getLastEngineTemperature().ToString();
+            return reader.getLastEngineTemperature();
 
+        }
+
+        public double MAFAirFlowRate()
+        {
+            return reader.getLastMAFAirFlowRate();
         }
 
         public int getLastAbsoluteBarometricPressure()
@@ -172,7 +178,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
 
         }
 
-        public double getLastActualEnginePercentTorque()
+        public int getLastActualEnginePercentTorque()
         {
             return reader.getLastActualEnginePercentTorque();
 
@@ -228,7 +234,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         {
             // dataBase.ExecuteScalar<double>("SELECT Value FROM CommandedEvaporativePurge ORDER BY ID DESC LIMIT 1");
 
-        }
+        } 
 
         public double getLastCommandedThrottleActuator()
         {
@@ -332,7 +338,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         {
             return reader.getLastHybridBateryPackRemainingLife();
         }
-        public double getLastIntakeManifoldAbsolutePressure()
+        public int getLastIntakeManifoldAbsolutePressure()
         {
             return reader.getLastIntakeManifoldAbsolutePressure();
         }
@@ -457,9 +463,17 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         {
             return reader.getLastShortTermFuelTrimB1();
         }
-        public int getLastShortTermFuelTrimB2()
+        public double getLastShortTermFuelTrimB2()
         {
             return reader.getLastShortTermFuelTrimB2();
+        }
+        public double getLastLongTermFuelTrimB2()
+        {
+            return reader.getLastLongTermFuelTrimB2();
+        }
+        public double getLastLongTermFuelTrimB1()
+        {
+            return reader.getLastLongTermFuelTrimB1();
         }
 
         public int getLastSpeed()
@@ -507,5 +521,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         {
             return reader.ShortTermSecondaryOxygenSensorTrim2_4();
         }
+
+        
     }
-}
+  }
