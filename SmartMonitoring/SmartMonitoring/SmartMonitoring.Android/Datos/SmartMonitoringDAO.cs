@@ -22,12 +22,27 @@ namespace SmartMonitoring.Droid.Datos
         byte[] pids01_20;
         byte[] pids21_40;
         byte[] pids41_60;
+        string obdiiProtocol;
+
+        public byte[] Pids01_20 { get => pids01_20; set => pids01_20 = value; }
+        public byte[] Pids21_40 { get => pids21_40; set => pids21_40 = value; }
+        public byte[] Pids41_60 { get => pids41_60; set => pids41_60 = value; }
+
+        public List<byte[]> getPids()
+        {
+            List<byte[]> pids = new List<byte[]>();
+            pids.Add(Pids01_20);
+            pids.Add(Pids21_40);
+            pids.Add(Pids41_60);
+            return pids;
+        }
         public SmartMonitoringDAO(BluetoothSocket socket)
         {
             SQLAndroid sql = new SQLAndroid();
             dataBase = sql.GetConnection();
             reader = new DataBaseReader(dataBase);
             this.socket = socket;
+            obdiiProtocol = "";
         }
 
         
@@ -38,63 +53,63 @@ namespace SmartMonitoring.Droid.Datos
 
             Console.WriteLine("Enviando comando ATD");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             if (Read().Equals(""))
             {
                 throw new System.Exception();
             }
             socket.OutputStream.Flush();
-            Thread.Sleep(100);
+            Thread.Sleep(206);
 
 
             cmd = Encoding.ASCII.GetBytes("ATZ" + "\r");
             Console.WriteLine("Enviando comando ATZ");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             if (Read().Equals(""))
             {
                 throw new System.Exception();
             }
             socket.OutputStream.Flush();
-            Thread.Sleep(100);
+            Thread.Sleep(206);
 
             cmd = Encoding.ASCII.GetBytes("AT E0" + "\r");
             Console.WriteLine("Enviando comando AT E0");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             if (Read().Equals(""))
             {
                 return;
             }
             socket.OutputStream.Flush();
-            Thread.Sleep(100);
+            Thread.Sleep(206);
 
             cmd = Encoding.ASCII.GetBytes("AT L0" + "\r");
             Console.WriteLine("Enviando comando AT L0");
 
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             if (Read().Equals(""))
             {
                 return;
             }
             socket.OutputStream.Flush();
-            Thread.Sleep(100);
+            Thread.Sleep(206);
 
             Console.WriteLine("Enviando comando AT S0");
             cmd = Encoding.ASCII.GetBytes("AT S0" + "\r");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             if (Read().Equals(""))
             {
                 return;
             }
             socket.OutputStream.Flush();
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             Console.WriteLine("Enviando comando AT H0");
             cmd = Encoding.ASCII.GetBytes("AT H0" + "\r");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             socket.OutputStream.Flush();
             if (Read().Equals(""))
             {
@@ -103,10 +118,10 @@ namespace SmartMonitoring.Droid.Datos
 
 
             socket.OutputStream.Flush();
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             cmd = Encoding.ASCII.GetBytes("0100" + "\r");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             string firstpids = Read();
             if (firstpids.Contains("UNABLE TO CONNECT"))
             {
@@ -124,16 +139,16 @@ namespace SmartMonitoring.Droid.Datos
                 }
                 result = result + c;
             }
-            pids01_20 = new byte[32];
+            Pids01_20 = new byte[32];
             for (int i = 0; i < result.Length; i++)
             {
 
                 string binaryData = "";
                 binaryData = Convert.ToString(Convert.ToInt32(result[i].ToString(), 16), 2).PadLeft(4, '0');
-                pids01_20[i * 4] = (byte)binaryData[0];
-                pids01_20[4*i + 1] = (byte)binaryData[1];
-                pids01_20[4*i + 2] = (byte)binaryData[2];
-                pids01_20[4*i + 3] = (byte)binaryData[3];
+                Pids01_20[i * 4] = (byte)binaryData[0];
+                Pids01_20[4*i + 1] = (byte)binaryData[1];
+                Pids01_20[4*i + 2] = (byte)binaryData[2];
+                Pids01_20[4*i + 3] = (byte)binaryData[3];
             }
 
 
@@ -142,7 +157,7 @@ namespace SmartMonitoring.Droid.Datos
 
             cmd = Encoding.ASCII.GetBytes("0120" + "\r");
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(200);
+            Thread.Sleep(206);
             string secondpids = Read();
             if (secondpids.Contains("UNABLE TO CONNECT"))
             {
@@ -159,16 +174,16 @@ namespace SmartMonitoring.Droid.Datos
                 }
                 result = result + c;
             }
-            pids21_40 = new byte[32];
+            Pids21_40 = new byte[32];
             for (int i = 0; i < result.Length; i++)
             {
 
                 string binaryData = "";
                 binaryData = Convert.ToString(Convert.ToInt32(result[i].ToString(), 16), 2).PadLeft(4, '0');
-                pids21_40[4 * i] = (byte)binaryData[0];
-                pids21_40[4 * i + 1] = (byte)binaryData[1];
-                pids21_40[4 * i + 2] = (byte)binaryData[2];
-                pids21_40[4 * i + 3] = (byte)binaryData[3];
+                Pids21_40[4 * i] = (byte)binaryData[0];
+                Pids21_40[4 * i + 1] = (byte)binaryData[1];
+                Pids21_40[4 * i + 2] = (byte)binaryData[2];
+                Pids21_40[4 * i + 3] = (byte)binaryData[3];
             }
 
             cmd = Encoding.ASCII.GetBytes("0140" + "\r");
@@ -190,22 +205,50 @@ namespace SmartMonitoring.Droid.Datos
                 }
                 result = result + c;
             }
-            pids41_60 = new byte[32];
+            Pids41_60 = new byte[32];
             for (int i = 0; i < result.Length; i++)
             {
 
                 string binaryData = "";
                 binaryData = Convert.ToString(Convert.ToInt32(result[i].ToString(), 16), 2).PadLeft(4, '0');
-                pids41_60[i * 4] = (byte)binaryData[0];
-                pids41_60[4 * i + 1] = (byte)binaryData[1];
-                pids41_60[4 * i + 2] = (byte)binaryData[2];
-                pids41_60[4 * i + 3] = (byte)binaryData[3];
+                Pids41_60[i * 4] = (byte)binaryData[0];
+                Pids41_60[4 * i + 1] = (byte)binaryData[1];
+                Pids41_60[4 * i + 2] = (byte)binaryData[2];
+                Pids41_60[4 * i + 3] = (byte)binaryData[3];
 
                 
             }
-            for (int i = 0; i < pids01_20.Length; i++)
+            for (int i = 0; i < Pids01_20.Length; i++)
             {
-                Console.WriteLine("Valor de " + i + "=" + pids01_20[i]);
+                Console.WriteLine("Valor de " + i + "=" + Pids01_20[i]);
+            }
+
+         
+
+            socket.OutputStream.Flush();
+            Thread.Sleep(206);
+            Console.WriteLine("Enviando comando DPH");
+            cmd = Encoding.ASCII.GetBytes("AT DPH" + "\r");
+            socket.OutputStream.Write(cmd, 0, cmd.Length);
+            Thread.Sleep(206);
+            socket.OutputStream.Flush();
+            obdiiProtocol = Read();
+            if (obdiiProtocol.Equals(""))
+            {
+                return;
+            }
+
+            socket.OutputStream.Flush();
+            Thread.Sleep(206);
+            Console.WriteLine("Enviando comando DPH");
+            cmd = Encoding.ASCII.GetBytes("0902" + "\r");
+            socket.OutputStream.Write(cmd, 0, cmd.Length);
+            Thread.Sleep(206);
+            socket.OutputStream.Flush();
+            obdiiProtocol = Read();
+            if (obdiiProtocol.Equals(""))
+            {
+                return;
             }
 
         }
@@ -291,108 +334,108 @@ namespace SmartMonitoring.Droid.Datos
 
         public void ConsultParametersThread()
         {
-            if (pids41_60[16] == 1)
+            if (Pids41_60[16] == 1)
             {
                 ConsultParameters(Parameters.PID.FuelType);
             }
 
             while (true)
             {
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids01_20[3] == 49)
+                if (Pids01_20[3] == 49)
                 {
                     ConsultParameters(Parameters.PID.CalculatedEngineLoadValue);
                 }
-                if (pids21_40[18] == 49)
+                if (Pids21_40[18] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsolutBarometricPressure);
                 }
-                if (pids41_60[18] == 49)
+                if (Pids41_60[18] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteEvapSystemVaporPressure);
                 }
 
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids41_60[2] == 49)
+                if (Pids41_60[2] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteLoadValue);
                 }
-                if (pids41_60[6] == 49)
+                if (Pids41_60[6] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteThrottlePositionB);
                 }
-                if (pids41_60[7] == 49)
+                if (Pids41_60[7] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteThrottlePositionC);
                 }
-                if (pids41_60[8] == 49)
+                if (Pids41_60[8] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteThrottlePositionD);
                 }
-                if (pids41_60[9] == 49)
+                if (Pids41_60[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteThrottlePositionE);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
 
-                if (pids41_60[10] == 49)
+                if (Pids41_60[10] == 49)
                 {
                     ConsultParameters(Parameters.PID.AbsoluteThrottlePositionF);
                 }
@@ -400,104 +443,104 @@ namespace SmartMonitoring.Droid.Datos
                 {
                     ConsultParameters(Parameters.PID.ActualEngine_PercentTorque);
                 }*/
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
 
-                if (pids21_40[27] == 49)
+                if (Pids21_40[27] == 49)
                 {
                     ConsultParameters(Parameters.PID.CatalystTemperature_Bank1_Sensor1);
                 }
-                if (pids21_40[28] == 49)
+                if (Pids21_40[28] == 49)
                 {
                     ConsultParameters(Parameters.PID.CatalystTemperature_Bank1_Sensor2);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids21_40[29] == 49)
+                if (Pids21_40[29] == 49)
                 {
                     ConsultParameters(Parameters.PID.CatalystTemperature_Bank2_Sensor1);
                 }
-                if (pids21_40[30] == 49)
+                if (Pids21_40[30] == 49)
                 {
                     ConsultParameters(Parameters.PID.CatalystTemperature_Bank2_Sensor2);
                 }
-                if (pids41_60[15] == 49)
+                if (Pids41_60[15] == 49)
                 {
                     ConsultParameters(Parameters.PID.AmbientAirTemperature);
                 }
-                if (pids21_40[11] == 49)
+                if (Pids21_40[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.CommandedEGR);
                 }
-                if (pids21_40[13] == 49)
+                if (Pids21_40[13] == 49)
                 {
                     ConsultParameters(Parameters.PID.CommandedEvaporatiVePurge);
                 }
-                if (pids41_60[11] == 49)
+                if (Pids41_60[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.CommandedThrottleActuator);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids21_40[16] == 49)
+                if (Pids21_40[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.DistanceTraveledSinceCodesCleared);
                 }
-                if (pids21_40[0] == 49)
+                if (Pids21_40[0] == 49)
                 {
                     ConsultParameters(Parameters.PID.DistanceTraveledWithMILon);
                 }
@@ -506,39 +549,39 @@ namespace SmartMonitoring.Droid.Datos
                 {
                     ConsultParameters(Parameters.PID.DriverDemandEngine_PercentTorque); //FALTA PIDS61-80
                 }*/
-                if (pids21_40[12] == 49)
+                if (Pids21_40[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.EGRError);
                 }
-                if (pids41_60[17] == 49)
+                if (Pids41_60[17] == 49)
                 {
                     ConsultParameters(Parameters.PID.EhtanolFuelPercen);
                 }
-                if (pids41_60[29] == 49)
+                if (Pids41_60[29] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineFuelRate);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids41_60[17] == 49)
+                if (Pids41_60[17] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineOilTemperature);
                 }
@@ -551,279 +594,279 @@ namespace SmartMonitoring.Droid.Datos
                 {
                     ConsultParameters(Parameters.PID.EngineReferenceTorque);
                 }*/
-                if (pids01_20[30] == 49)
+                if (Pids01_20[30] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineStartTime);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids41_60[18] == 49)
+                if (Pids41_60[18] == 49)
                 {
                     ConsultParameters(Parameters.PID.EvapSystemVaporPressure);
                 }
-                if (pids41_60[28] == 49)
+                if (Pids41_60[28] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelInjectionTiming);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids41_60[24] == 49)
+                if (Pids41_60[24] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelRailAbsolutePressure);
                 }
-                if (pids21_40[2] == 49)
+                if (Pids21_40[2] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelRailGaugePressure);
                 }
-                if (pids21_40[1] == 49)
+                if (Pids21_40[1] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelRailPressure);
                 }
-                if (pids21_40[14] == 49)
+                if (Pids21_40[14] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelTankLevel);
                 }
-                if (pids01_20[6] == 49)
+                if (Pids01_20[6] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelTrim_Bank1_Long);
                 }
-                if (pids01_20[5] == 49)
+                if (Pids01_20[5] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelTrim_Bank1_Short);
                 }
-                if (pids01_20[8] == 49)
+                if (Pids01_20[8] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelTrim_Bank2_Long);
                 }
-                if (pids01_20[7] == 49)
+                if (Pids01_20[7] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelTrim_Bank2_Short);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids41_60[3] == 49)
+                if (Pids41_60[3] == 49)
                 {
                     ConsultParameters(Parameters.PID.Fuel_AirCommandedEquivalenceRatio);
                 }
-                if (pids41_60[26] == 49)
+                if (Pids41_60[26] == 49)
                 {
                     ConsultParameters(Parameters.PID.HybridBatteryPackRemainingLife);
                 }
-                if (pids01_20[10] == 49)
+                if (Pids01_20[10] == 49)
                 {
                     ConsultParameters(Parameters.PID.IntakeManifoldAbsolutePressure);
                 }
-                if (pids01_20[14] == 49)
+                if (Pids01_20[14] == 49)
                 {
                     ConsultParameters(Parameters.PID.IntakeTemperature);
                 }
-                if (pids01_20[15] == 49)
+                if (Pids01_20[15] == 49)
                 {
                     ConsultParameters(Parameters.PID.MAFAirFlowRate);
                 }
-                if (pids41_60[15] == 49)
+                if (Pids41_60[15] == 49)
                 {
                     ConsultParameters(Parameters.PID.MaximunValueFlowRateFromMassAirFlowSensor);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[19] == 49)
+                if (Pids01_20[19] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor1);
                 }
-                if (pids01_20[20] == 49)
+                if (Pids01_20[20] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor2);
                 }
-                if (pids01_20[21] == 49)
+                if (Pids01_20[21] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor3);
                 }
-                if (pids01_20[22] == 49)
+                if (Pids01_20[22] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor4);
                 }
-                if (pids01_20[23] == 49)
+                if (Pids01_20[23] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor5);
                 }
-                if (pids01_20[24] == 49)
+                if (Pids01_20[24] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor6);
                 }
-                if (pids01_20[25] == 49)
+                if (Pids01_20[25] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor7);
                 }
-                if (pids01_20[26] == 49)
+                if (Pids01_20[26] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor8);
                 }
-                if (pids21_40[3] == 49)
+                if (Pids21_40[3] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor1b);
                 }
-                if (pids21_40[4] == 49)
+                if (Pids21_40[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor2b);
                 }
-                if (pids21_40[5] == 49)
+                if (Pids21_40[5] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor3b);
                 }
-                if (pids21_40[6] == 49)
+                if (Pids21_40[6] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor4b);
                 }
-                if (pids21_40[7] == 49)
+                if (Pids21_40[7] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor5b);
                 }
-                if (pids21_40[8] == 49)
+                if (Pids21_40[8] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor6b);
                 }
-                if (pids21_40[9] == 49)
+                if (Pids21_40[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor7b);
                 }
-                if (pids21_40[10] == 49)
+                if (Pids21_40[10] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor8b);
                 }
-                if (pids21_40[19] == 49)
+                if (Pids21_40[19] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor1c);
                 }
-                if (pids21_40[20] == 49)
+                if (Pids21_40[20] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor2c);
                 }
-                if (pids21_40[21] == 49)
+                if (Pids21_40[21] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor3c);
                 }
-                if (pids21_40[22] == 49)
+                if (Pids21_40[22] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor4c);
                 }
-                if (pids21_40[23] == 49)
+                if (Pids21_40[23] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor5c);
                 }
-                if (pids21_40[24] == 49)
+                if (Pids21_40[24] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor6c);
                 }
-                if (pids21_40[25] == 49)
+                if (Pids21_40[25] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor7c);
                 }
-                if (pids21_40[26] == 49)
+                if (Pids21_40[26] == 49)
                 {
                     ConsultParameters(Parameters.PID.OxygenSensor8c);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
-                if (pids41_60[25] == 49)
+                if (Pids41_60[25] == 49)
                 {
                     ConsultParameters(Parameters.PID.RelativeAcceleratorPedalPosition);
                 }
-                if (pids41_60[4] == 49)
+                if (Pids41_60[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.RelativeThrottlePosition);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[13] == 49)
+                if (Pids01_20[13] == 49)
                 {
                     ConsultParameters(Parameters.PID.TimingAdvance);
                 }
-                if (pids41_60[13] == 49)
+                if (Pids41_60[13] == 49)
                 {
                     ConsultParameters(Parameters.PID.TimeSinceTroubleCodesCleared);
                 }
-                if (pids21_40[15] == 49)
+                if (Pids21_40[15] == 49)
                 {
                     ConsultParameters(Parameters.PID.WarmsUpsCodesCleared);
                 }
-                if (pids01_20[12] == 49)
+                if (Pids01_20[12] == 49)
                 {
                     ConsultParameters(Parameters.PID.Speed);
                 }
-                if (pids01_20[11] == 49)
+                if (Pids01_20[11] == 49)
                 {
                     ConsultParameters(Parameters.PID.RPM);
                 }
-                if (pids01_20[16] == 49)
+                if (Pids01_20[16] == 49)
                 {
                     ConsultParameters(Parameters.PID.ThrottlePosition);
                 }
-                if (pids01_20[4] == 49)
+                if (Pids01_20[4] == 49)
                 {
                     ConsultParameters(Parameters.PID.EngineTemperature);
                 }
-                if (pids01_20[9] == 49)
+                if (Pids01_20[9] == 49)
                 {
                     ConsultParameters(Parameters.PID.FuelPressure);
                 }
@@ -1272,15 +1315,17 @@ namespace SmartMonitoring.Droid.Datos
 
 
         // public DataResponse DiagnosticCar(BluetoothSocket socket)
-        public string DiagnosticCar()
+        public List<DiagnosticTroubleCode> DiagnosticCar()
         {
+            List<DiagnosticTroubleCode> diagnostic=new List<DiagnosticTroubleCode>();
             DataTransferSchema response = null;
-            string send = (Convert.ToUInt32(Parameters.ConsultMode.DiagnosticTroubleCodes).ToString("X2"));
+            string send = (Convert.ToUInt32(Parameters.ConsultMode.DiagnosticTroubleCodes).ToString("X2")+"\r");
             byte[] cmd = Encoding.ASCII.GetBytes(send);
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(100);
+            Thread.Sleep(206);
             string result = "";
             string data = Read();
+            
             
             if (data != null)
             {
@@ -1294,7 +1339,7 @@ namespace SmartMonitoring.Droid.Datos
                 }
                 response = new DataTransferSchema(result, Parameters.ConsultMode.DiagnosticTroubleCodes);
             }
-            return result;
+            return diagnostic;
 
         }
 
@@ -3241,7 +3286,112 @@ namespace SmartMonitoring.Droid.Datos
         //La siguiente es maximun value for fuel-air blablablaaaaaaaaa
         public List<DiagnosticTroubleCode> DiagnosticTroubleCodes(DataTransferSchema dr)
         {
-            throw new NotImplementedException();
+
+            DiagnosticTroubleCode diagnostic;
+            List<DiagnosticTroubleCode> codes = new List<DiagnosticTroubleCode>();
+            int lineasRespuesta = dr.Response.Split('\n').Length;
+            if (dr.Response.Equals("4300\n\n")){
+
+            }
+             else if(lineasRespuesta==3 && dr.Response.Length <=16) {
+                //14 de respuesta y 2 de retornos
+                string code = "";
+                int cont = 0;
+                for(int i = 2; i < dr.Response.Length; i++)
+                 {
+                    if (!dr.Response[i].Equals('\n'))
+                    {
+                        code = code + dr.Response[i];
+                        cont++;
+                    }
+                    if (cont == 4 && (!cont.Equals("0000")))
+                    {
+                        diagnostic = new DiagnosticTroubleCode(code);
+                        codes.Add(diagnostic);
+                        cont = 0;
+                        code = "";
+                    }
+               
+                }
+            } else {
+                if (obdiiProtocol.Contains("CAN")){
+                    int saltoLinea = 0;
+                    string code = "";
+                    int cont = 0;
+                 for(int i = 0; i < dr.Response.Length; i++)
+                    {
+                        if (dr.Response[i].Equals('\n'))
+                        {
+                            saltoLinea++;
+                        }
+                        if (saltoLinea == 0)
+                        {
+
+                        }
+                        if (saltoLinea == 1)
+                        {
+                            if(dr.Response[i].Equals('\n') || dr.Response[i-1].Equals('\n') || dr.Response[i-2].Equals('\n')
+                               || dr.Response[i-2].Equals('\n') || dr.Response[i-3].Equals('\n') || dr.Response[i-4].Equals('\n') ||
+                                dr.Response[i - 5].Equals('\n')){
+
+                            }
+                            else
+                            {
+                                code = code + dr.Response[i];
+                                cont++;
+                            }
+                        }
+                        if (saltoLinea > 1)
+                        {
+                            if(dr.Response[i].Equals('\n') || dr.Response[i - 1].Equals('\n'))
+                            {
+
+                            }
+                            else
+                            {
+                                code = code + dr.Response[i];
+                                cont++;
+                            }
+
+                        }
+                        if (cont == 4)
+                        {
+                            diagnostic = new DiagnosticTroubleCode(code);
+                            codes.Add(diagnostic);
+                            code = "";
+                            cont = 0;
+                        }
+                    }   
+
+
+                }
+                else //if (obdiiProtocol.Contains("J1850")
+                {
+                    int cont = 0;
+                    string code = "";
+                    for(int i = 10; i < dr.Response.Length; i++)
+                    {
+                        if(dr.Response[i].Equals('\n') || dr.Response[i-1].Equals('\n') || dr.Response[i - 2].Equals('\n')){
+
+                    } else {
+                            code = code + dr.Response[i];
+                            cont++;
+                    }
+
+                        if (cont == 4)
+                        {
+                            diagnostic = new DiagnosticTroubleCode(code);
+                            codes.Add(diagnostic);
+                            code = "";
+                            cont = 0;
+                        }
+                    }
+                
+                } 
+        }
+
+            return codes;
+            
             // issue the request for the actual DTCs
 
             /* var fetchedCodes = new List<DiagnosticTroubleCode>();

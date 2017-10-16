@@ -1,4 +1,6 @@
 ﻿using Android.Bluetooth;
+using SmartMonitoring.OBDII;
+using System.Collections.Generic;
 
 namespace SmartMonitoring.Droid.Datos
 {
@@ -10,8 +12,10 @@ namespace SmartMonitoring.Droid.Datos
 
         void ConsultParameters();
 
-        string DiagnosticCar();
+        List<DiagnosticTroubleCode>  DiagnosticCar();
 
         DataBaseReader getReader();
+
+        List<byte[]> getPids();
     }
 }
