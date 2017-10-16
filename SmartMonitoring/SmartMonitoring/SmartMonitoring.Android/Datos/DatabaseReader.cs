@@ -86,9 +86,9 @@ namespace SmartMonitoring.Droid.Datos
 
         }
 
-        public double getLastActualEnginePercentTorque()
+        public int getLastActualEnginePercentTorque()
         {
-            return dataBase.ExecuteScalar<double>("SELECT PercentageTorque FROM ActualEngine_PercentTorque ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<int>("SELECT PercentageTorque FROM ActualEngine_PercentTorque ORDER BY ID DESC LIMIT 1");
 
         }
 
@@ -132,6 +132,12 @@ namespace SmartMonitoring.Droid.Datos
 
         }
 
+
+        public double getLastMAFAirFlowRate()
+        {
+            return dataBase.ExecuteScalar<double>("SELECT MAFAirFlowRateValue FROM MARAirFlowRate ORDER BY ID DESC LIMIT 1");
+
+        }
         public double getLastCommandedEvaporativePurge()
         {
             return dataBase.ExecuteScalar<double>("SELECT Value FROM CommandedEvaporativePurge ORDER BY ID DESC LIMIT 1");
@@ -258,9 +264,9 @@ namespace SmartMonitoring.Droid.Datos
         {
             return dataBase.ExecuteScalar<double>("SELECT RemainingLife FROM HybridBateryPackRemainingLife ORDER BY ID DESC LIMIT 1");
         }
-        public double getLastIntakeManifoldAbsolutePressure()
+        public int getLastIntakeManifoldAbsolutePressure()
         {
-            return dataBase.ExecuteScalar<double>("SELECT IntakeManifoldAbsolutePressureValue FROM HybridBateryPackRemainingLife ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<int>("SELECT IntakeManifoldAbsolutePressureValue FROM HybridBateryPackRemainingLife ORDER BY ID DESC LIMIT 1");
         }
         public List<int> MaximunValueAirFlowRateFromMassAirFlowSensor()
         {
@@ -464,9 +470,19 @@ namespace SmartMonitoring.Droid.Datos
         {
             return dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrimBank1 FROM ShortTermFuelTrimB1 ORDER BY ID DESC LIMIT 1");
         }
-        public int getLastShortTermFuelTrimB2()
+        public double getLastShortTermFuelTrimB2()
         {
-            return dataBase.ExecuteScalar<int>("SELECT ShortTermFuelTrimBank1 FROM ShortTermFuelTrimB2 ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<double>("SELECT ShortTermFuelTrimBank1 FROM ShortTermFuelTrimB2 ORDER BY ID DESC LIMIT 1");
+        }
+
+        public double getLastLongTermFuelTrimB1()
+        {
+            return dataBase.ExecuteScalar<int>("SELECT LongTermFuelTrimBank1 FROM LongTermFuelTrimB2 ORDER BY ID DESC LIMIT 1");
+        }
+
+        public int getLastLongTermFuelTrimB2()
+        {
+            return dataBase.ExecuteScalar<int>("SELECT LongTermFuelTrimBank1 FROM LongTermFuelTrimB2 ORDER BY ID DESC LIMIT 1");
         }
 
         public List<double> ShortTermSecondaryOxygenSensorTrim1_3() {
