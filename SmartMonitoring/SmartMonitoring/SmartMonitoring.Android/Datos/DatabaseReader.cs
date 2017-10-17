@@ -135,7 +135,7 @@ namespace SmartMonitoring.Droid.Datos
 
         public double getLastMAFAirFlowRate()
         {
-            return dataBase.ExecuteScalar<double>("SELECT MAFAirFlowRateValue FROM MARAirFlowRate ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<double>("SELECT MAFAirFlowRateValue FROM MAFAirFlowRate ORDER BY ID DESC LIMIT 1");
 
         }
         public double getLastCommandedEvaporativePurge()
@@ -152,7 +152,7 @@ namespace SmartMonitoring.Droid.Datos
 
         public double getLastCommandedThrottleActuator()
         {
-            return dataBase.ExecuteScalar<double>("SELECT CommandedThrottleActuatorValue FROM CommandedThrottleAcuator ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<double>("SELECT CommandedThrottleActuatorValue FROM CommandedThrottleActuator ORDER BY ID DESC LIMIT 1");
         }
 
         public double getLastControlModuleVoltage()
@@ -162,7 +162,7 @@ namespace SmartMonitoring.Droid.Datos
 
         public int getLastDistanceTraveledSinseCodesCleared()
         {
-            return dataBase.ExecuteScalar<int>("SELECT distance FROM DistanceTraveledSinseCodesCleared ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<int>("SELECT distance FROM DistanceTraveledSinceCodesCleared ORDER BY ID DESC LIMIT 1");
         }
 
         public int getLastDistanceTraveledWithMILo()
@@ -266,7 +266,7 @@ namespace SmartMonitoring.Droid.Datos
         }
         public int getLastIntakeManifoldAbsolutePressure()
         {
-            return dataBase.ExecuteScalar<int>("SELECT IntakeManifoldAbsolutePressureValue FROM HybridBateryPackRemainingLife ORDER BY ID DESC LIMIT 1");
+            return dataBase.ExecuteScalar<int>("SELECT IntakeManifoldAbsolutePressureValue FROM IntakeManifoldAbsolutePressure ORDER BY ID DESC LIMIT 1");
         }
         public List<int> MaximunValueAirFlowRateFromMassAirFlowSensor()
         {

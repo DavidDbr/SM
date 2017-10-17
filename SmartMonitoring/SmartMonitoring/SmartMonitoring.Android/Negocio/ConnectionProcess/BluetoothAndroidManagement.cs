@@ -95,22 +95,16 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                 bluetoothAdapter.CancelDiscovery();
                 System.Console.WriteLine("Sigue DESCUBRIENDO");
             }
-            bluetoothAdapter.CancelDiscovery(); //para abrir conexion hay que parar https://developer.android.com/reference/android/bluetooth/BluetoothSocket.html#connect()
             device = bluetoothAdapter.GetRemoteDevice(MAC);
-
-
             if (device.BondState == Bond.None)
             {
-
-
                 bondedDevice(device);
-
-
-
+                Thread.Sleep(10000);
             }
 
             return Connect(device);
         }
+
 
         public async Task<List<string>> scanDevices()
         {
@@ -118,8 +112,6 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
             {
                 bluetoothAdapter.CancelDiscovery();
             }
-
-
             bluetoothAdapter.StartDiscovery();
             System.Console.WriteLine("Comienza el descubrimiento");
             await Task.Delay(1000);
@@ -132,24 +124,21 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                 Console.WriteLine("Aun está descubriendo");
             }
             foreach (BluetoothDevice currentDevice in discoveredDevices)
-            {
-
-                // if (currentDevice.Name.Equals("OBDII")){
+            {      
                 list.Add(currentDevice.Address.ToString());
-                // }
-
             }
-
-
             return list;
         }
 
+
         public void bondedDevice(BluetoothDevice device)
         {
-            bluetoothAdapter.CancelDiscovery(); //para abrir conexion hay que parar https://developer.android.com/reference/android/bluetooth/BluetoothSocket.html#connect()
-
+            if (bluetoothAdapter.IsDiscovering)
+            {
+                bluetoothAdapter.CancelDiscovery();
+            }
             bool res = device.CreateBond();
-            Thread.Sleep(10000);
+            
 
         }
 
@@ -172,7 +161,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                 foreach (var uuid in uuids)
                 {
 
-                    // if (bs == null)
+                 
                     if (!connected)
                     {
                         try
@@ -184,7 +173,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                         {
                             throw ex;
                         }
-                        //  }
+                      
 
                         try
                         {
@@ -216,8 +205,6 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                         }
                     }
                 }
-
-
 
             }
             if (connected)

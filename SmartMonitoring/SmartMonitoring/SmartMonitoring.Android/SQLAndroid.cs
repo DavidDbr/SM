@@ -64,7 +64,7 @@ namespace SmartMonitoring.Droid
             connection.CreateTable<CatalystTemperatureB2S2>();
             connection.CreateTable<CommandedEGR>();
             connection.CreateTable<CommandedEvaporativePurge>();
-          //  connection.CreateTable<FuelSystemStatus>();
+            connection.CreateTable<FuelSystemStatus>();
             //connection.CreateTable<secondaryairstatus>();
             connection.CreateTable<CommandedThrottleActuator>();
             connection.CreateTable<ControlModuleVoltage>();
@@ -78,6 +78,7 @@ namespace SmartMonitoring.Droid
             connection.CreateTable<EnginePercentTorqueData>();
             connection.CreateTable<EngineReferenceTorque>();
             connection.CreateTable<EngineStartTime>();
+            connection.CreateTable<TimeRunWithMILOn>();
             connection.CreateTable<EthanolFuelPercentage>();
             connection.CreateTable<EvapSystemVaporPressure>();
             connection.CreateTable<FuelAirCommandedEquivalenceRatio>();

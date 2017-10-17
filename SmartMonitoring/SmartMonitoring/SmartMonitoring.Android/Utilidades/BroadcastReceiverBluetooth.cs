@@ -11,6 +11,7 @@ namespace SmartMonitoring.Droid.Utilidades
     [IntentFilter(new[] { BluetoothDevice.ActionFound })]
     [IntentFilter(new[] { BluetoothAdapter.ActionDiscoveryFinished })]
     [IntentFilter(new[] { BluetoothAdapter.ActionDiscoveryStarted })]
+    [IntentFilter(new[] { BluetoothDevice.ActionPairingRequest })]
     public class BroadcastReceiverBluetooth : BroadcastReceiver
     {
         BluetoothDevice device;
@@ -25,26 +26,55 @@ namespace SmartMonitoring.Droid.Utilidades
 
                 device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
                 Console.WriteLine(device.Name);
-                // if (device.Name.Equals("OBDII"))
-                //  {
-
                 
                 BluetoothAndroidManagement.getScanDevices(device);
-                //}
+               
             }
 
             if (BluetoothAdapter.ActionDiscoveryFinished.Equals(action))
             {
                 BluetoothAndroidManagement.Semaforo = true;
                 Console.WriteLine("DescubrimientoFinalizado");
-                //BluetoothAndroid.setDiscovery(true);
+                
             }
             if (BluetoothAdapter.ActionDiscoveryStarted.Equals(action))
             {
                 BluetoothAndroidManagement.Semaforo = false;
                 Console.WriteLine("DescubrimientoIniciado");
-                //  BluetoothAndroid.setDiscovery(false);
+               
             }
+            if (BluetoothDevice.ActionPairingRequest.Equals(action))
+            {
+                device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
+                int extraPairingVariant = intent.GetIntExtra(BluetoothDevice.ExtraPairingVariant, 0);
+                int pin = intent.GetIntExtra(BluetoothDevice.ExtraPairingKey, 0);
+                switch (extraPairingVariant)
+                {
+                    case BluetoothDevice.PairingVariantPin: // 0
+                        TrySetPin(device, "1234");
+                        //device.SetPairingConfirmation(false);
+                        break;
+                    case BluetoothDevice.PairingVariantPasskeyConfirmation: // 2
+                                                                            //we don't care for this scenario
+                        break;
+                }
+            }
+        }
+        private static bool TrySetPin(BluetoothDevice device, string pin)
+        {
+            try
+            {
+                return device.SetPin(PinToByteArray(pin));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static byte[] PinToByteArray(string pin)
+        {
+            return System.Text.Encoding.UTF8.GetBytes(pin);
         }
     }
 }
