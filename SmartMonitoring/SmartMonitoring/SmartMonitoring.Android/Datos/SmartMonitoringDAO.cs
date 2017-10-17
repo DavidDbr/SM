@@ -24,9 +24,9 @@ namespace SmartMonitoring.Droid.Datos
         byte[] pids41_60;
         string obdiiProtocol;
 
-        public byte[] Pids01_20 { get => pids01_20; set => pids01_20 = value; }
-        public byte[] Pids21_40 { get => pids21_40; set => pids21_40 = value; }
-        public byte[] Pids41_60 { get => pids41_60; set => pids41_60 = value; }
+        public byte[] Pids01_20 { get { return pids01_20; } set { pids01_20 = value; } }
+        public byte[] Pids21_40 { get { return pids21_40; } set { pids21_40 = value; } }
+        public byte[] Pids41_60 { get { return pids21_40; } set { pids21_40 = value; } }
 
         public List<byte[]> getPids()
         {
