@@ -62,7 +62,6 @@
             FuelTankLevel = 0x2F,//--
             WarmsUpsCodesCleared = 0x30,//
             DistanceTraveledSinceCodesCleared = 0x31,//
-
             AbsolutBarometricPressure = 0x33,//
             OxygenSensor1c = 0x34,//
             OxygenSensor2c = 0x35,//

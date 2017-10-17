@@ -27,6 +27,7 @@ namespace SmartMonitoring.Droid
             intentFilter.AddAction(BluetoothDevice.ActionFound);
             intentFilter.AddAction(BluetoothAdapter.ActionDiscoveryFinished);
             intentFilter.AddAction(BluetoothAdapter.ActionDiscoveryStarted);
+            intentFilter.AddAction(BluetoothDevice.ActionPairingRequest);
             RegisterReceiver(broadcastReceiver, intentFilter);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());

@@ -334,7 +334,7 @@ namespace SmartMonitoring.Droid.Datos
 
         public void ConsultParametersThread()
         {
-            if (Pids41_60[16] == 1)
+            if (Pids41_60[16] == 49)
             {
                 ConsultParameters(Parameters.PID.FuelType);
             }
@@ -909,7 +909,7 @@ namespace SmartMonitoring.Droid.Datos
                 throw new StoppedException();
             }
 
-
+            Thread.Sleep(50);
             DataTransferSchema dr = new DataTransferSchema(dataFilter, pid, Parameters.ConsultMode.CurrentData);
 
             switch (pid)
