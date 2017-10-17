@@ -9,7 +9,7 @@ namespace SmartMonitoring.OBDII
 
         private string troubleCode;
 
-        public string TroubleCode { get => troubleCode; set => troubleCode = value; }
+        public string TroubleCode { get { return troubleCode; } set { troubleCode = value; } } 
 
         public DiagnosticTroubleCode(string code)
         {

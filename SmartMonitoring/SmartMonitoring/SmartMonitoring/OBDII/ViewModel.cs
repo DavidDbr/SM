@@ -127,7 +127,17 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public Thread T { get => t; set => t = value; }
+        public Thread T
+        {
+            get
+            {
+                return t;
+            }
+            set
+            {
+                t = value;
+            }
+        }
         public string EngineTemperature {
             get
             {
@@ -151,7 +161,17 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimeEngineStart");
             }
         }
-        public List<byte[]> Pids { get => pids; set => pids = value; }
+        public List<byte[]> Pids {
+            get
+            {
+                return pids;
+            }
+            set
+            {
+                pids = value;
+               
+            }
+        }
         public int AbsoluteBarometricPressure
         {
             get
