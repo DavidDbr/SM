@@ -11,100 +11,95 @@ namespace SmartMonitoring.MVVM
 {
     public class ViewModel : INotifyPropertyChanged 
     {
-        public const  string  SIN_DATOS = "NO HAY DATOS";
+        private string speed;
+        private string rpm;
+        private string engineTemperature;
+        private string timeEngineStart;
 
-        private string  speed;
-        private string  rpm;
-        private string  engineTemperature;
-        private string  timeEngineStart;
-
-        private string  absoluteBarometricPressure;
-        private string  absoluteEvapSystemVaporPressure;
-        private string  absoluteLoadValue;
-        private string  absoluteThrottlePositionB;
-        private string  absoluteThrottlePositionC;
-        private string  absoluteThrottlePositionD;
-        private string  absoluteThrottlePositionE;
-        private string  absoluteThrottlePositionF;
-        private string  actualEngine_PercentTorque;
-        private string  ambientTemperature;
-        private string  calculatedEngineLoadValue;
-        private string  catalystTemperatureB1S1;
-        private string  catalystTemperatureB1S2;
-        private string  catalystTemperatureB2S1;
-        private string  catalystTemperatureB2S2;
-        private string  commandedEGR;
-        private string  commanddEvaporativePurge;
-        private string  commandedThrottleActuatorValue;
-        private string  controlModuleVoltage;
-        private string  distanceTraveledSinceCodesCleared;
-        private string  distanceTraveledWithMILo;
-        private string  driverDemandEngine_PercentTorque;
-        private string  EGRError;
-        private string  emissionRequirementsToWhichVehicleIsDesigned;
-        private string  engineFuelRateValue;
-        private string  engineOilTemperature;
-        private string enginePercentTorqueData_PercentageIdle;
-        private string enginePercentTorqueData_PercentageEnginePoint1;
-        private string enginePercentTorqueData_PercentageEnginePoint2;
-        private string enginePercentTorqueData_PercentageEnginePoint3;
-        private string enginePercentTorqueData_PercentageEnginePoint4;
-        private string engineReferenceTorque;
-        private string  ethanolFuelPercentage;
-        private string  evapSystemVaporPressure;
-        private string  fuelAirCommandedEquivalenceRatio;
+        private int absoluteBarometricPressure;
+        private double absoluteEvapSystemVaporPressure;
+        private double absoluteLoadValue;
+        private double absoluteThrottlePositionB;
+        private double absoluteThrottlePositionC;
+        private double absoluteThrottlePositionD;
+        private double absoluteThrottlePositionE;
+        private double absoluteThrottlePositionF;
+        private int actualEngine_PercentTorque;
+        private int ambientTemperature;
+        private double calculatedEngineLoadValue;
+        private double catalystTemperatureB1S1;
+        private double catalystTemperatureB1S2;
+        private double catalystTemperatureB2S1;
+        private double catalystTemperatureB2S2;
+        private double commandedEGR;
+        private double commanddEvaporativePurge;
+        private double commandedThrottleActuatorValue;
+        private double controlModuleVoltage;
+        private int distanceTraveledSinceCodesCleared;
+        private int distanceTraveledWithMILo;
+        private int driverDemandEngine_PercentTorque;
+        private double EGRError;
+        private double emissionRequirementsToWhichVehicleIsDesigned;
+        private double engineFuelRateValue;
+        private double engineOilTemperature;
+        private int enginePercentTorqueData_PercentageIdle;
+        private int enginePercentTorqueData_PercentageEnginePoint1;
+        private int enginePercentTorqueData_PercentageEnginePoint2;
+        private int enginePercentTorqueData_PercentageEnginePoint3;
+        private int enginePercentTorqueData_PercentageEnginePoint4;
+        private int engineReferenceTorque;
+        private double ethanolFuelPercentage;
+        private double evapSystemVaporPressure;
+        private double fuelAirCommandedEquivalenceRatio;
         //--
-        private string  fuelInjectionTiming;
-        private string fuelPressure;
-        private string  fuelRailAbsolutePressure;
-        private string  fuelRailGaugePressure;
-        private string  fuelSystemStatus_System1;
-        private string  fuelSystemStatus_System2;
-        private string  fuelTankLevel;
-        private string  fuelType;
-        private string  hybridBateryPackRemainingLife;
-        private string intakeManifoldAbsolutePressureValue;
-        private string intakeTemperature;
-        private string  longTermFuelTrimB1;
-        private string  longTermFuelTrimB2;
-        private string  shortTermFuelTrimB1;
-        private string  shortTermFuelTrimB2;
-        private string  longTermSecondaryOxygenSensorTrim1_3_ValueA;
-        private string  longTermSecondaryOxygenSensorTrim1_3_ValueB;
-        private string  longTermSecondaryOxygenSensorTrim2_4_ValueA;
-        private string  longTermSecondaryOxygenSensorTrim2_4_ValueB;
-        private string  shortTermSecondaryOxygenSensorTrim1_3_ValueA;
-        private string  shortTermSecondaryOxygenSensorTrim1_3_ValueB;
-        private string  shortTermSecondaryOxygenSensorTrim2_4_ValueA;
-        private string  shortTermSecondaryOxygenSensorTrim2_4_ValueB;
-        private string  mAFAirFlowRate;
-        private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueA;
-        private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueB;
-        private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueC;
-        private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueD;
+        private double fuelInjectionTiming;
+        private int fuelPressure;
+        private double fuelRailAbsolutePressure;
+        private double fuelRailGaugePressure;
+        private string fuelSystemStatus_System1;
+        private string fuelSystemStatus_System2;
+        private double fuelTankLevel;
+        private string fuelType;
+        private double hybridBateryPackRemainingLife;
+        private int intakeManifoldAbsolutePressureValue;
+        private int intakeTemperature;
+        private double longTermFuelTrimB1;
+        private double longTermFuelTrimB2;
+        private double shortTermFuelTrimB1;
+        private double shortTermFuelTrimB2;
+        private double longTermSecondaryOxygenSensorTrim1_3_ValueA;
+        private double longTermSecondaryOxygenSensorTrim1_3_ValueB;
+        private double longTermSecondaryOxygenSensorTrim2_4_ValueA;
+        private double longTermSecondaryOxygenSensorTrim2_4_ValueB;
+        private double shortTermSecondaryOxygenSensorTrim1_3_ValueA;
+        private double shortTermSecondaryOxygenSensorTrim1_3_ValueB;
+        private double shortTermSecondaryOxygenSensorTrim2_4_ValueA;
+        private double shortTermSecondaryOxygenSensorTrim2_4_ValueB;
+        private double mAFAirFlowRate;
+        private int maximunValueAirFlowRateFromMassAirFlowSensor_ValueA;
+        private int maximunValueAirFlowRateFromMassAirFlowSensor_ValueB;
+        private int maximunValueAirFlowRateFromMassAirFlowSensor_ValueC;
+        private int maximunValueAirFlowRateFromMassAirFlowSensor_ValueD;
         //SENSORES OXIGENO
-        private string  relativeAcceleratorPedalPosition;
-        private string  relativeThrottlePosition;
-        private string RunTimeSinceEngineStart;
-        private string  throttlePosition;
-        private string timeRunWithMILOn;
-        private string timeSinceTroubleCodesCleared;
-        private string timingAdvance;
-        private string warmsUpsCodesCleared;
-        private byte[] pids0120;
-        private byte[] pids2140;
-        private byte[] pids4160;
+        private double relativeAcceleratorPedalPosition;
+        private double relativeThrottlePosition;
+        private int RunTimeSinceEngineStart;
+        private double throttlePosition;
+        private int timeRunWithMILOn;
+        private int timeSinceTroubleCodesCleared;
+        private int timingAdvance;
+        private int warmsUpsCodesCleared;
+
         private Thread t;
         private List<byte[]> pids;
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string  propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public string  Speed
+        public string Speed
         {
             get
             {
@@ -118,7 +113,7 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public string  Rpm
+        public string Rpm
         {
             get
             {
@@ -132,8 +127,18 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public Thread T { get => t; set => t = value; }
-        public string  EngineTemperature {
+        public Thread T
+        {
+            get
+            {
+                return t;
+            }
+            set
+            {
+                t = value;
+            }
+        }
+        public string EngineTemperature {
             get
             {
                 return engineTemperature;
@@ -144,7 +149,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EngineTemperature");
             }
         }
-        public string  TimeEngineStart
+        public string TimeEngineStart
         {
             get
             {
@@ -156,8 +161,18 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimeEngineStart");
             }
         }
-        public List<byte[]> Pids { get => pids; set => pids = value; }
-        public string AbsoluteBarometricPressure
+        public List<byte[]> Pids {
+            get
+            {
+                return pids;
+            }
+            set
+            {
+                pids = value;
+               
+            }
+        }
+        public int AbsoluteBarometricPressure
         {
             get
             {
@@ -169,7 +184,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteBarometricPressure");
             }
         }
-        public string  AbsoluteEvapSystemVaporPressure {
+        public double AbsoluteEvapSystemVaporPressure {
             get
             {
                 return absoluteEvapSystemVaporPressure;
@@ -180,7 +195,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteEvapSystemVaportPressure");
             }
         }
-        public string  AbsoluteLoadValue
+        public double AbsoluteLoadValue
         {
             get
             {
@@ -192,7 +207,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteLoadValue");
             }
         }
-        public string  AbsoluteThrottlePositionB
+        public double AbsoluteThrottlePositionB
         {
             get
             {
@@ -204,7 +219,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteThrottlePositionB");
             }
         }
-        public string  AbsoluteThrottlePositionC
+        public double AbsoluteThrottlePositionC
         {
             get
             {
@@ -216,7 +231,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteThrottlePositionC");
             }
         }
-        public string  AbsoluteThrottlePositionD
+        public double AbsoluteThrottlePositionD
         {
             get
             {
@@ -228,7 +243,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteThrottlePositionD");
             }
         }
-        public string  AbsoluteThrottlePositionE
+        public double AbsoluteThrottlePositionE
         {
             get
             {
@@ -240,7 +255,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteThrottlePositionE");
             }
         }
-        public string  AbsoluteThrottlePositionF
+        public double AbsoluteThrottlePositionF
         {
             get
             {
@@ -252,7 +267,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AbsoluteThrottlePositionE");
             }
         }
-        public string ActualEngine_PercentTorque {  
+        public int ActualEngine_PercentTorque {  
         
             get
             {
@@ -265,7 +280,7 @@ namespace SmartMonitoring.MVVM
             }
         }
     
-        public string AmbientTemperature
+        public int AmbientTemperature
         {
             get
             {
@@ -277,7 +292,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("AmbientTemperature");
             }
         }
-        public string  CalculatedEngineLoadValue
+        public double CalculatedEngineLoadValue
         {
             get
             {
@@ -289,7 +304,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CalculatedEngineLoadValue");
             }
         }
-        public string  CatalystTemperatureB1S1
+        public double CatalystTemperatureB1S1
         {
             get
             {
@@ -301,7 +316,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CatalystTemperatureB1S1");
             }
         }
-        public string  CatalystTemperatureB1S2
+        public double CatalystTemperatureB1S2
         {
             get
             {
@@ -313,7 +328,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CatalystTemperatureB1S2");
             }
         }
-        public string  CatalystTemperatureB2S1
+        public double CatalystTemperatureB2S1
         {
             get
             {
@@ -325,7 +340,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CatalystTemperatureB2S1");
             }
         }
-        public string  CatalystTemperatureB2S2
+        public double CatalystTemperatureB2S2
         {
             get
             {
@@ -337,7 +352,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CatalystTemperatureB2S2");
             }
         }
-        public string  CommandedEGR
+        public double CommandedEGR
         {
             get
             {
@@ -349,7 +364,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CommandedEGR");
             }
         }
-        public string  CommanddEvaporativePurge
+        public double CommanddEvaporativePurge
         {
             get
             {
@@ -361,7 +376,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CommanddEvaporativePurge");
             }
         }
-        public string  CommandedThrottleActuatorValue
+        public double CommandedThrottleActuatorValue
         {
             get
             {
@@ -373,7 +388,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("CommandedThrottleActuatorValue");
             }
         }
-        public string  ControlModuleVoltage
+        public double ControlModuleVoltage
         {
             get
             {
@@ -385,7 +400,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ControlModuleVoltage");
             }
         }
-        public string DistanceTraveledSinceCodesCleared
+        public int DistanceTraveledSinceCodesCleared
         {
             get
             {
@@ -397,7 +412,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("DistanceTraveledSinceCodesCleared");
             }
         }
-        public string DistanceTraveledWithMILo
+        public int DistanceTraveledWithMILo
         {
             get
             {
@@ -409,7 +424,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("DistanceTraveledWithMILo");
             }
         }
-        public string DriverDemandEngine_PercentTorque
+        public int DriverDemandEngine_PercentTorque
         {
             get
             {
@@ -421,7 +436,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("DriverDemandEngine_PercentTorque");
             }           
         }
-        public string  EGRError1
+        public double EGRError1
         {
             get
             {
@@ -433,7 +448,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EGRError1");
             }
         }
-        public string  EmissionRequirementsToWhichVehicleIsDesigned {
+        public double EmissionRequirementsToWhichVehicleIsDesigned {
             get
             {
                 return emissionRequirementsToWhichVehicleIsDesigned;
@@ -444,7 +459,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EmmisionRequirementsToWhichVehicleIsDesigned");
             }
         }
-        public string  EngineFuelRateValue
+        public double EngineFuelRateValue
         {
             get
             {
@@ -456,7 +471,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EngineFuelRateValue");
             }
         }
-        public string  EngineOilTemperature
+        public double EngineOilTemperature
         {
             get
             {
@@ -468,7 +483,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EngineOilTemperature");
             }
         }
-        public string EnginePercentTorqueData_PercentageIdle {
+        public int EnginePercentTorqueData_PercentageIdle {
             get
             {
                 return enginePercentTorqueData_PercentageIdle;
@@ -479,7 +494,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EnginePercentTorqueData_PercentageIdle");
             }
         }
-        public string EnginePercentTorqueData_PercentageEnginePoint1 {
+        public int EnginePercentTorqueData_PercentageEnginePoint1 {
             get
             {
                 return enginePercentTorqueData_PercentageEnginePoint1;
@@ -490,7 +505,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EnginePercentTorqueData_PercentageEnginePoint1");
             }
         }
-        public string EnginePercentTorqueData_PercentageEnginePoint2
+        public int EnginePercentTorqueData_PercentageEnginePoint2
         {
             get
             {
@@ -502,7 +517,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EnginePercentTorqueData_PercentageEnginePoint2");
             }
         }
-        public string EnginePercentTorqueData_PercentageEnginePoint3 {
+        public int EnginePercentTorqueData_PercentageEnginePoint3 {
             get
             {
                 return enginePercentTorqueData_PercentageEnginePoint3;
@@ -513,7 +528,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EnginePercentTorqueData_PercentageEnginePoint3");
             }
         }
-        public string EnginePercentTorqueData_PercentageEnginePoint4
+        public int EnginePercentTorqueData_PercentageEnginePoint4
         {
             get
             {
@@ -525,7 +540,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EnginePercentTorqueData_PercentagePoint4");
             }
         }
-        public string EngineReferenceTorque
+        public int EngineReferenceTorque
         {
             get
             {
@@ -537,7 +552,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EngineReferenceTorque");
             }
         }
-        public string  EthanolFuelPercentage
+        public double EthanolFuelPercentage
         {
             get
             {
@@ -549,7 +564,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EthanolFuelPercentage");
             }
         }
-        public string  EvapSystemVaporPressure
+        public double EvapSystemVaporPressure
         {
             get
             {
@@ -561,7 +576,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("EvapSystemVaporPressure");
             }
         }
-        public string  FuelAirCommandedEquivalenceRatio
+        public double FuelAirCommandedEquivalenceRatio
         {
             get
             {
@@ -573,7 +588,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelAirCommandedEquivalenceRatio");
             }
         }
-        public string  FuelInjectionTiming
+        public double FuelInjectionTiming
         {
             get
             {
@@ -585,7 +600,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelInjectionTiming");
             }
         }
-        public string FuelPressure
+        public int FuelPressure
         {
             get
             {
@@ -597,7 +612,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelPressure");
             }
         }
-        public string  FuelRailAbsolutePressure
+        public double FuelRailAbsolutePressure
         {
             get
             {
@@ -609,7 +624,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelRailAbsolutePressure");
             }
         }
-        public string  FuelRailGaugePressure
+        public double FuelRailGaugePressure
         {
             get
             {
@@ -621,7 +636,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelRailGaugePressure");
             }
         }
-        public string  FuelSystemStatus_System1 {
+        public string FuelSystemStatus_System1 {
             get
             {
                 return fuelSystemStatus_System1;
@@ -632,7 +647,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelSystemStatus_System1");
             }
         }
-        public string  FuelSystemStatus_System2
+        public string FuelSystemStatus_System2
         {
             get
             {
@@ -644,7 +659,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelSystemStatus_System2");
             }
         }
-        public string  FuelTankLevel
+        public double FuelTankLevel
         {
             get
             {
@@ -656,7 +671,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelTankLevel");
             }
         }
-        public string  FuelType
+        public string FuelType
         {
             get
             {
@@ -668,7 +683,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("FuelType");
             }
         }
-        public string  HybridBateryPackRemainingLife {
+        public double HybridBateryPackRemainingLife {
             get
             {
                 return hybridBateryPackRemainingLife;
@@ -679,7 +694,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("HybridBateryPackRemainingLife");
             }
         }
-        public string IntakeManifoldAbsolutePressureValue {
+        public int IntakeManifoldAbsolutePressureValue {
             get
             {
                 return intakeManifoldAbsolutePressureValue;
@@ -690,7 +705,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("IntakeManifoldAbsolutePressureValue");
             }
         }
-        public string IntakeTemperature
+        public int IntakeTemperature
         {
             get
             {
@@ -702,7 +717,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("IntakeTemperature");
             }
         }
-        public string  LongTermFuelTrimB1
+        public double LongTermFuelTrimB1
         {
             get
             {
@@ -714,7 +729,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("LongTermFuelTrimB1");
             }
         }
-        public string  LongTermFuelTrimB2
+        public double LongTermFuelTrimB2
         {
             get
             {
@@ -726,7 +741,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("LongTermFuelTrimB2");
             }
         }
-        public string  ShortTermFuelTrimB1
+        public double ShortTermFuelTrimB1
         {
             get
             {
@@ -738,7 +753,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ShortTermFuelTrimB1");
             }
         }
-        public string  ShortTermFuelTrimB2
+        public double ShortTermFuelTrimB2
         {
             get
             {
@@ -750,7 +765,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ShortTermFuelTrimB2");
             }
         }
-        public string  LongTermSecondaryOxygenSensorTrim1_3_ValueA {
+        public double LongTermSecondaryOxygenSensorTrim1_3_ValueA {
             get
             {
                 return longTermSecondaryOxygenSensorTrim1_3_ValueA;
@@ -761,7 +776,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("LongTermSecondaryOxygenSensorTrim1_3_ValueA");
             }
         }
-        public string  LongTermSecondaryOxygenSensorTrim1_3_ValueB {
+        public double LongTermSecondaryOxygenSensorTrim1_3_ValueB {
             get
             {
                 return longTermSecondaryOxygenSensorTrim1_3_ValueB;
@@ -772,7 +787,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("LongTermSecondaryOxygenSensorTrim1_3_ValueB");
             }
         }
-        public string  LongTermSecondaryOxygenSensorTrim2_4_ValueA
+        public double LongTermSecondaryOxygenSensorTrim2_4_ValueA
         {
             get
             {
@@ -784,7 +799,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("LongTermSecondaryOxygenSensorTrim2_4_ValueA");
             }
         }
-        public string  LongTermSecondaryOxygenSensorTrim2_4_ValueB {
+        public double LongTermSecondaryOxygenSensorTrim2_4_ValueB {
             get
             {
                 return longTermSecondaryOxygenSensorTrim2_4_ValueB;
@@ -795,7 +810,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("LongTermSecondaryOxygenSensorTrim2_B_ValueB");
             }
         }
-        public string  ShortTermSecondaryOxygenSensorTrim1_3_ValueA
+        public double ShortTermSecondaryOxygenSensorTrim1_3_ValueA
         {
             get
             {
@@ -807,7 +822,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim1_3_ValueA");
             }
         }
-        public string  ShortTermSecondaryOxygenSensorTrim1_3_ValuB
+        public double ShortTermSecondaryOxygenSensorTrim1_3_ValuB
         {
             get
             {
@@ -819,7 +834,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim1_3_ValueB");
             }
         }
-        public string  ShortTermSecondaryOxygenSensorTrim2_4_ValueA {
+        public double ShortTermSecondaryOxygenSensorTrim2_4_ValueA {
             get
             {
                 return shortTermSecondaryOxygenSensorTrim2_4_ValueA;
@@ -830,7 +845,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim2_4_ValueA");
             }
         }
-        public string  ShortTermSecondaryOxygenSensorTrim2_4_ValueB
+        public double ShortTermSecondaryOxygenSensorTrim2_4_ValueB
         {
             get
             {
@@ -842,7 +857,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim2_4_ValueB");
             }
         }
-        public string  MAFAirFlowRate {
+        public double MAFAirFlowRate {
             get
             {
                 return mAFAirFlowRate;
@@ -853,7 +868,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("MAFAirFlowRate");
             }
         }
-        public string MaximunValueAirFlowRateFromMassAirFlowSensor_ValueA {
+        public int MaximunValueAirFlowRateFromMassAirFlowSensor_ValueA {
             get
             {
                 return maximunValueAirFlowRateFromMassAirFlowSensor_ValueA;
@@ -864,7 +879,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("MaxiumValueAirFlowRateFromMassAirFlowSensor_ValueA");
             }
         }
-        public string MaximunValueAirFlowRateFromMassAirFlowSensor_ValueB {   get
+        public int MaximunValueAirFlowRateFromMassAirFlowSensor_ValueB {   get
             {
                 return maximunValueAirFlowRateFromMassAirFlowSensor_ValueB;
             }
@@ -873,7 +888,7 @@ namespace SmartMonitoring.MVVM
                 maximunValueAirFlowRateFromMassAirFlowSensor_ValueB = value;
                 OnPropertyChanged("MaxiumValueAirFlowRateFromMassAirFlowSensor_ValueB");
             } }
-        public string MaximunValueAirFlowRateFromMassAirFlowSensor_ValueC
+        public int MaximunValueAirFlowRateFromMassAirFlowSensor_ValueC
         {
             get
             {
@@ -885,7 +900,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("MaxiumValueAirFlowRateFromMassAirFlowSensor_ValueC");
             }
         }
-        public string MaximunValueAirFlowRateFromMassAirFlowSensor_ValueD
+        public int MaximunValueAirFlowRateFromMassAirFlowSensor_ValueD
         {
             get
             {
@@ -897,7 +912,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("MaxiumValueAirFlowRateFromMassAirFlowSensor_ValueA");
             }
         }
-        public string  RelativeAcceleratorPedalPosition
+        public double RelativeAcceleratorPedalPosition
         {
             get
             {
@@ -909,7 +924,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("RelativeAcceleratorPedalPosition");
             }
         }
-        public string  RelativeThrottlePosition {
+        public double RelativeThrottlePosition {
             get
             {
                 return relativeThrottlePosition;
@@ -920,7 +935,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("RelativeThrottlePosition");
             }
         }
-        public string RunTimeSinceEngineStart1
+        public int RunTimeSinceEngineStart1
         {
             get
             {
@@ -932,7 +947,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("RunTimeSinceEngineStart1");
             }
         }
-        public string  ThrottlePosition
+        public double ThrottlePosition
         {
             get
             {
@@ -944,7 +959,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("ThrottlePosition");
             }
         }
-        public string TimeRunWithMILOn
+        public int TimeRunWithMILOn
         {
             get
             {
@@ -956,7 +971,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimeRunWithMILOn");
             }
         }
-        public string TimeSinceTroubleCodesCleared
+        public int TimeSinceTroubleCodesCleared
         {
             get
             {
@@ -968,7 +983,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimeSinceTroubleCodesCleared");
             }
         }
-        public string TimingAdvance
+        public int TimingAdvance
         {
             get
             {
@@ -980,7 +995,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimingAdvance");
             }
         }
-        public string WarmsUpsCodesCleared
+        public int WarmsUpsCodesCleared
         {
             get
             {
@@ -993,10 +1008,6 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public byte[] Pids0120 { get => pids0120; set => pids0120 = value; }
-        public byte[] Pids2140 { get => pids2140; set => pids2140 = value; }
-        public byte[] Pids4160 { get => pids4160; set => pids4160 = value; }
-
         public ViewModel()
         {
 
@@ -1007,11 +1018,8 @@ namespace SmartMonitoring.MVVM
         public void consultParameters()
         {
             var scan = DependencyService.Get<IConnectionManagement>();
-            // string  parameter = scan.consultParameters();
+            // string parameter = scan.consultParameters();
             Pids=scan.getPids();
-            Pids0120 = Pids[0];
-            Pids2140 = Pids[1];
-            Pids4160 = Pids[2];
             var database = DependencyService.Get<ISQLite>();
             var connection = database.GetConnection();
 
@@ -1040,288 +1048,70 @@ namespace SmartMonitoring.MVVM
 
             while (true)
             {
-                if (Pids0120[12] == 49) {
-                    Speed = scan.getLastSpeed().ToString ();
-                } else
-                {
-                    Speed = SIN_DATOS;
-                }
-                if (Pids0120[11] == 49)
-                {
-                    Rpm = scan.getLastRPM().ToString ();
-                } else
-                {
-                    Rpm = SIN_DATOS;
-                }
-                if (Pids0120[4] == 49)
-                {
-                    EngineTemperature = scan.getLastEngineTemperature().ToString ();
-                }
-                else
-                {
-                    EngineTemperature = SIN_DATOS;
-                }
-                if (Pids0120[30] == 49) {
-                    TimeEngineStart = scan.getLastEngineStartTime();
-                }
-                else {
-                    TimeEngineStart = SIN_DATOS;
-                }
-                if (Pids2140[18] == 49) {
-                    AbsoluteBarometricPressure = scan.getLastAbsoluteBarometricPressure().ToString() ;
-                }
-                else {
-                    AbsoluteBarometricPressure = SIN_DATOS;
-                }
-                if (Pids4160[18] == 49) {
-                    AbsoluteEvapSystemVaporPressure = scan.getLastAbsoluteEvapSystemVaporPressure().ToString();
-                } else
-                {
-                    AbsoluteEvapSystemVaporPressure = SIN_DATOS;
-                }
-                if (Pids4160[2] == 49) {
-                    AbsoluteLoadValue = scan.getLastAbsoluteLoadValue().ToString();
 
-                } else {
-                    AbsoluteLoadValue = SIN_DATOS;
-                }
-                if (Pids4160[6] == 49) {
-                    AbsoluteThrottlePositionB = scan.getLastAbsoluteThrottlePositionB().ToString();
-                } else {
-                    AbsoluteThrottlePositionB = SIN_DATOS;
-                }
-                if (Pids4160[7] == 49) {
-                    AbsoluteThrottlePositionC = scan.getLastAbsoluteThrottlePositionC().ToString();
-                } else
-                {
-                    AbsoluteThrottlePositionC = SIN_DATOS;
-                }
-                if (Pids4160[8] == 49) {
-                    AbsoluteThrottlePositionD = scan.getLastAbsoluteThrottlePositionD().ToString() ;
-                } else
-                {
-                    AbsoluteThrottlePositionD = SIN_DATOS;
-                }
-                if (Pids4160[9] == 49) {
-                    AbsoluteThrottlePositionE = scan.getLastAbsoluteThrottlePositionE().ToString();
-                } else
-                {
-                    AbsoluteThrottlePositionE = SIN_DATOS;
-                }
-                if (Pids4160[10] == 49) {
-                    AbsoluteThrottlePositionF = scan.getLastAbsoluteThrottlePositionF().ToString();
-                }
-                else
-                {
-                    absoluteThrottlePositionF = SIN_DATOS;
-                }
-                //ActualEngine_PercentTorque = scan.getLastActualEnginePercentTorque();
-
-               // AmbientTemperature = scan.getLastAmbientAirTemperature().ToString();
-
-               // CalculatedEngineLoadValue = scan.getLastCalculatedEngineLoadValueData().ToString();
-
-                if (Pids2140[27] == 49) {
-                    CatalystTemperatureB1S1 = scan.getLastCatalystTemperatureB1S1().ToString();
-                } else
-                {
-                    CatalystTemperatureB1S1 = SIN_DATOS;
-                }
-                if (Pids2140[28] == 49) {
-                    CatalystTemperatureB1S2 = scan.getLastCatalystTemperatureB1S2().ToString();
-                } else
-                {
-                    CatalystTemperatureB1S2 = SIN_DATOS;
-                }
-                if (Pids2140[29] == 49) {
-                    CatalystTemperatureB2S1 = scan.getLastCatalystTemperatureB2S1().ToString();
-                } else
-                {
-                    CatalystTemperatureB2S1 = SIN_DATOS;
-                }
-                if (Pids2140[30] == 49) {
-                    CatalystTemperatureB2S2 = scan.getLastCatalystTemperatureB2S2().ToString();
-                }
-                else
-                {
-                    CatalystTemperatureB2S2 = SIN_DATOS;
-                }
-                if (Pids2140[13] == 49) {
-                    CommanddEvaporativePurge = scan.getLastCommandedEvaporativePurge().ToString();
-                }
-                else
-                {
-                    CommanddEvaporativePurge = SIN_DATOS;
-                }
-                if (Pids2140[11] == 49) {
-                    CommandedEGR = scan.getLastCommandedEGR().ToString();
-                } else
-                {
-                    CommandedEGR = SIN_DATOS;
-                }
-                if (Pids4160[11] == 49) {
-                    CommandedThrottleActuatorValue = scan.getLastCommandedThrottleActuator().ToString();
-                }
-                else
-                {
-                    CommandedThrottleActuatorValue = SIN_DATOS;
-                }
-                // ControlModuleVoltage = scan.getLastControlModuleVoltage();
-                if (Pids2140[16] == 49) {
-                    DistanceTraveledSinceCodesCleared = scan.getLastDistanceTraveledSinseCodesCleared().ToString();
-                } else
-                {
-                    DistanceTraveledSinceCodesCleared = SIN_DATOS;
-                }
-                if (Pids2140[0] == 49) {
-                    DistanceTraveledWithMILo = scan.getLastDistanceTraveledWithMILo().ToString();
-                }
-                else
-                {
-                    DistanceTraveledWithMILo = SIN_DATOS;
-                }
-
-                // DriverDemandEngine_PercentTorque = scan.getLastDriverDemandEngine_PercentTorque();
-                if (Pids2140[12] == 49) {
-                    EGRError1 = scan.getLastEGRError().ToString();
-                }
-                else
-                {
-                    EGRError1 = SIN_DATOS;
-                }
+                Speed = scan.getLastSpeed().ToString();
+                Rpm = scan.getLastRPM().ToString();
+                EngineTemperature = scan.getLastEngineTemperature().ToString();
+                TimeEngineStart = scan.getLastEngineStartTime();
+                AbsoluteBarometricPressure = scan.getLastAbsoluteBarometricPressure();
+                AbsoluteEvapSystemVaporPressure = scan.getLastAbsoluteEvapSystemVaporPressure();
+                AbsoluteLoadValue = scan.getLastAbsoluteLoadValue();
+                AbsoluteThrottlePositionB = scan.getLastAbsoluteThrottlePositionB();
+                AbsoluteThrottlePositionC = scan.getLastAbsoluteThrottlePositionC();
+                AbsoluteThrottlePositionD = scan.getLastAbsoluteThrottlePositionD();
+                AbsoluteThrottlePositionE = scan.getLastAbsoluteThrottlePositionE();
+                AbsoluteThrottlePositionF = scan.getLastAbsoluteThrottlePositionF();
+                ActualEngine_PercentTorque = scan.getLastActualEnginePercentTorque();
+                AmbientTemperature = scan.getLastAmbientAirTemperature();
+                CalculatedEngineLoadValue = scan.getLastCalculatedEngineLoadValueData();
+                CatalystTemperatureB1S1 = scan.getLastCatalystTemperatureB1S1();
+                CatalystTemperatureB1S2 = scan.getLastCatalystTemperatureB1S2();
+                CatalystTemperatureB2S1 = scan.getLastCatalystTemperatureB2S1();
+                CatalystTemperatureB2S2 = scan.getLastCatalystTemperatureB2S2();
+                CommanddEvaporativePurge = scan.getLastCommandedEvaporativePurge();
+                CommandedEGR = scan.getLastCommandedEGR();
+                CommandedThrottleActuatorValue = scan.getLastCommandedThrottleActuator();
+                ControlModuleVoltage = scan.getLastControlModuleVoltage();
+                DistanceTraveledSinceCodesCleared = scan.getLastDistanceTraveledSinseCodesCleared();
+                DistanceTraveledWithMILo = scan.getLastDistanceTraveledWithMILo();
+                DriverDemandEngine_PercentTorque = scan.getLastDriverDemandEngine_PercentTorque();
+                EGRError1 = scan.getLastEGRError();
                 //EmissionRequirementsToWhichVehicleIsDesigned=
-                if (Pids4160[29] == 49) {
-                    EngineFuelRateValue = scan.getLastEngineFuelRate().ToString();
-                } else
-                {
-                    engineFuelRateValue = SIN_DATOS;
-                }
-                if (Pids4160[17] == 49) {
-                    EngineOilTemperature = scan.getLastEngineOilTemperature().ToString();
-                }
-                else
-                {
-                    EngineOilTemperature = SIN_DATOS;
-                }
+                EngineFuelRateValue = scan.getLastEngineFuelRate();
+                EngineOilTemperature = scan.getLastEngineOilTemperature();
                 //percent data points
-                // EngineReferenceTorque = scan.getLastEngineReferenceTorque();
-                //EthanolFuelPercentage = scan.getLastEthanolFuelPercentage();
-                if (Pids4160[18] == 49) {
-                    EvapSystemVaporPressure = scan.getLastEvapSystemVaporPressure().ToString();
-                }
-                else
-                {
-                    EvapSystemVaporPressure = SIN_DATOS;
-                }
-                if (Pids4160[3] == 49) {
-                    FuelAirCommandedEquivalenceRatio = scan.getLastFuelAirCommandedEquivalenceRatio().ToString();
-                } else
-                {
-                    FuelAirCommandedEquivalenceRatio = SIN_DATOS;
-                }
-                if (Pids4160[28] == 49)
-                {
-                    FuelInjectionTiming = scan.getLastFuelInjectionTimingValue().ToString();
-                } else
-                {
-                    FuelInjectionTiming = SIN_DATOS;
-                } if (Pids0120[9] == 49)
-                {
-                    FuelPressure = scan.getLastFuelPressure().ToString();
-                }
-                else
-                {
-                    FuelPressure = SIN_DATOS;
-                }
-                if (Pids4160[24] == 49) {
-                    FuelRailAbsolutePressure = scan.getLastFuelRailAbsolutePressure().ToString();
-                }
-                else
-                {
-                    FuelRailAbsolutePressure = SIN_DATOS;
-                }
-                if (Pids2140[2] == 49) {
-                    FuelRailGaugePressure = scan.getLastFuelRailGaugeAbsolutePressure().ToString();
-                } else {
-                    FuelRailGaugePressure = SIN_DATOS;
-                }
-
-                /* List<string > fuelSystem= scan.getFuelSystemStatus();
-                 FuelSystemStatus_System1 = fuelSystem[0];
-                 FuelSystemStatus_System2 = fuelSystem[1];*/
-                if (Pids2140[14] == 49) {
-                    FuelTankLevel = scan.getLastFuelTankLevel().ToString();
-                } else
-                {
-                    FuelTankLevel = SIN_DATOS;
-                }
-                if (Pids4160[16] == 49) {
-                    FuelType = scan.getFuelType();
-                }
-                else {
-                    FuelType = SIN_DATOS;
-                }
-                if (Pids4160[26] == 49)
-                {
-                    HybridBateryPackRemainingLife = scan.getLastHybridBateryPackRemainingLife().ToString();
-                } else
-                {
-                    HybridBateryPackRemainingLife = SIN_DATOS;
-                }
-                if (Pids0120[10] == 49) {
-                    IntakeManifoldAbsolutePressureValue = scan.getLastIntakeManifoldAbsolutePressure().ToString();
-                }
-                else {
-                    IntakeManifoldAbsolutePressureValue = SIN_DATOS;
-                }
-                /* LongTermFuelTrimB1 = scan.getLastLongTermFuelTrimB1();
-                 LongTermFuelTrimB2 = scan.getLastLongTermFuelTrimB2();*/
+                EngineReferenceTorque = scan.getLastEngineReferenceTorque();
+                EthanolFuelPercentage = scan.getLastEthanolFuelPercentage();
+                EvapSystemVaporPressure = scan.getLastEvapSystemVaporPressure();
+                FuelAirCommandedEquivalenceRatio = scan.getLastFuelAirCommandedEquivalenceRatio();
+                FuelInjectionTiming = scan.getLastFuelInjectionTimingValue();
+                FuelPressure = scan.getLastFuelPressure();
+                FuelRailAbsolutePressure = scan.getLastFuelRailAbsolutePressure();
+                FuelRailGaugePressure = scan.getLastFuelRailGaugeAbsolutePressure();
+                List<string> fuelSystem= scan.getFuelSystemStatus();
+                FuelSystemStatus_System1 = fuelSystem[0];
+                FuelSystemStatus_System2 = fuelSystem[1];
+                FuelTankLevel = scan.getLastFuelTankLevel();
+                FuelType = scan.getFuelType();
+                HybridBateryPackRemainingLife = scan.getLastHybridBateryPackRemainingLife();
+                IntakeManifoldAbsolutePressureValue = scan.getLastIntakeManifoldAbsolutePressure();
+                LongTermFuelTrimB1 = scan.getLastLongTermFuelTrimB1();
+                LongTermFuelTrimB2 = scan.getLastLongTermFuelTrimB2();
                 // LongTermSecondaryOxygenSensorTrim1_3_ValueA=scan.get
-                if (Pids0120[15] == 49) {
-                    MAFAirFlowRate = scan.MAFAirFlowRate().ToString();
-                }
-                else
-                {
-                    MAFAirFlowRate = SIN_DATOS;
-                }
+                MAFAirFlowRate = scan.MAFAirFlowRate();
                 //  MaximunValueAirFlowRateFromMassAirFlowSensor_ValueA=scan.valueA
-                if (Pids4160[25] == 49) {
-                    RelativeAcceleratorPedalPosition = scan.getLastRelativeAcceleratorPedalPosition().ToString();
-
-                }
-                else
-                {
-                    RelativeAcceleratorPedalPosition = SIN_DATOS;
-                }
-                if (Pids4160[4] == 49) {
-                    RelativeThrottlePosition = scan.getLastRelativeThrottlePosition().ToString();
-                } else
-                {
-                    RelativeThrottlePosition = SIN_DATOS;
-                }
-
-                //  RunTimeSinceEngineStart1 = scan.getRunTimeSinceEngineStart();
-                // ShortTermFuelTrimB1 = scan.getLastShortTermFuelTrimB1();
-                //ShortTermFuelTrimB2 = scan.getLastShortTermFuelTrimB2();
+                RelativeAcceleratorPedalPosition = scan.getLastRelativeAcceleratorPedalPosition();
+                RelativeThrottlePosition = scan.getLastRelativeThrottlePosition();
+                RunTimeSinceEngineStart1 = scan.getRunTimeSinceEngineStart();
+                ShortTermFuelTrimB1 = scan.getLastShortTermFuelTrimB1();
+                ShortTermFuelTrimB2 = scan.getLastShortTermFuelTrimB2();
                 //shorttrimvaluea
-                if (Pids0120[16] == 49) {
-                    ThrottlePosition = scan.getLastThrottlePosition().ToString();
-                } else
-                {
-                    ThrottlePosition = SIN_DATOS;
-                }
+                ThrottlePosition = scan.getLastThrottlePosition();
                 //TimeEngineStart
-                if (Pids2140[0] == 49)
-                {
-                    TimeRunWithMILOn = scan.getRunTimeRunWithMILOn().ToString();
-                }
-                else
-                {
-                    TimeRunWithMILOn = SIN_DATOS;
-                }
-               // TimeSinceTroubleCodesCleared = scan.getRunTimeSinceTroubleCodesCleares();
-               // TimingAdvance = scan.getLastTimingAdvance();
-               //WarmsUpsCodesCleared = scan.getLastWarmsUpsCodesCleared();*/
+                TimeRunWithMILOn = scan.getRunTimeRunWithMILOn();
+                TimeSinceTroubleCodesCleared = scan.getRunTimeSinceTroubleCodesCleares();
+                TimingAdvance = scan.getLastTimingAdvance();
+               WarmsUpsCodesCleared = scan.getLastWarmsUpsCodesCleared();
             }
 
 
