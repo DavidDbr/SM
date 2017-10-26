@@ -12,7 +12,7 @@ namespace SmartMonitoring.MVVM
     public class ViewModel : INotifyPropertyChanged
     {
         public const string SIN_DATOS = "NO HAY DATOS";
-
+        bool guardarDatos;
         private string speed;
         private string rpm;
         private string engineTemperature;
@@ -98,6 +98,8 @@ namespace SmartMonitoring.MVVM
         private List<byte[]> pids;
 
 
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
@@ -132,9 +134,7 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public Thread T
-        {
-            get => t; set => t = value; }
+        public Thread T { get => t; set => t = value; }
         public string EngineTemperature
         {
             get
@@ -159,9 +159,7 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimeEngineStart");
             }
         }
-        public List<byte[]> Pids
-        {
-            get => pids; set => pids = value; }
+        public List<byte[]> Pids { get => pids; set => pids = value; }
         public string AbsoluteBarometricPressure
         {
             get
@@ -833,7 +831,7 @@ namespace SmartMonitoring.MVVM
             set
             {
                 shortTermSecondaryOxygenSensorTrim1_3_ValueB = value;
-                OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim1_3_ValueB");
+                OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim1_3_ValuB");
             }
         }
         public string ShortTermSecondaryOxygenSensorTrim2_4_ValueA
@@ -1017,407 +1015,24 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public byte[] Pids0120
-        {
-            get => pids0120; set => pids0120 = value; }
-        public byte[] Pids2140
-        {
-            get => pids2140; set => pids2140 = value; }
-        public byte[] Pids4160
-        {
-            get => pids4160; set => pids4160 = value; }
+        public byte[] Pids0120 { get => pids0120; set => pids0120 = value; }
+        public byte[] Pids2140 { get => pids2140; set => pids2140 = value; }
+        public byte[] Pids4160 { get => pids4160; set => pids4160 = value; }
 
         public ViewModel()
         {
 
-            T = new Thread(consultParameters);
-            T.Start();
+
         }
 
-        public void consultParameters()
+        public System.Windows.Input.ICommand AddCommand
         {
-            var scan = DependencyService.Get<IConnectionManagement>();
-            // string  parameter = scan.consultParameters();
-            Pids = scan.getPids();
-            Pids0120 = Pids[0];
-            Pids2140 = Pids[1];
-            Pids4160 = Pids[2];
-            var database = DependencyService.Get<ISQLite>();
-            var connection = database.GetConnection();
-
-            try
-            {
-                scan.ConsultParameters();
-            }
-            catch (UnableToConnectException u)
-            {
-                //  DisplayAlert("Title", "No se puede conectar a la ECU", "OK");
-            }
-            catch (NoDataException u)
-            {
-                //  DisplayAlert("Title", "No hay datos disponibles", "OK");
-            }
-            catch (StoppedException u)
-            {
-                //  DisplayAlert("Title", "El dispositivo OBDII se ha detenido", "OK");
-            }
-
-            int contador = 0;
-            while (contador < 50)
-            {
-                contador = contador + 1;
-            }
-
-            while (true)
-            {
-                if (Pids0120[12] == 49)
-                {
-                    Speed = scan.getLastSpeed().ToString();
-                }
-                else
-                {
-                    Speed = SIN_DATOS;
-                }
-                if (Pids0120[11] == 49)
-                {
-                    Rpm = scan.getLastRPM().ToString();
-                }
-                else
-                {
-                    Rpm = SIN_DATOS;
-                }
-                if (Pids0120[4] == 49)
-                {
-                    EngineTemperature = scan.getLastEngineTemperature().ToString();
-                }
-                else
-                {
-                    EngineTemperature = SIN_DATOS;
-                }
-                if (Pids0120[30] == 49)
-                {
-                    TimeEngineStart = scan.getLastEngineStartTime();
-                }
-                else
-                {
-                    TimeEngineStart = SIN_DATOS;
-                }
-                if (Pids2140[18] == 49)
-                {
-                    AbsoluteBarometricPressure = scan.getLastAbsoluteBarometricPressure().ToString();
-                }
-                else
-                {
-                    AbsoluteBarometricPressure = SIN_DATOS;
-                }
-                if (Pids4160[18] == 49)
-                {
-                    AbsoluteEvapSystemVaporPressure = scan.getLastAbsoluteEvapSystemVaporPressure().ToString();
-                }
-                else
-                {
-                    AbsoluteEvapSystemVaporPressure = SIN_DATOS;
-                }
-                if (Pids4160[2] == 49)
-                {
-                    AbsoluteLoadValue = scan.getLastAbsoluteLoadValue().ToString();
-
-                }
-                else
-                {
-                    AbsoluteLoadValue = SIN_DATOS;
-                }
-                if (Pids4160[6] == 49)
-                {
-                    AbsoluteThrottlePositionB = scan.getLastAbsoluteThrottlePositionB().ToString();
-                }
-                else
-                {
-                    AbsoluteThrottlePositionB = SIN_DATOS;
-                }
-                if (Pids4160[7] == 49)
-                {
-                    AbsoluteThrottlePositionC = scan.getLastAbsoluteThrottlePositionC().ToString();
-                }
-                else
-                {
-                    AbsoluteThrottlePositionC = SIN_DATOS;
-                }
-                if (Pids4160[8] == 49)
-                {
-                    AbsoluteThrottlePositionD = scan.getLastAbsoluteThrottlePositionD().ToString();
-                }
-                else
-                {
-                    AbsoluteThrottlePositionD = SIN_DATOS;
-                }
-                if (Pids4160[9] == 49)
-                {
-                    AbsoluteThrottlePositionE = scan.getLastAbsoluteThrottlePositionE().ToString();
-                }
-                else
-                {
-                    AbsoluteThrottlePositionE = SIN_DATOS;
-                }
-                if (Pids4160[10] == 49)
-                {
-                    AbsoluteThrottlePositionF = scan.getLastAbsoluteThrottlePositionF().ToString();
-                }
-                else
-                {
-                    absoluteThrottlePositionF = SIN_DATOS;
-                }
-                //ActualEngine_PercentTorque = scan.getLastActualEnginePercentTorque();
-
-                // AmbientTemperature = scan.getLastAmbientAirTemperature().ToString();
-
-                // CalculatedEngineLoadValue = scan.getLastCalculatedEngineLoadValueData().ToString();
-
-                if (Pids2140[27] == 49)
-                {
-                    CatalystTemperatureB1S1 = scan.getLastCatalystTemperatureB1S1().ToString();
-                }
-                else
-                {
-                    CatalystTemperatureB1S1 = SIN_DATOS;
-                }
-                if (Pids2140[28] == 49)
-                {
-                    CatalystTemperatureB1S2 = scan.getLastCatalystTemperatureB1S2().ToString();
-                }
-                else
-                {
-                    CatalystTemperatureB1S2 = SIN_DATOS;
-                }
-                if (Pids2140[29] == 49)
-                {
-                    CatalystTemperatureB2S1 = scan.getLastCatalystTemperatureB2S1().ToString();
-                }
-                else
-                {
-                    CatalystTemperatureB2S1 = SIN_DATOS;
-                }
-                if (Pids2140[30] == 49)
-                {
-                    CatalystTemperatureB2S2 = scan.getLastCatalystTemperatureB2S2().ToString();
-                }
-                else
-                {
-                    CatalystTemperatureB2S2 = SIN_DATOS;
-                }
-                if (Pids2140[13] == 49)
-                {
-                    CommanddEvaporativePurge = scan.getLastCommandedEvaporativePurge().ToString();
-                }
-                else
-                {
-                    CommanddEvaporativePurge = SIN_DATOS;
-                }
-                if (Pids2140[11] == 49)
-                {
-                    CommandedEGR = scan.getLastCommandedEGR().ToString();
-                }
-                else
-                {
-                    CommandedEGR = SIN_DATOS;
-                }
-                if (Pids4160[11] == 49)
-                {
-                    CommandedThrottleActuatorValue = scan.getLastCommandedThrottleActuator().ToString();
-                }
-                else
-                {
-                    CommandedThrottleActuatorValue = SIN_DATOS;
-                }
-                // ControlModuleVoltage = scan.getLastControlModuleVoltage();
-                if (Pids2140[16] == 49)
-                {
-                    DistanceTraveledSinceCodesCleared = scan.getLastDistanceTraveledSinseCodesCleared().ToString();
-                }
-                else
-                {
-                    DistanceTraveledSinceCodesCleared = SIN_DATOS;
-                }
-                if (Pids2140[0] == 49)
-                {
-                    DistanceTraveledWithMILo = scan.getLastDistanceTraveledWithMILo().ToString();
-                }
-                else
-                {
-                    DistanceTraveledWithMILo = SIN_DATOS;
-                }
-
-                // DriverDemandEngine_PercentTorque = scan.getLastDriverDemandEngine_PercentTorque();
-                if (Pids2140[12] == 49)
-                {
-                    EGRError1 = scan.getLastEGRError().ToString();
-                }
-                else
-                {
-                    EGRError1 = SIN_DATOS;
-                }
-                //EmissionRequirementsToWhichVehicleIsDesigned=
-                if (Pids4160[29] == 49)
-                {
-                    EngineFuelRateValue = scan.getLastEngineFuelRate().ToString();
-                }
-                else
-                {
-                    engineFuelRateValue = SIN_DATOS;
-                }
-                if (Pids4160[17] == 49)
-                {
-                    EngineOilTemperature = scan.getLastEngineOilTemperature().ToString();
-                }
-                else
-                {
-                    EngineOilTemperature = SIN_DATOS;
-                }
-                //percent data points
-                // EngineReferenceTorque = scan.getLastEngineReferenceTorque();
-                //EthanolFuelPercentage = scan.getLastEthanolFuelPercentage();
-                if (Pids4160[18] == 49)
-                {
-                    EvapSystemVaporPressure = scan.getLastEvapSystemVaporPressure().ToString();
-                }
-                else
-                {
-                    EvapSystemVaporPressure = SIN_DATOS;
-                }
-                if (Pids4160[3] == 49)
-                {
-                    FuelAirCommandedEquivalenceRatio = scan.getLastFuelAirCommandedEquivalenceRatio().ToString();
-                }
-                else
-                {
-                    FuelAirCommandedEquivalenceRatio = SIN_DATOS;
-                }
-                if (Pids4160[28] == 49)
-                {
-                    FuelInjectionTiming = scan.getLastFuelInjectionTimingValue().ToString();
-                }
-                else
-                {
-                    FuelInjectionTiming = SIN_DATOS;
-                }
-                if (Pids0120[9] == 49)
-                {
-                    FuelPressure = scan.getLastFuelPressure().ToString();
-                }
-                else
-                {
-                    FuelPressure = SIN_DATOS;
-                }
-                if (Pids4160[24] == 49)
-                {
-                    FuelRailAbsolutePressure = scan.getLastFuelRailAbsolutePressure().ToString();
-                }
-                else
-                {
-                    FuelRailAbsolutePressure = SIN_DATOS;
-                }
-                if (Pids2140[2] == 49)
-                {
-                    FuelRailGaugePressure = scan.getLastFuelRailGaugeAbsolutePressure().ToString();
-                }
-                else
-                {
-                    FuelRailGaugePressure = SIN_DATOS;
-                }
-
-                /* List<string > fuelSystem= scan.getFuelSystemStatus();
-                 FuelSystemStatus_System1 = fuelSystem[0];
-                 FuelSystemStatus_System2 = fuelSystem[1];*/
-                if (Pids2140[14] == 49)
-                {
-                    FuelTankLevel = scan.getLastFuelTankLevel().ToString();
-                }
-                else
-                {
-                    FuelTankLevel = SIN_DATOS;
-                }
-                if (Pids4160[16] == 49)
-                {
-                    FuelType = scan.getFuelType();
-                }
-                else
-                {
-                    FuelType = SIN_DATOS;
-                }
-                if (Pids4160[26] == 49)
-                {
-                    HybridBateryPackRemainingLife = scan.getLastHybridBateryPackRemainingLife().ToString();
-                }
-                else
-                {
-                    HybridBateryPackRemainingLife = SIN_DATOS;
-                }
-                if (Pids0120[10] == 49)
-                {
-                    IntakeManifoldAbsolutePressureValue = scan.getLastIntakeManifoldAbsolutePressure().ToString();
-                }
-                else
-                {
-                    IntakeManifoldAbsolutePressureValue = SIN_DATOS;
-                }
-                /* LongTermFuelTrimB1 = scan.getLastLongTermFuelTrimB1();
-                 LongTermFuelTrimB2 = scan.getLastLongTermFuelTrimB2();*/
-                // LongTermSecondaryOxygenSensorTrim1_3_ValueA=scan.get
-                if (Pids0120[15] == 49)
-                {
-                    MAFAirFlowRate = scan.MAFAirFlowRate().ToString();
-                }
-                else
-                {
-                    MAFAirFlowRate = SIN_DATOS;
-                }
-                //  MaximunValueAirFlowRateFromMassAirFlowSensor_ValueA=scan.valueA
-                if (Pids4160[25] == 49)
-                {
-                    RelativeAcceleratorPedalPosition = scan.getLastRelativeAcceleratorPedalPosition().ToString();
-
-                }
-                else
-                {
-                    RelativeAcceleratorPedalPosition = SIN_DATOS;
-                }
-                if (Pids4160[4] == 49)
-                {
-                    RelativeThrottlePosition = scan.getLastRelativeThrottlePosition().ToString();
-                }
-                else
-                {
-                    RelativeThrottlePosition = SIN_DATOS;
-                }
-
-                //  RunTimeSinceEngineStart1 = scan.getRunTimeSinceEngineStart();
-                // ShortTermFuelTrimB1 = scan.getLastShortTermFuelTrimB1();
-                //ShortTermFuelTrimB2 = scan.getLastShortTermFuelTrimB2();
-                //shorttrimvaluea
-                if (Pids0120[16] == 49)
-                {
-                    ThrottlePosition = scan.getLastThrottlePosition().ToString();
-                }
-                else
-                {
-                    ThrottlePosition = SIN_DATOS;
-                }
-                //TimeEngineStart
-                if (Pids2140[0] == 49)
-                {
-                    TimeRunWithMILOn = scan.getRunTimeRunWithMILOn().ToString();
-                }
-                else
-                {
-                    TimeRunWithMILOn = SIN_DATOS;
-                }
-                // TimeSinceTroubleCodesCleared = scan.getRunTimeSinceTroubleCodesCleares();
-                // TimingAdvance = scan.getLastTimingAdvance();
-                //WarmsUpsCodesCleared = scan.getLastWarmsUpsCodesCleared();*/
-            }
-
-
+            protected set; get;
         }
+
+
 
     }
+
 }
+
