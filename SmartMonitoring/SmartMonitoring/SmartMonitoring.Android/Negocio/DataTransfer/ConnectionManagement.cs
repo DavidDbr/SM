@@ -26,8 +26,28 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         Thread t = null;
         bool consultar;
         Visibilidad actualVisibilidad;
-        public Thread T { get => t; set => t = value; }
-        public bool Consultar { get => consultar; set => consultar = value; }
+        public Thread T
+        {
+            get
+            {
+                return T;
+            }
+            set
+            {
+                T = value;
+            }
+        }
+        public bool Consultar
+        {
+            get
+            {
+                return consultar;
+            }
+            set
+            {
+                consultar = value;
+            }
+        }
 
         public ConnectionManagement()
         {

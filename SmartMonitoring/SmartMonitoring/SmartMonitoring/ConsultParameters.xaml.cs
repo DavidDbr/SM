@@ -124,11 +124,22 @@ namespace SmartMonitoring
         Label ThrottlePosition;
         Label TimeRunWithMILOn;
         Visibilidad actualVisibilidad;
-
-
-        public Thread T { get => t; set => t = value; }
-
         Thread t;
+
+        public Thread T
+        {
+            get
+            {
+                return T;
+            }
+            set
+            {
+                T = value;
+            }
+        }
+           
+
+       
 
         public ConsultParameters(DispositivoConectado previousPage)
         {

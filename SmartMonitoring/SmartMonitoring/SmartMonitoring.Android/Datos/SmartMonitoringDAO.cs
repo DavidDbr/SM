@@ -34,7 +34,17 @@ namespace SmartMonitoring.Droid.Datos
         public byte[] Pids21_40 { get { return pids21_40; } set { pids21_40 = value; } }
         public byte[] Pids41_60 { get { return pids21_40; } set { pids21_40 = value; } }
 
-        public byte[] Pids61_80 { get => pids61_80; set => pids61_80 = value; }
+        public byte[] Pids61_80
+        {
+            get
+            {
+                return pids61_80;
+            }
+            set
+            {
+                pids61_80 = value;
+            }
+        }
 
         public void setGuardarDatos(bool value)
         {

@@ -134,7 +134,17 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public Thread T { get => t; set => t = value; }
+        public Thread T
+        {
+            get
+            {
+                return T;
+            }
+            set
+            {
+                T = value;
+            }
+        }
         public string EngineTemperature
         {
             get
@@ -159,7 +169,17 @@ namespace SmartMonitoring.MVVM
                 OnPropertyChanged("TimeEngineStart");
             }
         }
-        public List<byte[]> Pids { get => pids; set => pids = value; }
+        public List<byte[]> Pids
+        {
+            get
+            {
+                return pids;
+            }
+            set
+            {
+                pids = value;
+            }
+        }
         public string AbsoluteBarometricPressure
         {
             get
@@ -1015,9 +1035,39 @@ namespace SmartMonitoring.MVVM
             }
         }
 
-        public byte[] Pids0120 { get => pids0120; set => pids0120 = value; }
-        public byte[] Pids2140 { get => pids2140; set => pids2140 = value; }
-        public byte[] Pids4160 { get => pids4160; set => pids4160 = value; }
+        public byte[] Pids0120
+        {
+            get
+            {
+                return pids0120;
+            }
+            set
+            {
+                pids0120 = value;
+            }
+        }
+        public byte[] Pids2140
+        {
+            get
+            {
+                return pids2140;
+            }
+            set
+            {
+                pids2140 = value;
+            }
+        }
+        public byte[] Pids4160
+        {
+            get
+            {
+                return pids4160;
+            }
+            set
+            {
+                pids4160 = value;
+            }
+        }
 
         public ViewModel()
         {

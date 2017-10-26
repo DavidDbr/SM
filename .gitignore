@@ -241,3 +241,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /SmartMonitoring/SmartMonitoring/SmartMonitoring/OBDII/ExcepcionesS
+/App1
+/SmartMonitoring/SmartMonitoring/SmartMonitoring.Android/ConsultParametersAndroid.cs
