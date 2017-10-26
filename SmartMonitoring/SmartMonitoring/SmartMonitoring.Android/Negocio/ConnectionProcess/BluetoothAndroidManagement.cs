@@ -88,7 +88,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
             return res;
         }
 
-        public bool openConnection(string MAC)
+        public async Task<bool> openConnectionAsync(string MAC)
         {
             if (bluetoothAdapter.IsDiscovering)
             {
@@ -99,7 +99,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
             if (device.BondState == Bond.None)
             {
                 bondedDevice(device);
-                Thread.Sleep(10000);
+                await Task.Delay(2000);
             }
 
             return Connect(device);
@@ -117,14 +117,14 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
             await Task.Delay(1000);
             List<string> list = new List<string>();
 
-            
+
             while (Semaforo == false)
             {
                 await Task.Delay(1000);
                 Console.WriteLine("Aun está descubriendo");
             }
             foreach (BluetoothDevice currentDevice in discoveredDevices)
-            {      
+            {
                 list.Add(currentDevice.Address.ToString());
             }
             return list;
@@ -138,7 +138,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                 bluetoothAdapter.CancelDiscovery();
             }
             bool res = device.CreateBond();
-            
+
 
         }
 
@@ -161,7 +161,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                 foreach (var uuid in uuids)
                 {
 
-                 
+
                     if (!connected)
                     {
                         try
@@ -173,7 +173,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
                         {
                             throw ex;
                         }
-                      
+
 
                         try
                         {
@@ -210,7 +210,7 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
             if (connected)
             {
                 System.Console.WriteLine("Client socket is connected!");
-               
+
 
             }
             return connected;
@@ -219,4 +219,3 @@ namespace SmartMonitoring.Droid.Negocio.ConnectionProcess
 }
 
 
-       
