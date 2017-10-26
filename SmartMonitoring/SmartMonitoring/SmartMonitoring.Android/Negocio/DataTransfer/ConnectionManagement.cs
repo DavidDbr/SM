@@ -1,17 +1,17 @@
-﻿using Android.Bluetooth;
-using SmartMonitoring.Droid.Datos;
-using Xamarin.Forms;
-using SmartMonitoring.Droid.Negocio.DataTransfer;
-using SmartMonitoring.Droid.Negocio.ConnectionProcess;
-using SmartMonitoring.OBDII.Excepciones;
-using System.Collections.Generic;
-using System;
-using SmartMonitoring.OBDII;
-using System.Threading;
-using SmartMonitoring.MVVM;
-using System.Threading.Tasks;
-using SQLite;
+﻿
+using Android.Bluetooth;
 using SmartMonitoring.BBDD;
+using SmartMonitoring.Droid.Datos;
+using SmartMonitoring.Droid.Negocio.ConnectionProcess;
+using SmartMonitoring.Droid.Negocio.DataTransfer;
+using SmartMonitoring.MVVM;
+using SmartMonitoring.OBDII;
+using SmartMonitoring.OBDII.Excepciones;
+using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Xamarin.Forms;
 
 [assembly: Dependency(typeof(ConnectionManagement))]
 namespace SmartMonitoring.Droid.Negocio.DataTransfer
@@ -26,17 +26,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
         Thread t = null;
         bool consultar;
         Visibilidad actualVisibilidad;
-        public Thread T
-        {
-            get
-            {
-                return T;
-            }
-            set
-            {
-                T = value;
-            }
-        }
+       
         public bool Consultar
         {
             get
@@ -926,12 +916,12 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
 
         public void ConsultParameters()
         {
-            T = new Thread(ConsultParametersThread);
-            t.IsBackground = true;
-            T.Start();
+            t= new Thread(ConsultParametersThread);
+            
+            t.Start();
 
         }
-        private void ConsultParametersThread()
+        public void ConsultParametersThread()
         {
             getFuelTypeAsync();
             while (true)

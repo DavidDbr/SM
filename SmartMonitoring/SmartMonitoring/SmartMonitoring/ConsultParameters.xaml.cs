@@ -125,18 +125,7 @@ namespace SmartMonitoring
         Label TimeRunWithMILOn;
         Visibilidad actualVisibilidad;
         Thread t;
-
-        public Thread T
-        {
-            get
-            {
-                return T;
-            }
-            set
-            {
-                T = value;
-            }
-        }
+        
            
 
        
@@ -465,8 +454,8 @@ namespace SmartMonitoring
 
             if (ejecutando == 0)
             {
-                T = new Thread(launchVM());
-                T.Start();
+                t = new Thread(launchVM());
+                t.Start();
                 ejecutando = 1;
             }
         }
