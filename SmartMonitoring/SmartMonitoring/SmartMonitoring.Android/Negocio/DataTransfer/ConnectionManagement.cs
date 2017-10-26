@@ -7,6 +7,11 @@ using SmartMonitoring.OBDII.Excepciones;
 using System.Collections.Generic;
 using System;
 using SmartMonitoring.OBDII;
+using System.Threading;
+using SmartMonitoring.MVVM;
+using System.Threading.Tasks;
+using SQLite;
+using SmartMonitoring.BBDD;
 
 [assembly: Dependency(typeof(ConnectionManagement))]
 namespace SmartMonitoring.Droid.Negocio.DataTransfer
@@ -15,41 +20,59 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
     public class ConnectionManagement : IConnectionManagement
     {
         BluetoothSocket socket = null;
-        DataBaseReader reader;
         ISmartMonitoringDAO dao;
-       
-       
+        public const string NO_DATA = "NO DATA";
+        ViewModel vm = null;
+        Thread t = null;
+        bool consultar;
+        Visibilidad actualVisibilidad;
+        public Thread T { get => t; set => t = value; }
+        public bool Consultar { get => consultar; set => consultar = value; }
+
         public ConnectionManagement()
         {
+            Consultar = true;
             socket = BluetoothAndroidManagement.getSocket();
             dao = new SmartMonitoringDAO(socket);
-            reader = dao.getReader();
+            vm = new ViewModel();
+            actualVisibilidad = dao.GetVisibilidad();
         }
 
-         public List<byte[]> getPids()
+        public void setVisibilidad(Visibilidad visibilidad)
+        {
+            dao.setVisibilidad(visibilidad);
+        }
+
+        public Visibilidad getVisibilidad()
+        {
+            actualVisibilidad = dao.GetVisibilidad();
+            return actualVisibilidad;
+        }
+
+        public SQLiteConnection getSQLConnection()
+        {
+            return dao.getSQLConnection();
+        }
+        public void setGuardarDatos(bool value)
+        {
+            dao.setGuardarDatos(value);
+        }
+
+        public bool getGuardarDatos()
+        {
+            return dao.getGuardarDatos();
+        }
+
+        public ViewModel getViewModel()
+        {
+            return vm;
+        }
+
+        public List<byte[]> getPids()
         {
             return dao.getPids();
         }
 
-        public void ConsultParameters()
-        {
-            try
-            {
-                dao.ConsultParameters();
-            }
-            catch(UnableToConnectException u)
-            {
-                throw u;
-            }
-            catch (NoDataException u)
-            {
-                throw u;
-            }
-            catch (StoppedException u)
-            {
-                throw u;
-            }
-        }
 
         public List<DiagnosticTroubleCode> DiagnosticCar()
         {
@@ -68,25 +91,30 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             }
         }
 
-        public List<string> getFuelSystemStatus()
+
+
+
+
+        public async void getFuelSystemStatusAsync()
         {
-            List<int> value = reader.getFuelSystemStatus();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelSystemStatus);
+            List<string> value = dao.readFuelSystemStatus(dr);
             List<string> status = new List<string>(2);
             switch (value[0])
             {
-                case 1:
+                case "1":
                     status[0] = "Bucle abierto debido a temperatura baja del motor";
                     break;
-                case 2:
+                case "2":
                     status[0] = "Bucle cerrado; uso de sensor de oxígeno para determinar la mezcla de combustible";
                     break;
-                case 4:
+                case "4":
                     status[0] = "Bucle abierto debido a carga del motor o corte de combustible por desaceleración";
                     break;
-                case 8:
+                case "8":
                     status[0] = "Bucle abierto debido a falla del sistema";
                     break;
-                case 16:
+                case "16":
                     status[0] = "Bucle cerrado usando por lo menos un sensor de oxígeno; pero hay una falla en el sistema de retroalimentación";
                     break;
                 default:
@@ -96,432 +124,1090 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             }
             switch (value[1])
             {
-                case 1:
+                case "1":
                     status[0] = "Bucle abierto debido a temperatura baja del motor";
                     break;
-                case 2:
+                case "2":
                     status[0] = "Bucle cerrado; uso de sensor de oxígeno para determinar la mezcla de combustible";
                     break;
-                case 4:
+                case "4":
                     status[0] = "Bucle abierto debido a carga del motor o corte de combustible por desaceleración";
                     break;
-                case 8:
+                case "8":
                     status[0] = "Bucle abierto debido a falla del sistema";
                     break;
-                case 16:
+                case "16":
                     status[0] = "Bucle cerrado usando por lo menos un sensor de oxígeno; pero hay una falla en el sistema de retroalimentación";
                     break;
+                default:
+                    status[0] = "Valor inválido";
+                    break;
             }
-            return status;
+            vm.FuelSystemStatus_System1 = status[0];
+            vm.FuelSystemStatus_System2 = status[1];
+        }
 
+        public async void getLastCalculatedEngineValue()
+        {
+
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CalculatedEngineLoadValue);
+            string value = dao.readCalculatedEngineLoad(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.CalculatedEngineLoadValue = value;
 
         }
 
-        public double getLastCalculatedEngineValue()
+        public async void getLastEngineTemperatureAsync()
         {
-
-            return reader.getLastCalculatedEngineValue();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EngineTemperature);
+            string value = dao.readEngineTemperature(dr);
+            vm.EngineTemperature = value;
 
         }
 
-        public int getLastEngineTemperature()
+        public async void MAFAirFlowRateAsync()
         {
-            return reader.getLastEngineTemperature();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.MAFAirFlowRate);
+            string value = dao.readMAFAirFlowRate(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.MAFAirFlowRate = value;
+        }
+
+        public async void getLastAbsoluteBarometricPressureAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsolutBarometricPressure);
+            string value = dao.readAbsoluteBarometricPressure(dr);
+            vm.AbsoluteBarometricPressure = value;
 
         }
 
-        public double MAFAirFlowRate()
+        public async void getLastAbsoluteEvapSystemVaporPressureAsync()
         {
-            return reader.getLastMAFAirFlowRate();
-        }
-
-        public int getLastAbsoluteBarometricPressure()
-        {
-            return reader.getLastAbsoluteBarometricPressure();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsoluteEvapSystemVaporPressure);
+            string value = dao.readAbsoluteEvapSystemVaporPressure(dr);
+            vm.AbsoluteEvapSystemVaporPressure = value;
 
         }
 
-        public int getLastAbsoluteEvapSystemVaporPressure()
+        public async void getLastAbsoluteLoadValueAsync()
         {
-            return reader.getLastAbsoluteEvapSystemVaporPressure();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CalculatedEngineLoadValue);
+            string value = dao.readAbsoluteLoadValue(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.AbsoluteLoadValue = value;
+        }
+
+        public async void getLastAbsoluteThrottlePositionBAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsoluteThrottlePositionB);
+            string value = dao.readAbsoluteThrottlePosition(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.AbsoluteThrottlePositionB = value;
+        }
+        public async void getLastAbsoluteThrottlePositionCAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsoluteThrottlePositionC);
+            string value = dao.readAbsoluteThrottlePosition(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.AbsoluteThrottlePositionC = value;
+        }
+        public async void getLastAbsoluteThrottlePositionDAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsoluteThrottlePositionD);
+            string value = dao.readAbsoluteThrottlePosition(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.AbsoluteThrottlePositionD = value;
+        }
+        public async void getLastAbsoluteThrottlePositionEAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsoluteThrottlePositionE);
+            string value = dao.readAbsoluteThrottlePosition(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.AbsoluteThrottlePositionE = value;
+        }
+        public async void getLastAbsoluteThrottlePositionFAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AbsoluteThrottlePositionF);
+            string value = dao.readAbsoluteThrottlePosition(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.AbsoluteThrottlePositionF = value;
+        }
+
+        /* public async void getLastActualEnginePercentTorqueAsync()
+         {
+             DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.ActualEngine_PercentTorque);
+             string value = dao.percent(dr);
+             vm.ActualEngine_PercentTorque = value;
+
+         }*/
+
+        public async void getLastAmbientAirTemperatureAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.AmbientAirTemperature);
+            string value = dao.readAmbientTemperatureAir(dr);
+            vm.AmbientTemperature = value;
 
         }
 
-        public double getLastAbsoluteLoadValue()
-        {
-            return reader.getLastAbsoluteLoadValue();
-        }
 
-        public double getLastAbsoluteThrottlePositionB()
-        {
-            return reader.getLastAbsoluteThrottlePositionB();
 
-        }
-        public double getLastAbsoluteThrottlePositionC()
+        public async void getLastCatalystTemperatureB1S1Async()
         {
-            return reader.getLastAbsoluteThrottlePositionC();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CatalystTemperature_Bank1_Sensor1);
+            string value = dao.readCatalystTemperature(dr);
 
-        }
-        public double getLastAbsoluteThrottlePositionD()
-        {
-            return reader.getLastAbsoluteThrottlePositionD();
 
-        }
-        public double getLastAbsoluteThrottlePositionE()
-        {
-            return reader.getLastAbsoluteThrottlePositionE();
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
 
-        }
-        public double getLastAbsoluteThrottlePositionF()
-        {
-            return reader.getLastAbsoluteThrottlePositionF();
+            }
+            vm.CatalystTemperatureB1S1 = value;
 
         }
 
-        public int getLastActualEnginePercentTorque()
+        public async void getLastCatalystTemperatureB1S2Async()
         {
-            return reader.getLastActualEnginePercentTorque();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CatalystTemperature_Bank1_Sensor2);
+            string value = dao.readCatalystTemperature(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.CatalystTemperatureB1S2 = value;
+
+        }
+        public async void getLastCatalystTemperatureB2S2Async()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CatalystTemperature_Bank2_Sensor2);
+            string value = dao.readCatalystTemperature(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.CatalystTemperatureB2S2 = value;
+
+        }
+        public async void getLastCatalystTemperatureB2S1Async()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CatalystTemperature_Bank2_Sensor1);
+            string value = dao.readCatalystTemperature(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.CatalystTemperatureB2S1 = value;
 
         }
 
-        public int getLastAmbientAirTemperature()
+        public async void getLastCommandedEGRAsync()
         {
-            return reader.getLastAmbientAirTemperature();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CommandedEGR);
+            string value = dao.readCommandedEGR(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.CommandedEGR = value;
 
         }
 
-        public double getLastCalculatedEngineLoadValueData()
+        public async void getLastCommandedEvaporativePurgeAsync()
         {
-            return reader.getLastCalculatedEngineLoadValueData();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CommandedEvaporatiVePurge);
+            string value = dao.readCommandedEvaporativePurge(dr);
 
-        }
 
-        public double getLastCatalystTemperatureB1S1()
-        {
-            return reader.getLastCatalystTemperatureB1S1();
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
 
-        }
-
-        public double getLastCatalystTemperatureB1S2()
-        {
-            return reader.getLastCatalystTemperatureB1S2();
-
-        }
-        public double getLastCatalystTemperatureB2S2()
-        {
-            return reader.getLastCatalystTemperatureB2S2();
-
-        }
-        public double getLastCatalystTemperatureB2S1()
-        {
-            return reader.getLastCatalystTemperatureB2S1();
-
-        }
-
-        public double getLastCommandedEGR()
-        {
-            return reader.getLastCommandedEGR();
-
-        }
-
-        public double getLastCommandedEvaporativePurge()
-        {
-            return reader.getLastCommandedEvaporativePurge();
+            }
+            vm.CommanddEvaporativePurge = value;
 
         }
 
         public void getLastCommandedSecondaryAirStatus()
         {
-            // dataBase.ExecuteScalar<double>("SELECT Value FROM CommandedEvaporativePurge ORDER BY ID DESC LIMIT 1");
+            // dataBase.ExecuteScalar<string >("SELECT Value FROM CommandedEvaporativePurge ORDER BY ID DESC LIMIT 1");
 
-        } 
-
-        public double getLastCommandedThrottleActuator()
-        {
-            return reader.getLastCommandedThrottleActuator();
         }
 
-        public double getLastControlModuleVoltage()
+        public async void getLastCommandedThrottleActuatorAsync()
         {
-            return reader.getLastControlModuleVoltage();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CommandedThrottleActuator);
+            string value = dao.readCommandedThrottleActuator(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.CommandedThrottleActuatorValue = value;
         }
 
-        public int getLastDistanceTraveledSinseCodesCleared()
+        public async void getLastControlModuleVoltageAsync()
         {
-            return reader.getLastDistanceTraveledSinseCodesCleared();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.ControlModuleVoltage);
+            string value = dao.readControlModuleVoltage(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.ControlModuleVoltage = value;
         }
 
-        public int getLastDistanceTraveledWithMILo()
+        /*  public async void getLastDistanceTraveledSinseCodesClearedAsync()
+          {
+              DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.DistanceTraveledSinceCodesCleared);
+              string value = dao.distance(dr);
+              vm.DistanceTraveledSinceCodesCleared = value;
+
+          }*/
+
+        public async void getLastDistanceTraveledWithMILoAsync()
         {
-            return reader.getLastDistanceTraveledWithMILo();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.DistanceTraveledWithMILon);
+            string value = dao.readDistanceWithMILLamp(dr);
+            vm.DistanceTraveledSinceCodesCleared = value;
         }
-        public int getLastDriverDemandEngine_PercentTorque()
+        /*  public async void getLastDriverDemandEngine_PercentTorqueAsync()
+          {
+              DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.DriverDemandEngine_PercentTorque);
+              string value = dao.lastdriver(dr);
+              vm.DriverDemandEngine_PercentTorque = value;
+
+          }*/
+        public async void getLastEGRErrorAsync()
         {
-            return reader.getLastDriverDemandEngine_PercentTorque();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EGRError);
+            string value = dao.readEGRError(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.EGRError1 = value;
         }
-        public double getLastEGRError()
+        public async void getLastEngineFuelRateAsync()
         {
-            return reader.getLastEGRError();
-        }
-        public double getLastEngineFuelRate()
-        {
-            return reader.getLastEngineFuelRate();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EngineFuelRate);
+            string value = dao.readEngineFuelRate(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.EngineFuelRateValue = value;
         }
 
-        public double getLastEngineOilTemperature()
+        public async void getLastEngineOilTemperatureAsync()
         {
-            return reader.getLastEngineOilTemperature();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CatalystTemperature_Bank2_Sensor1);
+            string value = dao.readEngineOilTemperature(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.EngineOilTemperature = value;
         }
-        public List<int> getLastEnginePercentTorqueData()
+        public async void getLastEnginePercentTorqueDataAsync()
         {
-            return reader.getLastEnginePercentTorqueData();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EnginePercentTorqueData);
+            List<string> values = dao.readEnginePercentTorqueData(dr);
+            vm.EnginePercentTorqueData_PercentageIdle = values[0];
+            vm.EnginePercentTorqueData_PercentageEnginePoint1 = values[1];
+            vm.EnginePercentTorqueData_PercentageEnginePoint2 = values[2];
+            vm.EnginePercentTorqueData_PercentageEnginePoint3 = values[3];
+            vm.EnginePercentTorqueData_PercentageEnginePoint4 = values[4];
+
         }
-        public int getLastEngineReferenceTorque()
+        public async void getLastEngineReferenceTorqueAsync()
         {
-            return reader.getLastEngineReferenceTorque();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EngineReferenceTorque);
+            string value = dao.readEngineReferenceTorque(dr);
+
         }
-        public string getLastEngineStartTime()
+        public async void getLastEngineStartTimeAsync()
         {
-            return reader.getLastEngineStartTime().ToString();
-        }
-        public int getLastEngineTemperatureData()
-        {
-            return reader.getLastEngineTemperatureData();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EngineStartTime);
+            string value = dao.readEngineStartTime(dr);
+            vm.TimeEngineStart = value;
+
         }
 
-        public double getLastEthanolFuelPercentage()
+        /*public async void getLastEthanolFuelPercentageAsync()
         {
-            return reader.getLastEthanolFuelPercentage();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EhtanolFuelPercen);
+            string value = dao.eht(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.EthanolFuelPercentage = value;
+        }*/
+        public async void getLastEvapSystemVaporPressureAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.EvapSystemVaporPressure);
+            string value = dao.readEvapSystemVaporPressure(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.EvapSystemVaporPressure = value;
         }
-        public double getLastEvapSystemVaporPressure()
+        public async void getLastFuelAirCommandedEquivalenceRatioAsync()
         {
-            return reader.getLastEvapSystemVaporPressure();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.Fuel_AirCommandedEquivalenceRatio);
+            string value = dao.readCalculatedEngineLoad(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.FuelAirCommandedEquivalenceRatio = value;
         }
-        public double getLastFuelAirCommandedEquivalenceRatio()
+        /* public async void FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressureAsync()
+         {
+             DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.CatalystTemperature_Bank2_Sensor1);
+             List<string> values = dao.readFuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure(dr);
+             vm.Max
+         }*/
+        public async void getLastFuelInjectionTimingValueAsync()
         {
-            return reader.getLastFuelAirCommandedEquivalenceRatio();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelInjectionTiming);
+            string value = dao.readFuelInjectionTiming(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.FuelInjectionTiming = value;
         }
-        public List<int> FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure()
+        public async void getLastFuelPressureAsync()
         {
-            return reader.FuelAirEquivalence_OxygenVoltage_OxygenSensorCurrent_IntakeManifoldAbsolutePressure();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelPressure);
+            string value = dao.readFuelPressure(dr);
+            vm.FuelPressure = value;
+
         }
-        public double getLastFuelInjectionTimingValue()
+        public async void getLastFuelRailAbsolutePressureAsync()
         {
-            return reader.getLastFuelInjectionTimingValue();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelRailAbsolutePressure);
+            string value = dao.readCalculatedEngineLoad(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.FuelRailAbsolutePressure = value;
         }
-        public int getLastFuelPressure()
+        public async void getLastFuelRailGaugeAbsolutePressure()
         {
-            return reader.getLastFuelPressure();
-        }
-        public double getLastFuelRailAbsolutePressure()
-        {
-            return reader.getLastFuelRailAbsolutePressure();
-        }
-        public int getLastFuelRailGaugeAbsolutePressure()
-        {
-            return reader.getLastFuelRailGaugeAbsolutePressure();
-        }
-        public double getLastFuelRailPressure()
-        {
-            return reader.getLastFuelRailPressure();
-        }
-        public double getLastFuelTankLevel()
-        {
-            return reader.getLastFuelTankLevel();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelRailGaugePressure);
+            string value = dao.readCalculatedEngineLoad(dr);
+            vm.FuelRailGaugePressure = value;
+
         }
 
-        public string getFuelType()
+        /**
+         * REVISAR
+         * */
+        public async void getLastFuelRailPressureAsync()
         {
-            return reader.getFuelType();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelRailPressure);
+            string value = dao.readFuelRailPressure(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.FuelRailAbsolutePressure = value;
         }
-        public double getLastHybridBateryPackRemainingLife()
+        public async void getLastFuelTankLevelAsync()
         {
-            return reader.getLastHybridBateryPackRemainingLife();
-        }
-        public int getLastIntakeManifoldAbsolutePressure()
-        {
-            return reader.getLastIntakeManifoldAbsolutePressure();
-        }
-        public List<int> MaximunValueAirFlowRateFromMassAirFlowSensor()
-        {
-            return reader.MaximunValueAirFlowRateFromMassAirFlowSensor();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelTankLevel);
+            string value = dao.readFuelTankLevelInput(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.FuelTankLevel = value;
         }
 
-        public List<double> OxygenSensor1()
+        public async void getFuelTypeAsync()
         {
-            return reader.OxygenSensor1();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelType);
+            string value = dao.readFuelType(dr);
+            vm.FuelType = value;
+
         }
-        public List<double> OxygenSensor1B()
+        public async void getLastHybridBateryPackRemainingLifeAsync()
         {
-            return reader.OxygenSensor1B();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.HybridBatteryPackRemainingLife);
+            string value = dao.readCalculatedEngineLoad(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.HybridBateryPackRemainingLife = value;
         }
-        public List<double> OxygenSensor1C()
+        public async void getLastIntakeManifoldAbsolutePressureAsync()
         {
-            return reader.OxygenSensor1C();
-        }
-        public List<double> OxygenSensor2()
-        {
-            return reader.OxygenSensor2();
-        }
-        public List<double> OxygenSensor2B()
-        {
-            return reader.OxygenSensor2B();
-        }
-        public List<double> OxygenSensor2C()
-        {
-            return reader.OxygenSensor2C();
-        }
-        public List<double> OxygenSensor3()
-        {
-            return reader.OxygenSensor3();
-        }
-        public List<double> OxygenSensor3B()
-        {
-            return reader.OxygenSensor3B();
-        }
-        public List<double> OxygenSensor3C()
-        {
-            return reader.OxygenSensor3C();
-        }
-        public List<double> OxygenSensor4()
-        {
-            return reader.OxygenSensor4();
-        }
-        public List<double> OxygenSensor4B()
-        {
-            return reader.OxygenSensor4B();
-        }
-        public List<double> OxygenSensor4C()
-        {
-            return reader.OxygenSensor4C();
-        }
-        public List<double> OxygenSensor5()
-        {
-            return reader.OxygenSensor5();
-        }
-        public List<double> OxygenSensor5B()
-        {
-            return reader.OxygenSensor5B();
-        }
-        public List<double> OxygenSensor5C()
-        {
-            return reader.OxygenSensor5C();
-        }
-        public List<double> OxygenSensor6()
-        {
-            return reader.OxygenSensor6();
-        }
-        public List<double> OxygenSensor6B()
-        {
-            return reader.OxygenSensor6B();
-        }
-        public List<double> OxygenSensor6C()
-        {
-            return reader.OxygenSensor6C();
-        }
-        public List<double> OxygenSensor7()
-        {
-            return reader.OxygenSensor7();
-        }
-        public List<double> OxygenSensor7B()
-        {
-            return reader.OxygenSensor7B();
-        }
-        public List<double> OxygenSensor7C()
-        {
-            return reader.OxygenSensor7C();
-        }
-        public List<double> OxygenSensor8()
-        {
-            return reader.OxygenSensor8();
-        }
-        public List<double> OxygenSensor8B()
-        {
-            return reader.OxygenSensor6B();
-        }
-        public List<double> OxygenSensor8C()
-        {
-            return reader.OxygenSensor8C();
-        }
-        public double getLastRelativeAcceleratorPedalPosition()
-        {
-            return reader.getLastRelativeAcceleratorPedalPosition();
-        }
-        public double getLastRelativeThrottlePosition()
-        {
-            return reader.getLastRelativeThrottlePosition();
-        }
-        public int getLastRPM()
-        {
-            return reader.getLastRPM();
-        }
-        public int getRunTimeSinceEngineStart()
-        {
-            return reader.getRunTimeSinceEngineStart();
-        }
-        public double getLastShortTermFuelTrimB1()
-        {
-            return reader.getLastShortTermFuelTrimB1();
-        }
-        public double getLastShortTermFuelTrimB2()
-        {
-            return reader.getLastShortTermFuelTrimB2();
-        }
-        public double getLastLongTermFuelTrimB2()
-        {
-            return reader.getLastLongTermFuelTrimB2();
-        }
-        public double getLastLongTermFuelTrimB1()
-        {
-            return reader.getLastLongTermFuelTrimB1();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.IntakeManifoldAbsolutePressure);
+            string value = dao.readIntakeManifoldAbsolutePressure(dr);
+
+            vm.IntakeManifoldAbsolutePressureValue = value;
+
         }
 
-        public int getLastSpeed()
+        public async void getLastIntakeAirTemperatureAsync()
         {
-            return reader.getLastSpeed();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.IntakeTemperature);
+            string value = dao.readIntakeAirTemperature(dr);
+
+            vm.IntakeTemperature = value;
+
         }
-        public double getLastThrottlePosition()
+
+
+        public async void MaximunValueAirFlowRateFromMassAirFlowSensorAsync()
         {
-            return reader.getLastThrottlePosition();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.MaximunValueFlowRateFromMassAirFlowSensor);
+            List<string> values = dao.readMaximunValueFlowRateFromMassAirFlowSensor(dr);
+            vm.MaximunValueAirFlowRateFromMassAirFlowSensor_ValueA = values[0];
+            vm.MaximunValueAirFlowRateFromMassAirFlowSensor_ValueB = values[1];
+            vm.MaximunValueAirFlowRateFromMassAirFlowSensor_ValueC = values[2];
+            vm.MaximunValueAirFlowRateFromMassAirFlowSensor_ValueD = values[3];
         }
-        public int getRunTimeRunWithMILOn()
+
+        /*public async void OxygenSensor1Async()
         {
-            return reader.getRunTimeRunWithMILOn();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.OxygenSensor1);
+            string value = dao.readOxygenSensor(dr);
+
+      */
+        public async void getLastRelativeAcceleratorPedalPosition()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.RelativeAcceleratorPedalPosition);
+            string value = dao.readRelativeAcceleratorPedalPosition(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.RelativeAcceleratorPedalPosition = value;
         }
-        public int getRunTimeSinceTroubleCodesCleares()
+        public async void getLastRelativeThrottlePositionAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.RelativeThrottlePosition);
+            string value = dao.readRelativeThrottlePosition(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.RelativeThrottlePosition = value;
+        }
+        public async void getLastRPMAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.RPM);
+            string value = dao.readRPM(dr);
+            vm.Rpm = value;
+
+        }
+
+        public async void getLastShortTermFuelTrimB1Async()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelTrim_Bank1_Short);
+            string value = dao.readTermFuelTrim(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.ShortTermFuelTrimB1 = value;
+        }
+        public async void getLastShortTermFuelTrimB2()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelTrim_Bank2_Short);
+            string value = dao.readTermFuelTrim(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.ShortTermFuelTrimB2 = value;
+        }
+        public async void getLastLongTermFuelTrimB2()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelTrim_Bank2_Long);
+            string value = dao.readTermFuelTrim(dr);
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.LongTermFuelTrimB2 = value;
+        }
+
+        public async void getLastLongTermFuelTrimB1()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.FuelTrim_Bank1_Long);
+            string value = dao.readTermFuelTrim(dr);
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.LongTermFuelTrimB1 = value;
+        }
+
+        public async void getLastSpeedAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.Speed);
+            string value = dao.readSpeed(dr);
+            vm.Speed = value;
+        }
+        public async void getLastThrottlePositionAsync()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.ThrottlePosition);
+            string value = dao.readThrottlePosition(dr);
+
+
+            if (!value.Equals(NO_DATA))
+            {
+                double res = Double.Parse(value);
+                Math.Round(res, 3);
+                value = res.ToString();
+
+            }
+            vm.ThrottlePosition = value;
+        }
+
+        public async void getLastTimingAdvance()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.TimingAdvance);
+            string value = dao.readTimingAdvance(dr);
+            vm.TimingAdvance = value;
+
+
+        }
+        public async void getRunTimeRunWithMILOn()
+        {
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.TimeRunWithMILOn);
+            string value = dao.readDistanceWithMILLamp(dr);
+            vm.DistanceTraveledWithMILo = value;
+
+        }
+        /*
+        public string  getRunTimeSinceTroubleCodesCleares()
         {
             return reader.getRunTimeSinceTroubleCodesCleares();
         }
-        public int getLastTimingAdvance()
-        {
-            return reader.getLastTimingAdvance();
-        }
+        
 
-        public int getLastWarmsUpsCodesCleared()
+        public async void  getLastWarmsUpsCodesCleared()
         {
             return reader.getLastWarmsUpsCodesCleared();
-        }
+        }*/
 
-        public List<double> LongTermSecondaryOxygenSensorTrim1_3()
+        public async void LongTermSecondaryOxygenSensorTrim1_3()
         {
-            return reader.LongTermSecondaryOxygenSensorTrim1_3();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.LongTermSecondaryOxygenSensorTrim1_3);
+            List<string> values = dao.readSecondaryOxygenSensorTrim(dr);
+            vm.LongTermSecondaryOxygenSensorTrim1_3_ValueA = values[0];
+            vm.LongTermSecondaryOxygenSensorTrim1_3_ValueB = values[1];
+
         }
 
-        public List<double> LongTermSecondaryOxygenSensorTrim2_4()
+        public async void LongTermSecondaryOxygenSensorTrim2_4()
         {
-            return reader.LongTermSecondaryOxygenSensorTrim2_4();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.LongTermSecondaryOxygenSensorTrim2_4);
+            List<string> values = dao.readSecondaryOxygenSensorTrim(dr);
+            vm.LongTermSecondaryOxygenSensorTrim2_4_ValueA = values[0];
+            vm.LongTermSecondaryOxygenSensorTrim2_4_ValueB = values[1];
         }
 
-        public List<double> ShortTermSecondaryOxygenSensorTrim1_3()
+        public async void ShortTermSecondaryOxygenSensorTrim1_3()
         {
-           return reader.ShortTermSecondaryOxygenSensorTrim1_3();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.ShortTermSecondaryOxygenSensorTrim1_3);
+            List<string> values = dao.readSecondaryOxygenSensorTrim(dr);
+            vm.ShortTermSecondaryOxygenSensorTrim1_3_ValueA = values[0];
+            vm.ShortTermSecondaryOxygenSensorTrim1_3_ValuB = values[1];
         }
 
-        public List<double> ShortTermSecondaryOxygenSensorTrim2_4()
+        public async void ShortTermSecondaryOxygenSensorTrim2_4()
         {
-            return reader.ShortTermSecondaryOxygenSensorTrim2_4();
+            DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.ShortTermSecondaryOxygenSensorTrim2_4);
+            List<string> values = dao.readSecondaryOxygenSensorTrim(dr);
+            vm.ShortTermSecondaryOxygenSensorTrim2_4_ValueA = values[0];
+            vm.ShortTermSecondaryOxygenSensorTrim2_4_ValueB = values[1];
         }
 
-        
+
+        public void ConsultParameters()
+        {
+            T = new Thread(ConsultParametersThread);
+            t.IsBackground = true;
+            T.Start();
+
+        }
+        private void ConsultParametersThread()
+        {
+            getFuelTypeAsync();
+            while (true)
+            {
+                if (Consultar)
+                {
+
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.engineOilTemperatureVisible == 1)
+                    {
+                        getLastEngineOilTemperatureAsync();
+                    }
+                    if (actualVisibilidad.engineTemperatureVisible == 1)
+                    {
+                        getLastEngineTemperatureAsync();
+                    }
+                    if (actualVisibilidad.fuelTankLevelVisible == 1)
+                    {
+                        getLastFuelTankLevelAsync();
+                    }
+
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.absoluteLoadValueVisible == 1)
+                    {
+                        getLastAbsoluteLoadValueAsync();
+                    }
+                    if (actualVisibilidad.ambientTemperatureVisible == 1)
+                    {
+                        getLastAmbientAirTemperatureAsync();
+                    }
+                    if (actualVisibilidad.controlModuleVoltageVisible == 1)
+                    {
+                        getLastControlModuleVoltageAsync();
+                    }
+                    if (actualVisibilidad.timeEngineStartVisible == 1)
+                    {
+                        getLastEngineStartTimeAsync();
+                    }
+                    if (actualVisibilidad.absoluteBarometricPressureVisible == 1)
+                    {
+                        getLastAbsoluteBarometricPressureAsync();
+                    }
+                    if (actualVisibilidad.absoluteThrottlePositionBVisible == 1)
+                    {
+                        getLastAbsoluteThrottlePositionBAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.absoluteThrottlePositionCVisible == 1)
+                    {
+                        getLastAbsoluteThrottlePositionCAsync();
+                    }
+                    if (actualVisibilidad.absoluteThrottlePositionDVisible == 1)
+                    {
+                        getLastAbsoluteThrottlePositionDAsync();
+                    }
+                    if (actualVisibilidad.engineFuelRateValueVisible == 1)
+                    {
+                        getLastEngineFuelRateAsync();
+                    }
+                    if (actualVisibilidad.fuelAirCommandedEquivalenceRatioVisible == 1)
+                    {
+                        getLastFuelAirCommandedEquivalenceRatioAsync();
+                    }
+                    if (actualVisibilidad.timeRunWithMILOnVisible == 1)
+                    {
+                        getRunTimeRunWithMILOn();
+                    }
+                    ShortTermSecondaryOxygenSensorTrim1_3();
+                    ShortTermSecondaryOxygenSensorTrim2_4();
+                    LongTermSecondaryOxygenSensorTrim1_3();
+                    LongTermSecondaryOxygenSensorTrim2_4();
+
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.absoluteThrottlePositionEVisible == 1)
+                    {
+                        getLastAbsoluteThrottlePositionEAsync();
+                    }
+                    if (actualVisibilidad.absoluteThrottlePositionFVisible == 1)
+                    {
+                        getLastAbsoluteThrottlePositionFAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.calculatedEngineLoadValueVisible == 1)
+                    {
+                        getLastCalculatedEngineValue();
+                    }
+                    if (actualVisibilidad.catalystTemperatureB2S1Visible == 1)
+                    {
+                        getLastCatalystTemperatureB2S1Async();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.catalystTemperatureB1S1Visible == 1)
+                    {
+                        getLastCatalystTemperatureB1S1Async();
+                    }
+                    if (actualVisibilidad.catalystTemperatureB2S2Visible == 1)
+                    {
+                        getLastCatalystTemperatureB2S2Async();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.catalystTemperatureB1S2Visible == 1)
+                    {
+                        getLastCatalystTemperatureB1S2Async();
+                    }
+                    if (actualVisibilidad.commandedEGRVisible == 1)
+                    {
+                        getLastCommandedEGRAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.commanddEvaporativePurgeVisible == 1)
+                    {
+                        getLastCommandedEvaporativePurgeAsync();
+                    }
+                    if (actualVisibilidad.commandedThrottleActuatorValueVisible == 1)
+                    {
+                        getLastCommandedThrottleActuatorAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.controlModuleVoltageVisible == 1)
+                    {
+                        getLastControlModuleVoltageAsync();
+                    }
+                    if (actualVisibilidad.EGRErrorVisible == 1)
+                    {
+                        getLastEGRErrorAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.evapSystemVaporPressureVisible == 1)
+                    {
+                        getLastEvapSystemVaporPressureAsync();
+                    }
+                    if (actualVisibilidad.mAFAirFlowRateVisible == 1)
+                    {
+                        MAFAirFlowRateAsync();
+                    }
+
+
+
+                    MaximunValueAirFlowRateFromMassAirFlowSensorAsync();
+
+
+
+
+
+                    if (actualVisibilidad.fuelAirCommandedEquivalenceRatioVisible == 1)
+                    {
+                        getLastFuelAirCommandedEquivalenceRatioAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.fuelInjectionTimingVisible == 1)
+                    {
+                        getLastFuelInjectionTimingValueAsync();
+                    }
+                    if (actualVisibilidad.fuelPressureVisible == 1)
+                    {
+                        getLastFuelPressureAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.fuelRailAbsolutePressureVisible == 1)
+                    {
+                        getLastFuelRailAbsolutePressureAsync();
+                    }
+
+                    getLastFuelRailPressureAsync();
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.hybridBateryPackRemainingLifeVisible == 1)
+                    {
+                        getLastHybridBateryPackRemainingLifeAsync();
+                    }
+                    if (actualVisibilidad.intakeManifoldAbsolutePressureValueVisible == 1)
+                    {
+                        getLastIntakeManifoldAbsolutePressureAsync();
+                    }
+                    if (actualVisibilidad.rpmVisible == 1)
+                    {
+                        getLastRPMAsync();
+                    }
+                    if (actualVisibilidad.speedVisible == 1)
+                    {
+                        getLastSpeedAsync();
+                    }
+                    if (actualVisibilidad.throttlePositionVisible == 1)
+                    {
+                        getLastThrottlePositionAsync();
+                    }
+                    if (actualVisibilidad.relativeAcceleratorPedalPositionVisible == 1)
+                    {
+                        getLastRelativeAcceleratorPedalPosition();
+                    }
+                }
+
+
+            }
+        }
+
+        public bool getEstadoConsultar()
+        {
+            return Consultar;
+        }
+
+        public void setEstadoConsultar(bool value)
+        {
+            Consultar = value;
+        }
+
+
     }
-  }
+}
