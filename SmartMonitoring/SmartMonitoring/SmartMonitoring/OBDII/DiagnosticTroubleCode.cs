@@ -9,7 +9,7 @@ namespace SmartMonitoring.OBDII
 
         private string troubleCode;
 
-        public string TroubleCode { get => troubleCode; set => troubleCode = value; }
+        public string TroubleCode { get { return troubleCode; } set { troubleCode = value; } }
 
         public DiagnosticTroubleCode(string code)
         {
@@ -85,7 +85,7 @@ namespace SmartMonitoring.OBDII
             TroubleCode = TroubleCode + code.Substring(1);
         }
 
-       
+
         /* public enum Type
 {
 Powertrain = 0x00,
@@ -141,7 +141,7 @@ Code = code;
 }*/
     }
 
-    
+
 
 
 
