@@ -26,22 +26,22 @@ namespace SmartMonitoring.Droid.Utilidades
 
                 device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
                 Console.WriteLine(device.Name);
-                
+
                 BluetoothAndroidManagement.getScanDevices(device);
-               
+
             }
 
             if (BluetoothAdapter.ActionDiscoveryFinished.Equals(action))
             {
                 BluetoothAndroidManagement.Semaforo = true;
                 Console.WriteLine("DescubrimientoFinalizado");
-                
+
             }
             if (BluetoothAdapter.ActionDiscoveryStarted.Equals(action))
             {
                 BluetoothAndroidManagement.Semaforo = false;
                 Console.WriteLine("DescubrimientoIniciado");
-               
+
             }
             if (BluetoothDevice.ActionPairingRequest.Equals(action))
             {

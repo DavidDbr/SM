@@ -134,8 +134,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datos\DatabaseReader.cs" />
     <Compile Include="Negocio\ConnectionProcess\BluetoothAndroidManagement.cs" />
+    <Compile Include="Negocio\ConnectionProcess\NetworkManagement.cs" />
     <Compile Include="Negocio\DataTransfer\ConnectionManagement.cs" />
     <Compile Include="Datos\ISmartMonitoringDAO.cs" />
     <Compile Include="MainActivity.cs" />
@@ -169,6 +169,15 @@
       <Project>{66f6bde9-9b6a-475a-8054-405ffcd2f815}</Project>
       <Name>SmartMonitoring</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\diagnostic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\form.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
