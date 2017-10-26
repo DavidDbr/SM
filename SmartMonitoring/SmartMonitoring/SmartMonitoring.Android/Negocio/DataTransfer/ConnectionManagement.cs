@@ -55,7 +55,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             socket = BluetoothAndroidManagement.getSocket();
             dao = new SmartMonitoringDAO(socket);
             vm = new ViewModel();
-            actualVisibilidad = dao.GetVisibilidad();
+        
         }
 
         public void setVisibilidad(Visibilidad visibilidad)

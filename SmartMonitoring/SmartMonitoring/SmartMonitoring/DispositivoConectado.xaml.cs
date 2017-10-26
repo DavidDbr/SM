@@ -18,7 +18,7 @@ namespace SmartMonitoring
         {
 
             InitializeComponent();
-            ;
+            
 
             var scan = DependencyService.Get<IBluetoothManagement>();
             var database = DependencyService.Get<ISQLite>();
@@ -33,6 +33,7 @@ namespace SmartMonitoring
             }
             database.GetConnection();
             database.initBBDD();
+            connect.getVisibilidad();
             Label label = new Label();
             string nameDevice = scan.getDevice(MAC);
             Button consultTR = new Button();
