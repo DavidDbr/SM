@@ -11,9 +11,9 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double Voltage { get; set; }
+        public string Voltage { get; set; }
 
-        public double ShortTermFuelTrim { get; set; }
+        public string ShortTermFuelTrim { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public OxygenSensor1() { }

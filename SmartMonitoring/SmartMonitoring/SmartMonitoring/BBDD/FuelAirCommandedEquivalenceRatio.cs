@@ -12,7 +12,7 @@ namespace SmartMonitoring.BBDD
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
-        public double Ratio { get; set; }
+        public string Ratio { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public FuelAirCommandedEquivalenceRatio() { }

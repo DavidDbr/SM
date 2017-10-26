@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double MAFAirFlowRateValue { get; set; }
+        public string MAFAirFlowRateValue { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public MAFAirFlowRate() { }

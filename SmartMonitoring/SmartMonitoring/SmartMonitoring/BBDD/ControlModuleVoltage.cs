@@ -13,7 +13,7 @@ namespace SmartMonitoring.BBDD
         public int ID { get; set; }
      
 
-        public double Voltage { get; set; }
+        public string Voltage { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public ControlModuleVoltage() { }

@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int Pressure { get; set; }
+        public string Pressure { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public FuelRailGaugePressure() { }

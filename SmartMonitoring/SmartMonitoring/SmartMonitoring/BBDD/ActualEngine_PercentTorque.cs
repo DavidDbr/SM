@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-       public int PercentageTorque { get; set; }
+       public string PercentageTorque { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public ActualEngine_PercentTorque() { }

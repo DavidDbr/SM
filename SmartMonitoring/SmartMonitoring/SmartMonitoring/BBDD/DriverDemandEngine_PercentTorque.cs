@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int Percentage { get; set; }
+        public string Percentage { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

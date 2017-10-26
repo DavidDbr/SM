@@ -12,7 +12,7 @@ namespace SmartMonitoring.BBDD
 
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double LongTermFuelTrimBank1 { get; set; }
+        public string LongTermFuelTrimBank1 { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public LongTermFuelTrimB1() { }

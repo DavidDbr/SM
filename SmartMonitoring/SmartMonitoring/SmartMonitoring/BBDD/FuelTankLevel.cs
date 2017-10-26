@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double FuelTankLevelValue { get; set; }
+        public string FuelTankLevelValue { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public FuelTankLevel() { }

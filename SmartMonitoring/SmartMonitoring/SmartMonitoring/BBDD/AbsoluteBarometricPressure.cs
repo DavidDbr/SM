@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int BarometricPressure { get; set; }
+        public string BarometricPressure { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public AbsoluteBarometricPressure() { }

@@ -3,11 +3,11 @@ using SQLite;
 
 namespace SmartMonitoring.BBDD
 {
-    public class SpeedData : Table
+    public class SpeedData 
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set;}
-        public int Speed { get; set; }
+        public string Speed { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public SpeedData() { }

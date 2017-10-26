@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int StartTime { get; set; }
+        public string StartTime { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public EngineStartTime() { }

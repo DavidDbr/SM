@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int IntakeTemperatureValue { get; set; }
+        public string IntakeTemperatureValue { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public IntakeTemperature() { }

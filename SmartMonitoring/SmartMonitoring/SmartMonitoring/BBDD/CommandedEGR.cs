@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double ValueEGR { get; set; }
+        public string ValueEGR { get; set; }
 
      
         public DateTime CreatedOn { get; set; }

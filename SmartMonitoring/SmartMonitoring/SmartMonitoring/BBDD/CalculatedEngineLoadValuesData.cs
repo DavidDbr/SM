@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double CalculatedEngineLoadValue { get; set; }
+        public string CalculatedEngineLoadValue { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public CalculatedEngineLoadValuesData() { }

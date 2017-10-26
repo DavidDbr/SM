@@ -11,8 +11,8 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double ValueBankA { get; set; }
-        public double ValueBankB { get; set; }
+        public string ValueBankA { get; set; }
+        public string ValueBankB { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public LongTermSecondaryOxygenSensorTrim1_3() { }

@@ -10,9 +10,9 @@ namespace SmartMonitoring.BBDD
     public class OxygenSensor5B { 
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double Fuel_AirEquivalenceRatio { get; set; }
+        public string Fuel_AirEquivalenceRatio { get; set; }
 
-        public double Voltage { get; set; }
+        public string Voltage { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public OxygenSensor5B() { }

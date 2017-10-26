@@ -11,9 +11,9 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double Fuel_airEquivalenceRatio { get; set; }
+        public string Fuel_airEquivalenceRatio { get; set; }
 
-        public double Current { get; set; }
+        public string Current { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public OxygenSensor4C() { }

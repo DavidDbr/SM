@@ -11,12 +11,12 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int MaximunValueA { get; set; }
+        public string MaximunValueA { get; set; }
 
-        public int MaximunValueB { get; set; }
+        public string MaximunValueB { get; set; }
 
-        public int MaximunValueC { get; set; }
-        public int MaximunValueD { get; set; }
+        public string MaximunValueC { get; set; }
+        public string MaximunValueD { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public MaximunValueAirFlowRateFromMassAirFlowSensor() { }

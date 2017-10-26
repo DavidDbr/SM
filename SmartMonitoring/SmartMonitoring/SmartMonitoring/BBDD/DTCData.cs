@@ -3,7 +3,7 @@ using SQLite;
 
 namespace SmartMonitoring.BBDD
 {
-    public class DTCData : Table
+    public class DTCData
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }

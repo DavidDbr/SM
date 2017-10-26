@@ -12,7 +12,7 @@ namespace SmartMonitoring.BBDD
 
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double FuelInjectionTimingValue { get; set; }
+        public string FuelInjectionTimingValue { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public FuelInjectionTiming() { }

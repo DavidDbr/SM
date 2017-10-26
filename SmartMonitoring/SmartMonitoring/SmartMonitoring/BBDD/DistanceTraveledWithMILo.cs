@@ -12,7 +12,7 @@ namespace SmartMonitoring.BBDD
 
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int Distance { get; set; }
+        public string Distance { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public DistanceTraveledWithMILo() { }

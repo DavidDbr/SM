@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int IntakeManifoldAbsolutePressureValue { get; set; }
+        public string IntakeManifoldAbsolutePressureValue { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public IntakeManifoldAbsolutePressure() { }

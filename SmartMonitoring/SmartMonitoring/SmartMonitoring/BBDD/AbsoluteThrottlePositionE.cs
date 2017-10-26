@@ -11,7 +11,7 @@ namespace SmartMonitoring.BBDD
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public double ThrottlePositionE { get; set; }
+        public string ThrottlePositionE { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public AbsoluteThrottlePositionE() { }
