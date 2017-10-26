@@ -58,8 +58,6 @@
     <Compile Include="BBDD\CommandedSecondaryAirStatus.cs" />
     <Compile Include="BBDD\CommandedThrottleActuator.cs" />
     <Compile Include="BBDD\ControlModuleVoltage.cs" />
-    <Compile Include="BBDD\DataBaseContext.cs" />
-    <Compile Include="BBDD\DataBaseRepositorycs.cs" />
     <Compile Include="BBDD\DistanceTraveledSinceCodesCleared.cs" />
     <Compile Include="BBDD\DistanceTraveledWithMILo.cs" />
     <Compile Include="BBDD\DriverDemandEngine_PercentTorque.cs" />
@@ -127,21 +125,34 @@
     <Compile Include="BBDD\ShortTermSecondaryOxygenSensorTrim1_3.cs" />
     <Compile Include="BBDD\ShortTermSecondaryOxygenSensorTrim2_4.cs" />
     <Compile Include="BBDD\SpeedData.cs" />
-    <Compile Include="BBDD\Table.cs" />
     <Compile Include="BBDD\ThrottlePosition.cs" />
     <Compile Include="BBDD\TimeRunWithMILOn.cs" />
     <Compile Include="BBDD\TimeSinceTroubleCodesCleared.cs" />
     <Compile Include="BBDD\TimingAdvance.cs" />
+    <Compile Include="BBDD\Visibilidad.cs" />
     <Compile Include="BBDD\WarmsUpsCodesCleared.cs" />
+    <Compile Include="ConfigParameters.xaml.cs">
+      <DependentUpon>ConfigParameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticPage.xaml.cs">
+      <DependentUpon>DiagnosticPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DispositivoConectado.xaml.cs">
+      <DependentUpon>DispositivoConectado.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IBluetoothManagement.cs" />
     <Compile Include="IConnectionManagement.cs" />
+    <Compile Include="INetworkManagement.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\Model.cs" />
     <Compile Include="MVVM\ViewModel.cs" />
     <Compile Include="OBDII\DataTransferSchema.cs" />
     <Compile Include="OBDII\DiagnosticTroubleCode.cs" />
+    <Compile Include="OBDII\Excepciones\BufferFullException.cs" />
+    <Compile Include="OBDII\Excepciones\BusBusyException.cs" />
+    <Compile Include="OBDII\Excepciones\BusErrorException.cs" />
+    <Compile Include="OBDII\Excepciones\CanErrorException.cs" />
     <Compile Include="OBDII\Excepciones\NoDataException.cs" />
     <Compile Include="OBDII\Excepciones\StoppedException.cs" />
     <Compile Include="OBDII\Excepciones\UnableToConnectException.cs" />
@@ -202,6 +213,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConsultParameters.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DiagnosticPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DispositivoConectado.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigParameters.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

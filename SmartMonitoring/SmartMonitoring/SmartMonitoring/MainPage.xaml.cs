@@ -5,21 +5,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SmartMonitoring
 {
     public partial class MainPage : ContentPage
-    { 
+    {
         List<string> devices;
 
-        public MainPage() 
+        public MainPage()
         {
             InitializeComponent();
             InitializeBluetooth();
         }
 
-        
+
         private void InitializeBluetooth()
         {
             bool res = false;
@@ -48,150 +49,85 @@ namespace SmartMonitoring
             devices.Distinct().ToString();
             var listView = new ListView(ListViewCachingStrategy.RecycleElement);
             listView.ItemsSource = devices.Distinct().ToList();
-            ActivityIndicator indicator2 = new ActivityIndicator();
-            //   listView.ItemSelected += (object sender, ItemClickEventArgs e) => { String selectedFromList = lv.GetItemAtPosition(e.Position); };
-            // Content = listView;
+            Label l = new Label();
+            l.Text = "Dispositivos OBDII cercanos";
             if (devices.Count != 0)
             {
                 indicator.IsRunning = false;
-                
-                // DisplayAlert("Title", devices.ElementAt(0), "OK");
-                Content = Content = new StackLayout 
+
+
+                Content = Content = new StackLayout
                 {
-                    
+
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    Children = { listView, indicator2 }
+                    Children = { l, listView, indicator }
                 };
-                
+
             }
             else
             {
                 indicator.IsRunning = false;
                 await DisplayAlert("Error", "No hay dispositivos OBDII cercanos", "OK");
-                
+
             }
-            
+
             runBluetooth.IsEnabled = true;
 
-            listView.ItemSelected += (sender, e) => { openConnectionDevice(e.SelectedItem.ToString()); indicator2.IsRunning = true; };
+            listView.ItemSelected += (sender, e) => { openConnectionDevice(e.SelectedItem.ToString()); };
 
 
-            }
+        }
 
-        private void openConnectionDevice(String MAC)
+        private async void openConnectionDevice(String MAC)
         {
             indicator.IsRunning = true;
+
             var scan = DependencyService.Get<IBluetoothManagement>();
-            bool result = scan.openConnection(MAC);
+            await Task.Delay(50);
+            bool result = await scan.openConnectionAsync(MAC);
+
+
+
             if (result == true)
             {
                 indicator.IsRunning = false;
-                inConnection(MAC);
+                DispositivoConectado page = new DispositivoConectado(MAC);
+                App.Current.MainPage = new NavigationPage(page);
 
             }
             else
             {
                 indicator.IsRunning = false;
-                DisplayAlert("Title", "No se estableció la conexión con el dispositivo", "OK");
+                await DisplayAlert("Title", "No se estableció la conexión con el dispositivo", "OK");
                 var listView = new ListView(ListViewCachingStrategy.RecycleElement);
                 listView.ItemsSource = devices.Distinct();
+
 
                 Content = Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    Children = { listView },
-                    
-            };
-                listView.ItemSelected += (sender, e) => openConnectionDevice(e.SelectedItem.ToString());
-                
-            }
+                    Children = { listView, indicator },
 
-
-        }
-
-        private void inConnection(String MAC)
-        {
-            indicator.IsRunning = false;
-            var scan = DependencyService.Get<IBluetoothManagement>();
-            var database = DependencyService.Get<ISQLite>();
-            var connect = DependencyService.Get<IConnectionManagement>();
-            try
-            {
-                connect.InitializedOBD2();
-            }
-            catch (UnableToConnectException u)
-            {
-                DisplayActionSheet("Error", "No se puede conectar a la ECU", "OK");
-            }
-            database.GetConnection();
-            database.initBBDD();
-            Label label = new Label();
-            string nameDevice = scan.getDevice(MAC);
-            // scan.initializedOBD2();
-            Button consultTR = new Button();
-            consultTR.Text = " Consultar Parámetros";
-            ConsultParameters page = null;
-            // consultTR.Clicked += (sender, e) => consultParameters();
-            consultTR.Clicked += (sender, e) =>
-            {
-                
-                page = new ConsultParameters();
-                App.Current.MainPage = new NavigationPage(page);
-                
-                        
-                              
-            };
-            Button diagnostic = new Button();
-            diagnostic.Text = "Diagnóstico";
-            diagnostic.Clicked += (sender, e) => diagnosticCar();
-            label.Text = ("Connected to " + nameDevice + " MAC: " + MAC);
-            Content = Content = new StackLayout()
-            {
-
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                Children = { label, consultTR, diagnostic }
-            };          
-        }
-
-
-
-
-        /*private void consultParameters()
-        {
-            var connect = DependencyService.Get<IConnectionManagement>();
-            connect.ConsultParameters();
-        }*/
-
-
-        // DisplayAlert("Consult Parameters", "Su velocidad es"+parameter, "OK");
-
-
-
-        private void diagnosticCar()
-        {
-
-            var scan = DependencyService.Get<IConnectionManagement>();
-            List<DiagnosticTroubleCode> list = scan.DiagnosticCar();
-            if (list.Count == 0)
-            {
-                DisplayAlert("Diagnóstico", "No hay códigos de falla almacenados en la ECU", "OK");
-            }
-            else
-            {
-                var listView = new ListView(ListViewCachingStrategy.RecycleElement);
-                listView.ItemsSource = list;
-                Content = Content = new StackLayout()
-                {
-
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    Children = { listView }
                 };
+                listView.ItemSelected += (sender, e) => openConnectionDevice(e.SelectedItem.ToString());
+
             }
+
+
         }
+
+
+
+
+
+
+
+
+
     }
 }
 
-    
+
 
 
 

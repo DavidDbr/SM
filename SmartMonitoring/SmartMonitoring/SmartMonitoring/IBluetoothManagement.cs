@@ -9,8 +9,8 @@ namespace SmartMonitoring
 
         Task<List<string>> scanDevices();
 
-        bool openConnection(string MAC);
-                
-        string getDevice(string MAC);        
+        Task<bool> openConnectionAsync(string MAC);
+
+        string getDevice(string MAC);
     }
 }
