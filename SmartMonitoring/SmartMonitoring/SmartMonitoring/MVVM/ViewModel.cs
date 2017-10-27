@@ -1,11 +1,6 @@
-﻿using Java.Lang;
-using SmartMonitoring.BBDD;
-using SmartMonitoring.OBDII.Excepciones;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms;
+using System.Threading;
 
 namespace SmartMonitoring.MVVM
 {

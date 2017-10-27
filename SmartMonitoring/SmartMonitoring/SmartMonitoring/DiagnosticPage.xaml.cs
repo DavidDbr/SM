@@ -70,7 +70,7 @@ namespace SmartMonitoring
 
             enviarDiagnosticoToolbar.Clicked += (sender, e) =>
             {
-                DisplayActionSheet("Proceso de enviar email", "", "", "");
+                sendDiagnostic(sender, e, list);
 
             };
 
@@ -87,12 +87,10 @@ namespace SmartMonitoring
             };
         }
 
-        public void sendDiagnostic(object sender, System.EventArgs e)
+        public void sendDiagnostic(object sender, System.EventArgs e, List<string> list)
         {
-            using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
-            {
-
-            }
+            var NetworkManagement = DependencyService.Get<INetworkManagement>();
+            NetworkManagement.sendEmail(list);
         }
     }
 }

@@ -9,5 +9,7 @@ namespace SmartMonitoring
     public interface INetworkManagement
     {
         bool IsOn();
+
+        void sendEmail(List<string> list);
     }
 }
