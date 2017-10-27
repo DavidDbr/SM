@@ -194,6 +194,7 @@ namespace SmartMonitoring
 
             layout.Padding = new Thickness(0, 20, 0, 0);
             var grid = new Grid();
+            grid.Margin = 3;
             grid.BackgroundColor = Color.Azure;
             
 
@@ -235,7 +236,7 @@ namespace SmartMonitoring
             EngineTemperature.VerticalTextAlignment = TextAlignment.Center;
             EngineTemperatureResult = new Label();
             EngineTemperatureResult.SetBinding(Label.TextProperty, "EngineTemperature");
-            EngineOilTemperatureResult.HorizontalTextAlignment = TextAlignment.Center;
+            EngineTemperatureResult.HorizontalTextAlignment = TextAlignment.Center;
             EngineTemperatureResult.VerticalTextAlignment = TextAlignment.Center;
             EngineTemperatureUds = new Label();
             EngineTemperatureUds.Text = "ºC";
@@ -508,8 +509,8 @@ namespace SmartMonitoring
             ControlModuleVoltage.VerticalTextAlignment = TextAlignment.Center;
             ControlModuleVoltageResult = new Label();
             ControlModuleVoltageResult.SetBinding(Label.TextProperty, "ControlModuleVoltage");
-            ControlModuleVoltage.HorizontalTextAlignment = TextAlignment.Center;
-            ControlModuleVoltage.VerticalTextAlignment = TextAlignment.Center;
+            ControlModuleVoltageResult.HorizontalTextAlignment = TextAlignment.Center;
+            ControlModuleVoltageResult.VerticalTextAlignment = TextAlignment.Center;
             ControlModuleVoltageResultUds = new Label();
             ControlModuleVoltageResultUds.Text = "V";
             ControlModuleVoltageResultUds.HorizontalTextAlignment = TextAlignment.Center;
@@ -534,7 +535,7 @@ namespace SmartMonitoring
             DistanceTraveledWithMILo = new Label();
             DistanceTraveledWithMILo.Text = "Distancia recorrida con MIL encendido";
             DistanceTraveledWithMILo.HorizontalTextAlignment = TextAlignment.Center;
-            DistanceTraveledWithMILo.HorizontalTextAlignment = TextAlignment.Center;
+            DistanceTraveledWithMILo.VerticalTextAlignment = TextAlignment.Center;
             DistanceTraveledWithMILoResult = new Label();
             DistanceTraveledWithMILoResult.SetBinding(Label.TextProperty, "DistanceTraveledWithMILo");
             DistanceTraveledWithMILoResult.HorizontalTextAlignment = TextAlignment.Center;
@@ -568,7 +569,7 @@ namespace SmartMonitoring
             EngineFuelRateValueResult.HorizontalTextAlignment = TextAlignment.Center;
             EngineFuelRateValueResult.VerticalTextAlignment = TextAlignment.Center;
             EngineFuelRateValueUds = new Label();
-            EngineOilTemperatureUds.Text = "ºC";
+            EngineFuelRateValueUds.Text = "ºC";
             EngineFuelRateValueUds.HorizontalTextAlignment = TextAlignment.Center;
             EngineFuelRateValueUds.VerticalTextAlignment = TextAlignment.Center;
             EngineFuelRateValueUds.FontAttributes = FontAttributes.Italic;
@@ -680,7 +681,7 @@ namespace SmartMonitoring
             FuelTypeResult.HorizontalTextAlignment = TextAlignment.Center;
             FuelTypeResult.VerticalTextAlignment = TextAlignment.Center;
             FuelTypeUds = new Label();
-            FuelTypeUds.Text = "";
+            FuelTypeUds.Text = "-";
             FuelTypeUds.HorizontalTextAlignment = TextAlignment.Center;
             FuelTypeUds.VerticalTextAlignment = TextAlignment.Center;
             FuelTypeUds.FontAttributes = FontAttributes.Italic;
@@ -1347,7 +1348,7 @@ namespace SmartMonitoring
 
                 grid.Children.Add(LongTermSecondaryOxygenSensorTrim2_4_ValueB, 0, contador);
                 grid.Children.Add(LongTermSecondaryOxygenSensorTrim2_4_ValueBResult, 1, contador);
-                grid.Children.Add(LongTermSecondaryOxygenSensorTrim2_4_ValueAUds, 2, contador);
+                grid.Children.Add(LongTermSecondaryOxygenSensorTrim2_4_ValueBUds, 2, contador);
 
                 contador++;
             }

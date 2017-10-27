@@ -84,11 +84,13 @@ namespace SmartMonitoring
             listo.IsEnabled = true;
             var layout = new StackLayout();
             var grid = new Grid();
-
+            grid.Margin = 3;
             InitializeComponent();
 
             bool visible;
             RPM = new Label();
+            RPM.HorizontalTextAlignment = TextAlignment.Center;
+            RPM.VerticalTextAlignment = TextAlignment.Center;
             RPM.Text = "RPM";
             if (actualVisibilidad.rpmVisible == 1)
             {
@@ -103,11 +105,14 @@ namespace SmartMonitoring
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 IsToggled = visible
             };
+
             rpmSwitch.Toggled += rpmSwitch_Toggled;
 
 
             Speed = new Label();
             Speed.Text = "Velocidad";
+            Speed.HorizontalTextAlignment = TextAlignment.Center;
+            Speed.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.speedVisible == 1)
             {
                 visible = true;
@@ -124,6 +129,8 @@ namespace SmartMonitoring
 
             EngineTemperature = new Label();
             EngineTemperature.Text = "Temperatura del Motor";
+            EngineTemperature.HorizontalTextAlignment = TextAlignment.Center;
+            EngineTemperature.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.engineTemperatureVisible == 1)
             {
                 visible = true;
@@ -137,9 +144,10 @@ namespace SmartMonitoring
                 IsToggled = visible
             };
             engineTemperatureSwitch.Toggled += engineTemperatureSwitch_Toggled;
-
+            TimeEngineStart.HorizontalTextAlignment = TextAlignment.Center;
+            TimeEngineStart.VerticalTextAlignment = TextAlignment.Center;
             TimeEngineStart = new Label();
-            TimeEngineStart.Text = "Time Engine Start";
+            TimeEngineStart.Text = "Tiempo desde arranque del motor";
             if (actualVisibilidad.timeEngineStartVisible == 1)
             {
                 visible = true;
@@ -157,6 +165,8 @@ namespace SmartMonitoring
 
             HybridBateryPackRemainingLife = new Label();
             HybridBateryPackRemainingLife.Text = "Batería Híbrida Restante";
+            HybridBateryPackRemainingLife.HorizontalTextAlignment = TextAlignment.Center;
+            HybridBateryPackRemainingLife.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.hybridBateryPackRemainingLifeVisible == 1)
             {
                 visible = true;
@@ -173,6 +183,8 @@ namespace SmartMonitoring
 
             AbsoluteBarometricPressure = new Label();
             AbsoluteBarometricPressure.Text = "Presión barométrica";
+            AbsoluteBarometricPressure.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteBarometricPressure.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteBarometricPressureVisible == 1)
             {
                 visible = true;
@@ -189,6 +201,8 @@ namespace SmartMonitoring
 
             AbsoluteEvapSystemVaporPressure = new Label();
             AbsoluteEvapSystemVaporPressure.Text = "Presión de vapor de Sist. Evaporativo";
+            AbsoluteEvapSystemVaporPressure.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteEvapSystemVaporPressure.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteEvapSystemVaporPressureVisible == 1)
             {
                 visible = true;
@@ -205,6 +219,8 @@ namespace SmartMonitoring
 
             AbsoluteLoadValue = new Label();
             AbsoluteLoadValue.Text = "Valor absoluto de carga";
+            AbsoluteLoadValue.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteLoadValue.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteLoadValueVisible == 1)
             {
                 visible = true;
@@ -221,6 +237,8 @@ namespace SmartMonitoring
 
             AbsoluteThrottlePositionB = new Label();
             AbsoluteThrottlePositionB.Text = "Posición absoluta acelerador B";
+            AbsoluteThrottlePositionB.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteThrottlePositionB.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteThrottlePositionBVisible == 1)
             {
                 visible = true;
@@ -237,6 +255,8 @@ namespace SmartMonitoring
 
             AbsoluteThrottlePositionC = new Label();
             AbsoluteThrottlePositionC.Text = "Posición absoluta acelerador C";
+            AbsoluteThrottlePositionC.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteThrottlePositionC.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteThrottlePositionCVisible == 1)
             {
                 visible = true;
@@ -253,6 +273,8 @@ namespace SmartMonitoring
 
             AbsoluteThrottlePositionD = new Label();
             AbsoluteThrottlePositionD.Text = "Posición absoluta acelerador D";
+            AbsoluteThrottlePositionD.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteThrottlePositionD.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteThrottlePositionDVisible == 1)
             {
                 visible = true;
@@ -269,6 +291,8 @@ namespace SmartMonitoring
 
             AbsoluteThrottlePositionE = new Label();
             AbsoluteThrottlePositionE.Text = "Posición absoluta acelerador E";
+            AbsoluteThrottlePositionE.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteThrottlePositionE.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteThrottlePositionEVisible == 1)
             {
                 visible = true;
@@ -284,7 +308,9 @@ namespace SmartMonitoring
             absoluteThrottlePositionESwitch.Toggled += absoluteThrottlePositionESwitch_Toggled;
 
             AbsoluteThrottlePositionF = new Label();
-            AbsoluteThrottlePositionF.Text = "Posición absoluta acelerador E";
+            AbsoluteThrottlePositionF.Text = "Posición absoluta acelerador F";
+            AbsoluteThrottlePositionF.HorizontalTextAlignment = TextAlignment.Center;
+            AbsoluteThrottlePositionF.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.absoluteThrottlePositionFVisible == 1)
             {
                 visible = true;
@@ -301,6 +327,8 @@ namespace SmartMonitoring
 
             CatalystTemperatureB1S1 = new Label();
             CatalystTemperatureB1S1.Text = "Temperatura Catalizador Banco:1 Sensor:1";
+            CatalystTemperatureB1S1.HorizontalTextAlignment = TextAlignment.Center;
+            CatalystTemperatureB1S1.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.catalystTemperatureB1S1Visible == 1)
             {
                 visible = true;
@@ -315,8 +343,11 @@ namespace SmartMonitoring
             };
             catalystTemperatureB1S1Switch.Toggled += catalystTemperatureB1S1Switch_Toggled;
 
+
             CatalystTemperatureB1S2 = new Label();
             CatalystTemperatureB1S2.Text = "Temperatura Catalizador Banco:1 Sensor:2";
+            CatalystTemperatureB1S2.HorizontalTextAlignment = TextAlignment.Center;
+            CatalystTemperatureB1S2.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.catalystTemperatureB1S2Visible == 1)
             {
                 visible = true;
@@ -333,6 +364,8 @@ namespace SmartMonitoring
 
             CatalystTemperatureB2S1 = new Label();
             CatalystTemperatureB2S1.Text = "Temperatura Catalizador Banco:2 Sensor:1";
+            CatalystTemperatureB2S1.HorizontalTextAlignment = TextAlignment.Center;
+            CatalystTemperatureB2S1.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.catalystTemperatureB2S1Visible == 1)
             {
                 visible = true;
@@ -349,6 +382,8 @@ namespace SmartMonitoring
 
             CatalystTemperatureB2S2 = new Label();
             CatalystTemperatureB2S2.Text = "Temperatura Catalizador Banco:2 Sensor:2";
+            CatalystTemperatureB2S2.HorizontalTextAlignment = TextAlignment.Center;
+            CatalystTemperatureB2S2.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.catalystTemperatureB2S2Visible == 1)
             {
                 visible = true;
@@ -365,6 +400,8 @@ namespace SmartMonitoring
 
             CommandedEvaporativePurge = new Label();
             CommandedEvaporativePurge.Text = "Purga evaporativa comandada";
+            CommandedEvaporativePurge.HorizontalTextAlignment = TextAlignment.Center;
+            CommandedEvaporativePurge.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.commanddEvaporativePurgeVisible == 1)
             {
                 visible = true;
@@ -381,6 +418,8 @@ namespace SmartMonitoring
 
             CommandedEGR = new Label();
             CommandedEGR.Text = "EGR comandada";
+            CommandedEGR.HorizontalTextAlignment = TextAlignment.Center;
+            CommandedEGR.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.commandedEGRVisible == 1)
             {
                 visible = true;
@@ -397,6 +436,8 @@ namespace SmartMonitoring
 
             CommandedThrottleActuatorValue = new Label();
             CommandedThrottleActuatorValue.Text = "	Actuador comandando del acelerador";
+            CommandedThrottleActuatorValue.HorizontalTextAlignment = TextAlignment.Center;
+            CommandedThrottleActuatorValue.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.commandedThrottleActuatorValueVisible == 1)
             {
                 visible = true;
@@ -413,7 +454,8 @@ namespace SmartMonitoring
 
             ControlModuleVoltage = new Label();
             ControlModuleVoltage.Text = "Voltaje del módulo de control";
-
+            ControlModuleVoltage.HorizontalTextAlignment = TextAlignment.Center;
+            ControlModuleVoltage.VerticalTextAlignment = TextAlignment.Center;
             Switch controlModuleVoltageSwitch = new Switch
             {
                 HorizontalOptions = LayoutOptions.Center,
@@ -425,6 +467,8 @@ namespace SmartMonitoring
 
             DistanceTraveledSinceCodesCleared = new Label();
             DistanceTraveledSinceCodesCleared.Text = "Distancia recorrida desde borrado de fallas";
+            DistanceTraveledSinceCodesCleared.HorizontalTextAlignment = TextAlignment.Center;
+            DistanceTraveledSinceCodesCleared.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.distanceTraveledSinceCodesClearedVisible == 1)
             {
                 visible = true;
@@ -441,6 +485,8 @@ namespace SmartMonitoring
 
             DistanceTraveledWithMILo = new Label();
             DistanceTraveledWithMILo.Text = "Distancia recorrida con MIL encendido";
+            DistanceTraveledWithMILo.HorizontalTextAlignment = TextAlignment.Center;
+            DistanceTraveledWithMILo.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.distanceTraveledWithMILoVisible == 1)
             {
                 visible = true;
@@ -458,6 +504,8 @@ namespace SmartMonitoring
 
             EGRError = new Label();
             EGRError.Text = "Falla EGR";
+            EGRError.HorizontalTextAlignment = TextAlignment.Center;
+            EGRError.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.EGRErrorVisible == 1)
             {
                 visible = true;
@@ -474,6 +522,8 @@ namespace SmartMonitoring
 
             EngineFuelRateValue = new Label();
             EngineFuelRateValue.Text = "Velocidad de combustible del motor";
+            EngineFuelRateValue.HorizontalTextAlignment = TextAlignment.Center;
+            EngineFuelRateValue.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.engineFuelRateValueVisible == 1)
             {
                 visible = true;
@@ -490,6 +540,8 @@ namespace SmartMonitoring
 
             EngineOilTemperature = new Label();
             EngineOilTemperature.Text = "Temperatura del aceite del motor";
+            EngineOilTemperature.HorizontalTextAlignment = TextAlignment.Center;
+            EngineOilTemperature.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.engineOilTemperatureVisible == 1)
             {
                 visible = true;
@@ -506,6 +558,8 @@ namespace SmartMonitoring
 
             EvapSystemVaporPressure = new Label();
             EvapSystemVaporPressure.Text = "Presión del vapor del sistema de evaporación";
+            EvapSystemVaporPressure.HorizontalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressure.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.evapSystemVaporPressureVisible == 1)
             {
                 visible = true;
@@ -522,6 +576,8 @@ namespace SmartMonitoring
 
             FuelAirCommandedEquivalenceRatio = new Label();
             FuelAirCommandedEquivalenceRatio.Text = "Relación equivaliente comandada de combustible - aire";
+            FuelAirCommandedEquivalenceRatio.HorizontalTextAlignment = TextAlignment.Center;
+            FuelAirCommandedEquivalenceRatio.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelAirCommandedEquivalenceRatioVisible == 1)
             {
                 visible = true;
@@ -538,6 +594,8 @@ namespace SmartMonitoring
 
             FuelInjectionTiming = new Label();
             FuelInjectionTiming.Text = "Sincronización de la inyección de combustible";
+            FuelInjectionTiming.HorizontalTextAlignment = TextAlignment.Center;
+            FuelInjectionTiming.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelInjectionTimingVisible == 1)
             {
                 visible = true;
@@ -556,6 +614,8 @@ namespace SmartMonitoring
 
             FuelPressure = new Label();
             FuelPressure.Text = "Presión del combustible";
+            FuelPressure.HorizontalTextAlignment = TextAlignment.Center;
+            FuelPressure.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelPressureVisible == 1)
             {
                 visible = true;
@@ -572,6 +632,8 @@ namespace SmartMonitoring
 
             FuelRailAbsolutePressure = new Label();
             FuelRailAbsolutePressure.Text = "	Presión absoluta del tren de combustible";
+            FuelRailAbsolutePressure.HorizontalTextAlignment = TextAlignment.Center;
+            FuelRailAbsolutePressure.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelRailAbsolutePressureVisible == 1)
             {
                 visible = true;
@@ -589,6 +651,8 @@ namespace SmartMonitoring
 
             FuelRailGaugePressure = new Label();
             FuelRailGaugePressure.Text = "Presión del medidor del tren de combustible";
+            FuelRailGaugePressure.HorizontalTextAlignment = TextAlignment.Center;
+            FuelRailGaugePressure.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelRailGaugePressureVisible == 1)
             {
                 visible = true;
@@ -605,6 +669,8 @@ namespace SmartMonitoring
 
             FuelTankLevel = new Label();
             FuelTankLevel.Text = "Nivel de entrada del tanque de combustible";
+            FuelTankLevel.HorizontalTextAlignment = TextAlignment.Center;
+            FuelTankLevel.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelTankLevelVisible == 1)
             {
                 visible = true;
@@ -621,6 +687,8 @@ namespace SmartMonitoring
 
             FuelType = new Label();
             FuelType.Text = "Tipo de combustible";
+            FuelType.HorizontalTextAlignment = TextAlignment.Center;
+            FuelType.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.fuelTypeVisible == 1)
             {
                 visible = true;
@@ -637,6 +705,8 @@ namespace SmartMonitoring
 
             IntakeManifoldAbsolutePressureValue = new Label();
             IntakeManifoldAbsolutePressureValue.Text = "Presión absoluta del colector de admisión";
+            IntakeManifoldAbsolutePressureValue.HorizontalTextAlignment = TextAlignment.Center;
+            IntakeManifoldAbsolutePressureValue.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.intakeManifoldAbsolutePressureValueVisible == 1)
             {
                 visible = true;
@@ -653,6 +723,8 @@ namespace SmartMonitoring
 
             LongTermSecondaryOxygenSensorTrim1_3_ValueA = new Label();
             LongTermSecondaryOxygenSensorTrim1_3_ValueA.Text = "Ajuste sensor de oxigeno secundario: plazo largo. Banco 1-3";
+            LongTermSecondaryOxygenSensorTrim1_3_ValueA.HorizontalTextAlignment = TextAlignment.Center;
+            LongTermSecondaryOxygenSensorTrim1_3_ValueA.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.longTermSecondaryOxygenSensorTrim1_3_Visible == 1)
             {
                 visible = true;
@@ -671,6 +743,8 @@ namespace SmartMonitoring
 
             LongTermSecondaryOxygenSensorTrim2_4_ValueA = new Label();
             LongTermSecondaryOxygenSensorTrim2_4_ValueA.Text = "Ajuste sensor de oxigeno secundario: plazo largo. Banco 2-4";
+            LongTermSecondaryOxygenSensorTrim2_4_ValueA.HorizontalTextAlignment = TextAlignment.Center;
+            LongTermSecondaryOxygenSensorTrim2_4_ValueA.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.longTermSecondaryOxygenSensorTrim2_4_Visible == 1)
             {
                 visible = true;
@@ -692,6 +766,8 @@ namespace SmartMonitoring
 
             MAFAirFlowRate = new Label();
             MAFAirFlowRate.Text = "	Velocidad del flujo del aire MAF";
+            MAFAirFlowRate.HorizontalTextAlignment = TextAlignment.Center;
+            MAFAirFlowRate.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.mAFAirFlowRateVisible == 1)
             {
                 visible = true;
@@ -708,6 +784,8 @@ namespace SmartMonitoring
 
             MaximunValueAirFlowRateFromMassAirFlowSensor = new Label();
             MaximunValueAirFlowRateFromMassAirFlowSensor.Text = "Velocidad de flujo de aire del sensor de flujo de aire masivo";
+            MaximunValueAirFlowRateFromMassAirFlowSensor.HorizontalTextAlignment = TextAlignment.Center;
+            MaximunValueAirFlowRateFromMassAirFlowSensor.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.maximunValueAirFlowRateFromMassAirFlowSensorVisible == 1)
             {
                 visible = true;
@@ -726,6 +804,8 @@ namespace SmartMonitoring
 
             RelativeAcceleratorPedalPosition = new Label();
             RelativeAcceleratorPedalPosition.Text = "Posición relativa del pedal del acelerador";
+            RelativeAcceleratorPedalPosition.HorizontalTextAlignment = TextAlignment.Center;
+            RelativeAcceleratorPedalPosition.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.relativeAcceleratorPedalPositionVisible == 1)
             {
                 visible = true;
@@ -743,6 +823,8 @@ namespace SmartMonitoring
 
             RelativeThrottlePosition = new Label();
             RelativeThrottlePosition.Text = "Posición relativa del acelerador";
+            RelativeThrottlePosition.HorizontalTextAlignment = TextAlignment.Center;
+            RelativeThrottlePosition.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.relativeThrottlePositionVisible == 1)
             {
                 visible = true;
@@ -760,6 +842,8 @@ namespace SmartMonitoring
 
             ShortTermSecondaryOxygenSensorTrim1_3_ValueA = new Label();
             ShortTermSecondaryOxygenSensorTrim1_3_ValueA.Text = "Ajuste sensor de oxigeno secundario: plazo corto. Banco 1-3";
+            ShortTermSecondaryOxygenSensorTrim1_3_ValueA.HorizontalTextAlignment = TextAlignment.Center;
+            ShortTermSecondaryOxygenSensorTrim1_3_ValueA.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.shortTermSecondaryOxygenSensorTrim1_3_Visible == 1)
             {
                 visible = true;
@@ -776,6 +860,8 @@ namespace SmartMonitoring
 
             ShortTermSecondaryOxygenSensorTrim2_4_ValueA = new Label();
             ShortTermSecondaryOxygenSensorTrim2_4_ValueA.Text = "Ajuste sensor de oxigeno secundario: plazo cort. Banco 2-4";
+            ShortTermSecondaryOxygenSensorTrim2_4_ValueA.HorizontalTextAlignment = TextAlignment.Center;
+            ShortTermSecondaryOxygenSensorTrim2_4_ValueA.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.shortTermSecondaryOxygenSensorTrim2_4_Visible == 1)
             {
                 visible = true;
@@ -792,6 +878,8 @@ namespace SmartMonitoring
 
             ThrottlePosition = new Label();
             ThrottlePosition.Text = "Posición del acelerador";
+            ThrottlePosition.HorizontalTextAlignment = TextAlignment.Center;
+            ThrottlePosition.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.throttlePositionVisible == 1)
             {
                 visible = true;
@@ -809,6 +897,8 @@ namespace SmartMonitoring
 
             TimeRunWithMILOn = new Label();
             TimeRunWithMILOn.Text = "Tiempo con indicador MIL encendido";
+            TimeRunWithMILOn.HorizontalTextAlignment = TextAlignment.Center;
+            TimeRunWithMILOn.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.timeRunWithMILOnVisible == 1)
             {
                 visible = true;
