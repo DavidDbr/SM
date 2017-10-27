@@ -34,14 +34,13 @@ namespace SmartMonitoring
             database.GetConnection();
             database.initBBDD();
             connect.getVisibilidad();
-            Label label = new Label();
             string nameDevice = scan.getDevice(MAC);
             Button consultTR = new Button();
             FileImageSource consultTRImage = new FileImageSource { File = "dashboard.png" };
             FileImageSource diagnosticImage = new FileImageSource { File = "diagnostic.png" };
             consultTR.Text = " Consultar Parámetros";
             consultTR.HorizontalOptions = LayoutOptions.Center;
-            consultTR.VerticalOptions = LayoutOptions.CenterAndExpand;
+            consultTR.VerticalOptions = LayoutOptions.Center;
             consultTR.Image = consultTRImage;
             consultTR.Clicked += (sender, e) =>
             {
@@ -59,7 +58,7 @@ namespace SmartMonitoring
             Button diagnostic = new Button();
             diagnostic.Text = "Diagnóstico";
             diagnostic.HorizontalOptions = LayoutOptions.Center;
-            diagnostic.VerticalOptions = LayoutOptions.CenterAndExpand;
+            diagnostic.VerticalOptions = LayoutOptions.Center;
             diagnostic.Image = diagnosticImage;
             diagnostic.Clicked += (sender, e) =>
             {
@@ -68,13 +67,13 @@ namespace SmartMonitoring
                 App.Current.MainPage = new NavigationPage(page);
 
             };
-            label.Text = ("Connected to " + nameDevice + " MAC: " + MAC);
+            
 
             Content = Content = new StackLayout()
             {
 
                 VerticalOptions = LayoutOptions.FillAndExpand,
-                Children = { label, consultTR, diagnostic }
+                Children = {consultTR, diagnostic }
             };
 
         }

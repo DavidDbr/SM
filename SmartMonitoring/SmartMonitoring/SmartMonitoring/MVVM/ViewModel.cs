@@ -8,7 +8,6 @@ namespace SmartMonitoring.MVVM
     public class ViewModel : INotifyPropertyChanged
     {
         public const string SIN_DATOS = "NO HAY DATOS";
-        bool guardarDatos;
         private string speed;
         private string rpm;
         private string engineTemperature;
