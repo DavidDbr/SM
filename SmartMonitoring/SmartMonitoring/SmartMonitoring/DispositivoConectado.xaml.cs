@@ -39,8 +39,6 @@ namespace SmartMonitoring
             FileImageSource consultTRImage = new FileImageSource { File = "dashboard.png" };
             FileImageSource diagnosticImage = new FileImageSource { File = "diagnostic.png" };
             consultTR.Text = " Consultar Parámetros";
-            consultTR.HorizontalOptions = LayoutOptions.Center;
-            consultTR.VerticalOptions = LayoutOptions.Center;
             consultTR.Image = consultTRImage;
             consultTR.Clicked += (sender, e) =>
             {
@@ -57,8 +55,6 @@ namespace SmartMonitoring
             };
             Button diagnostic = new Button();
             diagnostic.Text = "Diagnóstico";
-            diagnostic.HorizontalOptions = LayoutOptions.Center;
-            diagnostic.VerticalOptions = LayoutOptions.Center;
             diagnostic.Image = diagnosticImage;
             diagnostic.Clicked += (sender, e) =>
             {

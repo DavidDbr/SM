@@ -300,6 +300,20 @@ namespace SmartMonitoring
             AbsoluteEvapSystemVaporPressureUds.VerticalTextAlignment = TextAlignment.Center;
             AbsoluteEvapSystemVaporPressureUds.FontAttributes = FontAttributes.Italic;
 
+            EvapSystemVaporPressure = new Label();
+            EvapSystemVaporPressure.Text = "Presión de vapor de Sist. Evaporativo";
+            EvapSystemVaporPressure.HorizontalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressure.VerticalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressureResult = new Label();
+            EvapSystemVaporPressureResult.SetBinding(Label.TextProperty, "EvapSystemVaporPressure");
+            EvapSystemVaporPressureResult.HorizontalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressureResult.VerticalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressureUds = new Label();
+            EvapSystemVaporPressureUds.Text = "kPa";
+            EvapSystemVaporPressureUds.HorizontalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressureUds.VerticalTextAlignment = TextAlignment.Center;
+            EvapSystemVaporPressureUds.FontAttributes = FontAttributes.Italic;
+
 
             AbsoluteLoadValue = new Label();
             AbsoluteLoadValue.Text = "Valor absoluto de carga";

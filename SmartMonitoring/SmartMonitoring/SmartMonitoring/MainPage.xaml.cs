@@ -42,7 +42,7 @@ namespace SmartMonitoring
         //CLICKED
         private async void scanDevices(object sender1, EventArgs e1)
         {
-            indicator.IsRunning = true;
+            
             var scan = DependencyService.Get<IBluetoothManagement>();
             runBluetooth.IsEnabled = false;
             devices = await scan.scanDevices();
@@ -53,14 +53,13 @@ namespace SmartMonitoring
             l.Text = "Dispositivos OBDII cercanos";
             if (devices.Count != 0)
             {
-                indicator.IsRunning = false;
 
 
                 Content = Content = new StackLayout
                 {
 
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    Children = { l, listView, indicator }
+                    Children = { l, listView }
                 };
 
             }
