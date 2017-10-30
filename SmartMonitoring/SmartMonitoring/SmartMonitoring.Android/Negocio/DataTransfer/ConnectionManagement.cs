@@ -455,7 +455,7 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             vm.ControlModuleVoltage = value;
         }
 
-        /*  public async void getLastDistanceTraveledSinseCodesClearedAsync()
+      /*  public async void getLastDistanceTraveledSinseCodesClearedAsync()
           {
               DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.DistanceTraveledSinceCodesCleared);
               string value = dao.distance(dr);
@@ -728,12 +728,13 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
             vm.MaximunValueAirFlowRateFromMassAirFlowSensor_ValueD = values[3];
         }
 
-        /*public async void OxygenSensor1Async()
+        public async void OxygenSensorAsync()
         {
             DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.OxygenSensor1);
-            string value = dao.readOxygenSensor(dr);
+            List<string> values = dao.readOxygenSensor(dr);
+            
 
-      */
+      
         public async void getLastRelativeAcceleratorPedalPosition()
         {
             DataTransferSchema dr = await dao.ConsultParametersAsync(Parameters.PID.RelativeAcceleratorPedalPosition);
@@ -1010,10 +1011,22 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
                     {
                         getRunTimeRunWithMILOn();
                     }
-                    ShortTermSecondaryOxygenSensorTrim1_3();
-                    ShortTermSecondaryOxygenSensorTrim2_4();
-                    LongTermSecondaryOxygenSensorTrim1_3();
-                    LongTermSecondaryOxygenSensorTrim2_4();
+                    if (actualVisibilidad.shortTermSecondaryOxygenSensorTrim1_3_Visible == 1)
+                    {
+                        ShortTermSecondaryOxygenSensorTrim1_3();
+                    }
+                    if (actualVisibilidad.shortTermSecondaryOxygenSensorTrim2_4_Visible==1)
+                    {
+                        ShortTermSecondaryOxygenSensorTrim2_4();
+                    }
+                    if (actualVisibilidad.longTermSecondaryOxygenSensorTrim1_3_Visible == 1)
+                    {
+                        LongTermSecondaryOxygenSensorTrim1_3();
+                    }
+                    if (actualVisibilidad.longTermSecondaryOxygenSensorTrim2_4_Visible==1)
+                    {
+                        LongTermSecondaryOxygenSensorTrim2_4();
+                    }
 
                     if (actualVisibilidad.rpmVisible == 1)
                     {
@@ -1129,8 +1142,10 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
                     }
 
 
-
-                    MaximunValueAirFlowRateFromMassAirFlowSensorAsync();
+                    if (actualVisibilidad.maximunValueAirFlowRateFromMassAirFlowSensorVisible == 1)
+                    {
+                        MaximunValueAirFlowRateFromMassAirFlowSensorAsync();
+                    }
 
 
 
@@ -1201,6 +1216,14 @@ namespace SmartMonitoring.Droid.Negocio.DataTransfer
                     if (actualVisibilidad.relativeAcceleratorPedalPositionVisible == 1)
                     {
                         getLastRelativeAcceleratorPedalPosition();
+                    }
+                    if (actualVisibilidad.relativeThrottlePositionVisible == 1)
+                    {
+                        getLastRelativeThrottlePositionAsync();
+                    }
+                    if (actualVisibilidad.timeRunWithMILOnVisible == 1)
+                    {
+                        getRunTimeRunWithMILOn();
                     }
                 }
 

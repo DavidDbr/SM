@@ -417,7 +417,7 @@ namespace SmartMonitoring.Droid.Datos
             string send = (Convert.ToUInt32(Parameters.ConsultMode.CurrentData).ToString("X2") + Convert.ToUInt32(pid).ToString("X2") + "\r");
             byte[] cmd = Encoding.ASCII.GetBytes(send);
             socket.OutputStream.Write(cmd, 0, cmd.Length);
-            Thread.Sleep(300);
+            Thread.Sleep(320);
             string data = Read();
             string dataFilter = "";
             for (int i = 0; i < data.Length; i++)

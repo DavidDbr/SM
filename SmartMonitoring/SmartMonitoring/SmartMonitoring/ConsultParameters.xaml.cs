@@ -192,11 +192,10 @@ namespace SmartMonitoring
 
             var layout = new StackLayout();
 
-            layout.Padding = new Thickness(0, 20, 0, 0);
+            layout.Padding = new Thickness(20, 20, 20, 20);
             var grid = new Grid();
             grid.Margin = 3;
-            grid.BackgroundColor = Color.Azure;
-            
+                      
 
 
             connectionManagement = DependencyService.Get<IConnectionManagement>();
@@ -245,7 +244,7 @@ namespace SmartMonitoring
             EngineTemperatureUds.FontAttributes = FontAttributes.Italic;
 
             TimeEngineStart = new Label();
-            TimeEngineStart.Text = "Time Engine Start";
+            TimeEngineStart.Text = "Tiempo desde arranque del motor";
             TimeEngineStart.HorizontalTextAlignment = TextAlignment.Center;
             TimeEngineStart.VerticalTextAlignment = TextAlignment.Center;
             TimeEngineStartResult = new Label();
@@ -880,7 +879,7 @@ namespace SmartMonitoring
             ShortTermSecondaryOxygenSensorTrim1_3_ValueB.HorizontalTextAlignment = TextAlignment.Center;
             ShortTermSecondaryOxygenSensorTrim1_3_ValueB.VerticalTextAlignment = TextAlignment.Center;
             ShortTermSecondaryOxygenSensorTrim1_3_ValueBResult = new Label();
-            ShortTermSecondaryOxygenSensorTrim1_3_ValueBResult.SetBinding(Label.TextProperty, "ShortTermSecondaryOxygenSensorTrim1_3_ValueB");
+            ShortTermSecondaryOxygenSensorTrim1_3_ValueBResult.SetBinding(Label.TextProperty, "ShortTermSecondaryOxygenSensorTrim1_3_ValuB");
             ShortTermSecondaryOxygenSensorTrim1_3_ValueBResult.HorizontalTextAlignment = TextAlignment.Center;
             ShortTermSecondaryOxygenSensorTrim1_3_ValueBResult.VerticalTextAlignment = TextAlignment.Center;
             ShortTermSecondaryOxygenSensorTrim1_3_ValueBUds = new Label();
@@ -1017,7 +1016,8 @@ namespace SmartMonitoring
             int contador = 0;
             var layout = new StackLayout();
             var grid = new Grid();
-
+            grid.ColumnSpacing = 1;
+            grid.RowSpacing = 1;
             if (actualVisibilidad.rpmVisible == 1)
             {
 

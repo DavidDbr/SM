@@ -143,6 +143,7 @@
     <Compile Include="IBluetoothManagement.cs" />
     <Compile Include="IConnectionManagement.cs" />
     <Compile Include="INetworkManagement.cs" />
+    <Compile Include="ListViewItem.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

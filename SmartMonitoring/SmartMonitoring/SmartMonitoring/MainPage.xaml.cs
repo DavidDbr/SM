@@ -48,7 +48,17 @@ namespace SmartMonitoring
             devices = await scan.scanDevices();
             devices.Distinct().ToString();
             var listView = new ListView(ListViewCachingStrategy.RecycleElement);
+            List<ListViewItem> obdii = new List<ListViewItem>();
+            foreach(String s in devices)
+            {
+                obdii.Add(new ListViewItem(s));
+            }
+             
             listView.ItemsSource = devices.Distinct().ToList();
+            listView.ItemTemplate = new DataTemplate(typeof(TextCell));
+            listView.ItemTemplate.SetBinding(TextCell.TextProperty,"Showing");
+            listView.ItemTemplate.SetValue(TextCell.TextColorProperty, Color.Black);
+           
             Label l = new Label();
             l.Text = "Dispositivos OBDII cercanos";
             if (devices.Count != 0)

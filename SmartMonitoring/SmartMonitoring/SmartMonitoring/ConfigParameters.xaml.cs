@@ -144,10 +144,11 @@ namespace SmartMonitoring
                 IsToggled = visible
             };
             engineTemperatureSwitch.Toggled += engineTemperatureSwitch_Toggled;
-            TimeEngineStart.HorizontalTextAlignment = TextAlignment.Center;
-            TimeEngineStart.VerticalTextAlignment = TextAlignment.Center;
+          
             TimeEngineStart = new Label();
             TimeEngineStart.Text = "Tiempo desde arranque del motor";
+            TimeEngineStart.HorizontalTextAlignment = TextAlignment.Center;
+            TimeEngineStart.VerticalTextAlignment = TextAlignment.Center;
             if (actualVisibilidad.timeEngineStartVisible == 1)
             {
                 visible = true;

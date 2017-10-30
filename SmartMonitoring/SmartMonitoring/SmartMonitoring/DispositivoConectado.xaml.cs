@@ -38,7 +38,7 @@ namespace SmartMonitoring
             Button consultTR = new Button();
             FileImageSource consultTRImage = new FileImageSource { File = "dashboard.png" };
             FileImageSource diagnosticImage = new FileImageSource { File = "diagnostic.png" };
-            consultTR.Text = " Consultar Parámetros";
+            consultTR.Text = " Consultar en Tiempo Real";
             consultTR.Image = consultTRImage;
             consultTR.Clicked += (sender, e) =>
             {
@@ -54,7 +54,7 @@ namespace SmartMonitoring
 
             };
             Button diagnostic = new Button();
-            diagnostic.Text = "Diagnóstico";
+            diagnostic.Text = "Diagnóstico de fallos";
             diagnostic.Image = diagnosticImage;
             diagnostic.Clicked += (sender, e) =>
             {

@@ -77,7 +77,7 @@ namespace SmartMonitoring.MVVM
         private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueB;
         private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueC;
         private string maximunValueAirFlowRateFromMassAirFlowSensor_ValueD;
-        //SENSORES OXIGENO
+         
         private string relativeAcceleratorPedalPosition;
         private string relativeThrottlePosition;
         private string RunTimeSinceEngineStart;
@@ -846,7 +846,7 @@ namespace SmartMonitoring.MVVM
             set
             {
                 shortTermSecondaryOxygenSensorTrim1_3_ValueB = value;
-                OnPropertyChanged("ShortTermSecondaryOxygenSensorTrim1_3_ValuB");
+                OnPropertyChanged(" ShortTermSecondaryOxygenSensorTrim1_3_ValuB");
             }
         }
         public string ShortTermSecondaryOxygenSensorTrim2_4_ValueA
@@ -1070,10 +1070,7 @@ namespace SmartMonitoring.MVVM
 
         }
 
-        public System.Windows.Input.ICommand AddCommand
-        {
-            protected set; get;
-        }
+        
 
 
 
